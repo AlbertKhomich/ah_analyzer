@@ -4,6 +4,7 @@ import math
 import re
 from pathlib import Path
 from typing import Dict, List, Any, Optional
+import statistics
 
 # =========================
 # CONFIG
@@ -20,10 +21,25 @@ AH_CUT = 0.05
 # Fallback prices in copper for items that may not appear in AH snapshot.
 # Adjust if needed.
 FALLBACK_PRICES = {
-    "Crystal Vial": 500,          # 5s
-    "Light Parchment": 1500,      # 15s
-    "Resilient Parchment": 1500,  # normalized vendor fallback
-    "Heavy Parchment": 1500,      # normalized vendor fallback
+    "Crystal Vial": 500,
+    "Light Parchment": 1500,
+    "Resilient Parchment": 1500,
+    "Heavy Parchment": 1500,
+    "Imperial Silk": 2000000  # fallback only if snapshot can't derive it
+}
+
+USE_DYNAMIC_IMPERIAL_SILK_PRICE = True
+IMPERIAL_SILK_PRICING_MODE = "median"   # "max", "median", or "weighted"
+MIN_SILK_SOURCE_AVAILABLE = 3
+
+IMPERIAL_SILK_OUTPUTS = {
+    "Greater Cerulean Spellthread": {"silk_qty": 1, "other_mats": []},
+    "Greater Pearlescent Spellthread": {"silk_qty": 1, "other_mats": []},
+    "Royal Satchel": {"silk_qty": 12, "other_mats": []},
+    "Gloves of Creation": {"silk_qty": 4, "other_mats": []},
+    "Spelltwister's Gloves": {"silk_qty": 4, "other_mats": []},
+    "Robes of Creation": {"silk_qty": 6, "other_mats": []},
+    "Spelltwister's Grand Robe": {"silk_qty": 6, "other_mats": []},
 }
 
 # Normalize some recipe reagent names if needed
@@ -158,6 +174,68 @@ def recommended_quantity(
 
     return qty
 
+def compute_other_tradeable_mat_cost(other_mats, snapshot):
+    total = 0
+    for reagent in other_mats:
+        unit = reagent_unit_price(reagent["item"], snapshot)
+        if unit is None:
+            return None
+        total += unit * int(reagent["qty"])
+    return total
+
+def derive_imperial_silk_price(snapshot):
+    candidates = []
+
+    for item_name, info in IMPERIAL_SILK_OUTPUTS.items():
+        normalized = normalize_name(item_name)
+        if normalized not in snapshot:
+            continue
+
+        available = snapshot[normalized]["available"]
+        if available < MIN_SILK_SOURCE_AVAILABLE:
+            continue
+
+        sell_price = snapshot[normalized]["price"]
+        net_sell = math.floor(sell_price * (1 - AH_CUT))
+
+        other_cost = compute_other_tradeable_mat_cost(info.get("other_mats", []), snapshot)
+        if other_cost is None:
+            continue
+
+        silk_qty = info["silk_qty"]
+        if silk_qty <= 0:
+            continue
+
+        per_silk = (net_sell - other_cost) / silk_qty
+        if per_silk <= 0:
+            continue
+
+        candidates.append({
+            "item": normalized,
+            "per_silk": int(per_silk),
+            "available": available
+        })
+
+    if not candidates:
+        return FALLBACK_PRICES["Imperial Silk"], []
+
+    values = [c["per_silk"] for c in candidates]
+
+    if IMPERIAL_SILK_PRICING_MODE == "max":
+        silk_price = max(values)
+    elif IMPERIAL_SILK_PRICING_MODE == "weighted":
+        weighted_sum = 0.0
+        weight_total = 0.0
+        for c in candidates:
+            weight = 1 / max(1, math.log2(c["available"] + 2))
+            weighted_sum += c["per_silk"] * weight
+            weight_total += weight
+        silk_price = int(weighted_sum / weight_total)
+    else:
+        silk_price = int(statistics.median(values))
+
+    return silk_price, candidates
+
 def build_plan(snapshot: Dict[str, Dict[str, Any]], ranking: Dict[str, Any]) -> List[Dict[str, Any]]:
     results = []
 
@@ -286,6 +364,19 @@ def print_top(results: List[Dict[str, Any]], limit: int = 20) -> None:
 def main() -> None:
     snapshot = load_snapshot(SNAPSHOT_CSV)
     ranking = load_ranking(RANKING_JSON)
+
+    if USE_DYNAMIC_IMPERIAL_SILK_PRICE:
+        silk_price, silk_candidates = derive_imperial_silk_price(snapshot)
+        FALLBACK_PRICES["Imperial Silk"] = silk_price
+
+        print("\n=== IMPERIAL SILK SHADOW PRICE ===")
+        print(f"Derived Imperial Silk price: {copper_to_gold(silk_price)}")
+        for c in silk_candidates:
+            print(
+                f"- {c['item']}: {copper_to_gold(c['per_silk'])} per silk"
+                f" | avail={c['available']}"
+            )
+
     results = build_plan(snapshot, ranking)
     write_outputs(results, OUTPUT_JSON, OUTPUT_CSV)
     print_top(results, limit=20)
