@@ -233,7 +233,7 @@
       "reagents": [
         {
           "item": "Celestial Ink",
-          "qty": 1
+          "qty": 3
         },
         {
           "item": "Light Parchment",
@@ -403,7 +403,7 @@
       "reagents": [
         {
           "item": "Celestial Ink",
-          "qty": 1
+          "qty": 3
         },
         {
           "item": "Light Parchment",
@@ -901,19 +901,9 @@
           "made_via": "Milling",
           "milled_from": [
             "Wild Steelbloom",
+            "Grave Moss",
             "Kingsblood",
-            "Liferoot",
-            "Fadeleaf",
-            "Goldthorn",
-            "Khadgar's Whisker",
-            "Wintersbite",
-            "Firebloom",
-            "Purple Lotus",
-            "Arthas' Tears",
-            "Sungrass",
-            "Blindweed",
-            "Ghost Mushroom",
-            "Gromsblood"
+            "Liferoot"
           ],
           "used_for": [
             "Lion's Ink"
@@ -923,11 +913,10 @@
           "quality": "common",
           "made_via": "Milling",
           "milled_from": [
-            "Golden Sansam",
-            "Dreamfoil",
-            "Mountain Silversage",
-            "Plaguebloom",
-            "Icecap"
+            "Fadeleaf",
+            "Goldthorn",
+            "Khadgar's Whisker",
+            "Dragon's Teeth"
           ],
           "used_for": [
             "Jadefire Ink"
@@ -937,15 +926,13 @@
           "quality": "common",
           "made_via": "Milling",
           "milled_from": [
-            "Felweed",
-            "Dreaming Glory",
-            "Ragveil",
-            "Flame Cap",
-            "Terocone",
-            "Ancient Lichen",
-            "Netherbloom",
-            "Nightmare Vine",
-            "Mana Thistle"
+            "Firebloom",
+            "Purple Lotus",
+            "Arthas' Tears",
+            "Sungrass",
+            "Blindweed",
+            "Ghost Mushroom",
+            "Gromsblood"
           ],
           "used_for": [
             "Celestial Ink"
@@ -955,12 +942,14 @@
           "quality": "common",
           "made_via": "Milling",
           "milled_from": [
-            "Goldclover",
-            "Tiger Lily",
-            "Talandra's Rose",
-            "Adder's Tongue",
-            "Lichbloom",
-            "Icethorn"
+            "Felweed",
+            "Dreaming Glory",
+            "Ragveil",
+            "Terocone",
+            "Ancient Lichen",
+            "Netherbloom",
+            "Nightmare Vine",
+            "Mana Thistle"
           ],
           "used_for": [
             "Ethereal Ink"
@@ -975,7 +964,9 @@
             "Talandra's Rose",
             "Adder's Tongue",
             "Lichbloom",
-            "Icethorn"
+            "Icethorn",
+            "Deadnettle",
+            "Fire Leaf"
           ],
           "used_for": [
             "Ink of the Sea"

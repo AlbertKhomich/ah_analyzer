@@ -2,18 +2,19 @@ import csv
 import json
 import math
 import re
-from pathlib import Path
-from typing import Dict, List, Any, Optional, Tuple, Set
 import statistics
+from typing import Any, Dict, List, Optional, Set, Tuple
 
 # =========================
 # CONFIG
 # =========================
 
 SNAPSHOT_CSV = "ah_snapshot.csv"
-RANKING_JSON = "crafting_data.json"
+CLASS_SPEC_JSON = "class_spec_items.json"
+CRAFTING_JSON = "crafting_data.json"
 OUTPUT_JSON = "craft_plan.json"
 OUTPUT_CSV = "craft_plan.csv"
+PRICING_DEBUG_JSON = "pricing_debug.json"
 
 # AH cut on successful sale
 AH_CUT = 0.05
@@ -25,7 +26,7 @@ FALLBACK_PRICES = {
     "Light Parchment": 1500,
     "Resilient Parchment": 1500,
     "Heavy Parchment": 1500,
-    "Imperial Silk": 2000000  # fallback only if snapshot can't derive it
+    "Imperial Silk": 2000000,  # fallback only if snapshot can't derive it
 }
 
 USE_DYNAMIC_IMPERIAL_SILK_PRICE = True
@@ -60,6 +61,8 @@ BASE_STOCK = {
     "tailoring_pvp": {"S": 1, "A": 1, "B": 1, "C": 0},
 }
 
+TIER_PRIORITY = {"S": 4, "A": 3, "B": 2, "C": 1}
+
 # =========================
 # HELPERS
 # =========================
@@ -93,11 +96,11 @@ def load_snapshot(csv_path: str) -> Dict[str, Dict[str, Any]]:
             }
     return items
 
-def load_ranking(json_path: str) -> Dict[str, Any]:
-    with open(json_path, "r", encoding="utf-8") as f:
+def load_json(json_path: str) -> Dict[str, Any]:
+    with open(json_path, "r", encoding="utf-8-sig") as f:
         return json.load(f)
 
-def get_target_entries(data: Dict[str, Any]) -> List[Dict[str, Any]]:
+def get_recipe_entries(data: Dict[str, Any]) -> List[Dict[str, Any]]:
     if "craft_targets" in data:
         return data["craft_targets"]
     if "priority_queue" in data:
@@ -113,6 +116,78 @@ def get_named_entry(entries: Dict[str, Any], name: str) -> Optional[Tuple[str, A
 
 def get_supporting_recipes(data: Dict[str, Any]) -> Dict[str, Any]:
     return data.get("supporting_recipes", {})
+
+def build_recipe_lookup(crafting_data: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
+    lookup: Dict[str, Dict[str, Any]] = {}
+    for entry in get_recipe_entries(crafting_data):
+        lookup[normalize_name(entry["item"])] = entry
+    return lookup
+
+def build_class_spec_usage_lookup(class_spec_data: Dict[str, Any]) -> Dict[str, Dict[str, int]]:
+    usage: Dict[str, Dict[str, Set[str]]] = {}
+
+    for class_name, class_block in class_spec_data.get("classes", {}).items():
+        for spec_name, spec_block in class_block.items():
+            spec_id = f"{class_name}:{spec_name}"
+
+            for item_name in spec_block.get("likely_items", []):
+                normalized = normalize_name(item_name)
+                item_usage = usage.setdefault(
+                    normalized,
+                    {"likely_specs": set(), "situational_specs": set()},
+                )
+                item_usage["likely_specs"].add(spec_id)
+
+            for item_name in spec_block.get("situational_items", []):
+                normalized = normalize_name(item_name)
+                item_usage = usage.setdefault(
+                    normalized,
+                    {"likely_specs": set(), "situational_specs": set()},
+                )
+                item_usage["situational_specs"].add(spec_id)
+
+    return {
+        item_name: {
+            "likely_spec_count": len(item_usage["likely_specs"]),
+            "situational_spec_count": len(item_usage["situational_specs"] - item_usage["likely_specs"]),
+        }
+        for item_name, item_usage in usage.items()
+    }
+
+def build_planner_entries(class_spec_data: Dict[str, Any]) -> List[Dict[str, Any]]:
+    item_index = class_spec_data.get("item_index", {})
+    usage_lookup = build_class_spec_usage_lookup(class_spec_data)
+    max_rank = max((int(data.get("rank", 0)) for data in item_index.values()), default=0)
+    entries: List[Dict[str, Any]] = []
+
+    for item_name, item_data in item_index.items():
+        normalized = normalize_name(item_name)
+        rank = int(item_data["rank"])
+        tier = item_data.get("tier", "C")
+        usage = usage_lookup.get(
+            normalized,
+            {"likely_spec_count": 0, "situational_spec_count": 0},
+        )
+
+        class_spec_score = (
+            TIER_PRIORITY.get(tier, 0) * 1000
+            + (max_rank - rank + 1) * 10
+            + usage["likely_spec_count"] * 25
+            + usage["situational_spec_count"] * 10
+        )
+
+        entries.append({
+            "item": normalized,
+            "rank": rank,
+            "category": item_data["category"],
+            "tier": tier,
+            "reason": item_data.get("reason", ""),
+            "class_spec_score": class_spec_score,
+            "likely_spec_count": usage["likely_spec_count"],
+            "situational_spec_count": usage["situational_spec_count"],
+        })
+
+    return entries
 
 def format_qty(qty: float) -> str:
     if abs(qty - round(qty)) < 1e-9:
@@ -130,7 +205,7 @@ def reagent_unit_price(name: str, snapshot: Dict[str, Dict[str, Any]]) -> Option
 def resolve_reagent_list(
     reagents: List[Dict[str, Any]],
     snapshot: Dict[str, Dict[str, Any]],
-    ranking: Dict[str, Any],
+    crafting_data: Dict[str, Any],
     cost_cache: Dict[str, Dict[str, Any]],
     stack: Set[str],
 ) -> Optional[Dict[str, Any]]:
@@ -141,7 +216,7 @@ def resolve_reagent_list(
     for reagent in reagents:
         reagent_name = normalize_name(reagent["item"])
         qty = float(reagent["qty"])
-        resolved = resolve_unit_cost(reagent_name, snapshot, ranking, cost_cache, stack)
+        resolved = resolve_unit_cost(reagent_name, snapshot, crafting_data, cost_cache, stack)
         if resolved is None:
             return None
 
@@ -168,11 +243,11 @@ def resolve_reagent_list(
 def resolve_milling_cost(
     item_name: str,
     snapshot: Dict[str, Dict[str, Any]],
-    ranking: Dict[str, Any],
+    crafting_data: Dict[str, Any],
     cost_cache: Dict[str, Dict[str, Any]],
     stack: Set[str],
 ) -> Optional[Dict[str, Any]]:
-    milling = get_supporting_recipes(ranking).get("milling", {})
+    milling = get_supporting_recipes(crafting_data).get("milling", {})
     pigment_entry = get_named_entry(milling.get("pigments", {}), item_name)
     if pigment_entry is None:
         return None
@@ -195,7 +270,7 @@ def resolve_milling_cost(
     best_option = None
     for herb in pigment_data.get("milled_from", []):
         herb_name = normalize_name(herb)
-        herb_cost = resolve_unit_cost(herb_name, snapshot, ranking, cost_cache, stack)
+        herb_cost = resolve_unit_cost(herb_name, snapshot, crafting_data, cost_cache, stack)
         if herb_cost is None:
             continue
 
@@ -219,7 +294,7 @@ def resolve_milling_cost(
 def resolve_unit_cost(
     item_name: str,
     snapshot: Dict[str, Dict[str, Any]],
-    ranking: Dict[str, Any],
+    crafting_data: Dict[str, Any],
     cost_cache: Dict[str, Dict[str, Any]],
     stack: Set[str],
 ) -> Optional[Dict[str, Any]]:
@@ -231,7 +306,7 @@ def resolve_unit_cost(
 
     stack.add(normalized)
     options: List[Dict[str, Any]] = []
-    support = get_supporting_recipes(ranking)
+    support = get_supporting_recipes(crafting_data)
     inscription = support.get("inscription", {})
     tailoring = support.get("tailoring_subcrafts", {})
 
@@ -247,7 +322,7 @@ def resolve_unit_cost(
 
     ink_entry = get_named_entry(inscription.get("inks", {}), normalized)
     if ink_entry is not None and ink_entry[1].get("crafted_from"):
-        crafted = resolve_reagent_list(ink_entry[1]["crafted_from"], snapshot, ranking, cost_cache, stack)
+        crafted = resolve_reagent_list(ink_entry[1]["crafted_from"], snapshot, crafting_data, cost_cache, stack)
         if crafted is not None:
             options.append({
                 "item": normalized,
@@ -260,7 +335,7 @@ def resolve_unit_cost(
 
     tailoring_entry = get_named_entry(tailoring, normalized)
     if tailoring_entry is not None and tailoring_entry[1].get("crafted_from"):
-        crafted = resolve_reagent_list(tailoring_entry[1]["crafted_from"], snapshot, ranking, cost_cache, stack)
+        crafted = resolve_reagent_list(tailoring_entry[1]["crafted_from"], snapshot, crafting_data, cost_cache, stack)
         if crafted is not None:
             options.append({
                 "item": normalized,
@@ -273,7 +348,7 @@ def resolve_unit_cost(
 
     trade_entry = get_named_entry(inscription.get("vendor_trades", {}), normalized)
     if trade_entry is not None and trade_entry[1].get("cost"):
-        traded = resolve_reagent_list(trade_entry[1]["cost"], snapshot, ranking, cost_cache, stack)
+        traded = resolve_reagent_list(trade_entry[1]["cost"], snapshot, crafting_data, cost_cache, stack)
         if traded is not None:
             note = trade_entry[1].get("note", "Vendor trade path.")
             options.append({
@@ -285,7 +360,7 @@ def resolve_unit_cost(
                 "chain": f"trade({traded['chain']})",
             })
 
-    milling_option = resolve_milling_cost(normalized, snapshot, ranking, cost_cache, stack)
+    milling_option = resolve_milling_cost(normalized, snapshot, crafting_data, cost_cache, stack)
     if milling_option is not None:
         options.append(milling_option)
 
@@ -316,13 +391,13 @@ def resolve_unit_cost(
 def compute_material_cost_details(
     reagents: Optional[List[Dict[str, Any]]],
     snapshot: Dict[str, Dict[str, Any]],
-    ranking: Dict[str, Any],
+    crafting_data: Dict[str, Any],
     cost_cache: Dict[str, Dict[str, Any]],
 ) -> Tuple[Optional[int], List[Dict[str, Any]], str]:
     if not reagents:
         return None, [], ""
 
-    resolved = resolve_reagent_list(reagents, snapshot, ranking, cost_cache, set())
+    resolved = resolve_reagent_list(reagents, snapshot, crafting_data, cost_cache, set())
     if resolved is None:
         return None, [], ""
     return resolved["total_cost"], resolved["components"], resolved["chain"]
@@ -392,16 +467,35 @@ def compute_other_tradeable_mat_cost(other_mats, snapshot):
         total += unit * int(reagent["qty"])
     return total
 
-def derive_imperial_silk_price(snapshot):
+def derive_imperial_silk_price(
+    snapshot: Dict[str, Dict[str, Any]],
+    allowed_outputs: Optional[Set[str]] = None,
+):
     candidates = []
+    excluded = []
 
     for item_name, info in IMPERIAL_SILK_OUTPUTS.items():
         normalized = normalize_name(item_name)
+        if allowed_outputs is not None and normalized not in allowed_outputs:
+            excluded.append({
+                "item": normalized,
+                "reason": "not_in_class_spec_items",
+            })
+            continue
         if normalized not in snapshot:
+            excluded.append({
+                "item": normalized,
+                "reason": "missing_output_price",
+            })
             continue
 
         available = snapshot[normalized]["available"]
         if available < MIN_SILK_SOURCE_AVAILABLE:
+            excluded.append({
+                "item": normalized,
+                "reason": "insufficient_available",
+                "available": available,
+            })
             continue
 
         sell_price = snapshot[normalized]["price"]
@@ -409,24 +503,46 @@ def derive_imperial_silk_price(snapshot):
 
         other_cost = compute_other_tradeable_mat_cost(info.get("other_mats", []), snapshot)
         if other_cost is None:
+            excluded.append({
+                "item": normalized,
+                "reason": "missing_other_mat_price",
+            })
             continue
 
         silk_qty = info["silk_qty"]
         if silk_qty <= 0:
+            excluded.append({
+                "item": normalized,
+                "reason": "invalid_silk_qty",
+                "silk_qty": silk_qty,
+            })
             continue
 
         per_silk = (net_sell - other_cost) / silk_qty
         if per_silk <= 0:
+            excluded.append({
+                "item": normalized,
+                "reason": "non_positive_per_silk",
+                "per_silk": int(per_silk),
+            })
             continue
 
         candidates.append({
             "item": normalized,
+            "sell_price": sell_price,
+            "sell_price_readable": copper_to_gold(sell_price),
+            "net_sell_after_cut": net_sell,
+            "net_sell_after_cut_readable": copper_to_gold(net_sell),
+            "other_cost": other_cost,
+            "other_cost_readable": copper_to_gold(other_cost),
+            "silk_qty": silk_qty,
             "per_silk": int(per_silk),
-            "available": available
+            "per_silk_readable": copper_to_gold(int(per_silk)),
+            "available": available,
         })
 
     if not candidates:
-        return FALLBACK_PRICES["Imperial Silk"], []
+        return FALLBACK_PRICES["Imperial Silk"], [], excluded
 
     values = [c["per_silk"] for c in candidates]
 
@@ -443,18 +559,49 @@ def derive_imperial_silk_price(snapshot):
     else:
         silk_price = int(statistics.median(values))
 
-    return silk_price, candidates
+    return silk_price, candidates, excluded
 
-def build_plan(snapshot: Dict[str, Dict[str, Any]], ranking: Dict[str, Any]) -> List[Dict[str, Any]]:
+def build_plan(
+    snapshot: Dict[str, Dict[str, Any]],
+    planner_entries: List[Dict[str, Any]],
+    crafting_data: Dict[str, Any],
+) -> List[Dict[str, Any]]:
     results = []
     cost_cache: Dict[str, Dict[str, Any]] = {}
+    recipe_lookup = build_recipe_lookup(crafting_data)
 
-    for entry in get_target_entries(ranking):
-        item_name = normalize_name(entry["item"])
+    for entry in planner_entries:
+        item_name = entry["item"]
         category = entry["category"]
         tier = entry["tier"]
         rank = entry["rank"]
-        reagents = entry.get("reagents")
+        recipe_entry = recipe_lookup.get(item_name)
+
+        if recipe_entry is None:
+            sell_price = snapshot[item_name]["price"] if item_name in snapshot else None
+            available = snapshot[item_name]["available"] if item_name in snapshot else None
+            net_sell = math.floor(sell_price * (1 - AH_CUT)) if sell_price is not None else None
+            results.append({
+                "rank": rank,
+                "item": item_name,
+                "category": category,
+                "tier": tier,
+                "status": "missing_recipe_data",
+                "class_spec_score": entry["class_spec_score"],
+                "likely_spec_count": entry["likely_spec_count"],
+                "situational_spec_count": entry["situational_spec_count"],
+                "material_cost": None,
+                "sell_price": sell_price,
+                "net_sell_after_cut": net_sell,
+                "profit": None,
+                "roi": None,
+                "available": available,
+                "recommended_quantity": 0,
+                "material_sources": [],
+                "material_source_summary": "",
+                "reason": "Recipe entry not found in crafting data",
+            })
+            continue
 
         if item_name not in snapshot:
             results.append({
@@ -463,6 +610,9 @@ def build_plan(snapshot: Dict[str, Dict[str, Any]], ranking: Dict[str, Any]) -> 
                 "category": category,
                 "tier": tier,
                 "status": "missing_output_price",
+                "class_spec_score": entry["class_spec_score"],
+                "likely_spec_count": entry["likely_spec_count"],
+                "situational_spec_count": entry["situational_spec_count"],
                 "material_cost": None,
                 "sell_price": None,
                 "net_sell_after_cut": None,
@@ -470,6 +620,8 @@ def build_plan(snapshot: Dict[str, Dict[str, Any]], ranking: Dict[str, Any]) -> 
                 "roi": None,
                 "available": None,
                 "recommended_quantity": 0,
+                "material_sources": [],
+                "material_source_summary": "",
                 "reason": "Output item not found in AH snapshot"
             })
             continue
@@ -477,7 +629,7 @@ def build_plan(snapshot: Dict[str, Dict[str, Any]], ranking: Dict[str, Any]) -> 
         sell_price = snapshot[item_name]["price"]
         available = snapshot[item_name]["available"]
         mat_cost, material_sources, material_source_summary = compute_material_cost_details(
-            reagents, snapshot, ranking, cost_cache
+            recipe_entry.get("reagents"), snapshot, crafting_data, cost_cache
         )
         net_sell = math.floor(sell_price * (1 - AH_CUT))
 
@@ -488,6 +640,9 @@ def build_plan(snapshot: Dict[str, Dict[str, Any]], ranking: Dict[str, Any]) -> 
                 "category": category,
                 "tier": tier,
                 "status": "missing_reagent_price",
+                "class_spec_score": entry["class_spec_score"],
+                "likely_spec_count": entry["likely_spec_count"],
+                "situational_spec_count": entry["situational_spec_count"],
                 "material_cost": None,
                 "sell_price": sell_price,
                 "net_sell_after_cut": net_sell,
@@ -511,6 +666,9 @@ def build_plan(snapshot: Dict[str, Dict[str, Any]], ranking: Dict[str, Any]) -> 
             "category": category,
             "tier": tier,
             "status": "ok" if profit > 0 else "skip",
+            "class_spec_score": entry["class_spec_score"],
+            "likely_spec_count": entry["likely_spec_count"],
+            "situational_spec_count": entry["situational_spec_count"],
             "material_cost": mat_cost,
             "sell_price": sell_price,
             "net_sell_after_cut": net_sell,
@@ -526,12 +684,19 @@ def build_plan(snapshot: Dict[str, Dict[str, Any]], ranking: Dict[str, Any]) -> 
     # Sort by:
     # 1. profitable first
     # 2. higher profit first
-    # 3. better rank first
+    # 3. better ROI next
+    # 4. stronger class/spec demand next
+    # 5. lower competition next
+    # 6. better curated rank next
     results.sort(
-        key=lambda x: (
-            0 if x["status"] == "ok" else 1,
-            -(x["profit"] if x["profit"] is not None else -10**12),
-            x["rank"]
+        key=lambda row: (
+            0 if row["status"] == "ok" else 1,
+            -(row["profit"] if row["profit"] is not None else -10**12),
+            -(row["roi"] if row["roi"] is not None else -10**12),
+            -row.get("class_spec_score", 0),
+            row["available"] if row["available"] is not None else 10**12,
+            row["rank"],
+            row["item"],
         )
     )
     return results
@@ -543,6 +708,7 @@ def write_outputs(results: List[Dict[str, Any]], output_json: str, output_csv: s
     with open(output_csv, "w", encoding="utf-8", newline="") as f:
         fieldnames = [
             "rank", "item", "category", "tier", "status",
+            "class_spec_score", "likely_spec_count", "situational_spec_count",
             "material_cost", "sell_price", "net_sell_after_cut",
             "profit", "roi", "available", "recommended_quantity",
             "material_source_summary", "reason"
@@ -550,6 +716,26 @@ def write_outputs(results: List[Dict[str, Any]], output_json: str, output_csv: s
         writer = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore")
         writer.writeheader()
         writer.writerows(results)
+
+def write_pricing_debug(
+    output_path: str,
+    silk_price: int,
+    silk_candidates: List[Dict[str, Any]],
+    silk_excluded: List[Dict[str, Any]],
+) -> None:
+    payload = {
+        "imperial_silk": {
+            "derived_price": silk_price,
+            "derived_price_readable": copper_to_gold(silk_price),
+            "pricing_mode": IMPERIAL_SILK_PRICING_MODE,
+            "minimum_source_available": MIN_SILK_SOURCE_AVAILABLE,
+            "candidate_count": len(silk_candidates),
+            "candidates": silk_candidates,
+            "excluded_outputs": silk_excluded,
+        }
+    }
+    with open(output_path, "w", encoding="utf-8") as f:
+        json.dump(payload, f, indent=2, ensure_ascii=False)
 
 def print_top(results: List[Dict[str, Any]], limit: int = 20) -> None:
     print("\n=== TOP CRAFTS ===")
@@ -564,6 +750,7 @@ def print_top(results: List[Dict[str, Any]], limit: int = 20) -> None:
             f" | roi={row['roi']:.2%}"
             f" | ah={copper_to_gold(row['sell_price'])}"
             f" | mats={copper_to_gold(row['material_cost'])}"
+            f" | demand={row['class_spec_score']}"
             f" | avail={row['available']}"
             f" | craft={row['recommended_quantity']}"
         )
@@ -580,10 +767,16 @@ def print_top(results: List[Dict[str, Any]], limit: int = 20) -> None:
 
 def main() -> None:
     snapshot = load_snapshot(SNAPSHOT_CSV)
-    ranking = load_ranking(RANKING_JSON)
+    class_spec_data = load_json(CLASS_SPEC_JSON)
+    crafting_data = load_json(CRAFTING_JSON)
+    planner_entries = build_planner_entries(class_spec_data)
+    planner_item_names = {entry["item"] for entry in planner_entries}
+    silk_price = FALLBACK_PRICES["Imperial Silk"]
+    silk_candidates: List[Dict[str, Any]] = []
+    silk_excluded: List[Dict[str, Any]] = []
 
     if USE_DYNAMIC_IMPERIAL_SILK_PRICE:
-        silk_price, silk_candidates = derive_imperial_silk_price(snapshot)
+        silk_price, silk_candidates, silk_excluded = derive_imperial_silk_price(snapshot, planner_item_names)
         FALLBACK_PRICES["Imperial Silk"] = silk_price
 
         print("\n=== IMPERIAL SILK SHADOW PRICE ===")
@@ -594,11 +787,13 @@ def main() -> None:
                 f" | avail={c['available']}"
             )
 
-    results = build_plan(snapshot, ranking)
+    results = build_plan(snapshot, planner_entries, crafting_data)
     write_outputs(results, OUTPUT_JSON, OUTPUT_CSV)
+    write_pricing_debug(PRICING_DEBUG_JSON, silk_price, silk_candidates, silk_excluded)
     print_top(results, limit=20)
     print(f"\nSaved: {OUTPUT_JSON}")
     print(f"Saved: {OUTPUT_CSV}")
+    print(f"Saved: {PRICING_DEBUG_JSON}")
 
 if __name__ == "__main__":
     main()

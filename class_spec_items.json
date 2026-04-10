@@ -1,4 +1,4 @@
-{
+﻿{
   "meta": {
     "game": "World of Warcraft Classic: Mists of Pandaria",
     "server": "EU Hoptallus",
@@ -59,272 +59,200 @@
       "tier": "S",
       "reason": "Phase 4 tailoring staple with broad utility"
     },
-    "Royal Satchel": {
-      "rank": 9,
-      "category": "tailoring_bag",
-      "tier": "S",
-      "reason": "Broad utility item, not tied only to raid catch-up gearing"
-    },
     "Glyph of Unstable Affliction": {
-      "rank": 10,
+      "rank": 9,
       "category": "glyph",
       "tier": "S",
       "reason": "Top glyph linked to a highly relevant raid spec"
     },
     "Glyph of Arcane Power": {
-      "rank": 11,
+      "rank": 10,
       "category": "glyph",
       "tier": "S",
       "reason": "Top glyph linked to a highly relevant raid spec"
     },
     "Glyph of Animal Bond": {
-      "rank": 12,
+      "rank": 11,
       "category": "glyph",
       "tier": "S",
       "reason": "High-priority PvE glyph for Survival Hunter demand"
     },
     "Glyph of Deterrence": {
-      "rank": 13,
+      "rank": 12,
       "category": "glyph",
       "tier": "S",
       "reason": "High-priority PvE glyph for Survival Hunter demand"
     },
     "Glyph of Spinning Crane Kick": {
-      "rank": 14,
+      "rank": 13,
       "category": "glyph",
       "tier": "S",
       "reason": "High-priority PvE glyph for Windwalker demand"
     },
     "Glyph of Touch of Karma": {
-      "rank": 15,
+      "rank": 14,
       "category": "glyph",
       "tier": "S",
       "reason": "High-priority PvE glyph for Windwalker demand"
     },
     "Glyph of Zen Meditation": {
-      "rank": 16,
+      "rank": 15,
       "category": "glyph",
       "tier": "S",
       "reason": "Common Monk utility/PvE demand"
     },
     "Glyph of Penance": {
-      "rank": 17,
+      "rank": 16,
       "category": "glyph",
       "tier": "S",
       "reason": "High-priority PvE glyph for Discipline Priest demand"
     },
     "Glyph of Holy Fire": {
-      "rank": 18,
+      "rank": 17,
       "category": "glyph",
       "tier": "S",
       "reason": "High-priority PvE glyph for Discipline Priest demand"
     },
     "Glyph of Smite": {
-      "rank": 19,
+      "rank": 18,
       "category": "glyph",
       "tier": "S",
       "reason": "High-priority PvE glyph for Discipline Priest demand"
     },
     "Glyph of Savagery": {
-      "rank": 20,
+      "rank": 19,
       "category": "glyph",
       "tier": "S",
       "reason": "High-priority PvE glyph for Feral demand"
     },
     "Glyph of Shred": {
-      "rank": 21,
+      "rank": 20,
       "category": "glyph",
       "tier": "S",
       "reason": "High-priority PvE glyph for Feral demand"
     },
     "Glyph of Siphon Life": {
-      "rank": 22,
+      "rank": 21,
       "category": "glyph",
       "tier": "A",
       "reason": "Strong secondary Warlock glyph"
     },
     "Glyph of Soulstone": {
-      "rank": 23,
+      "rank": 22,
       "category": "glyph",
       "tier": "A",
       "reason": "Warlock utility glyph with steady situational demand"
     },
     "Glyph of Rapid Displacement": {
-      "rank": 24,
+      "rank": 23,
       "category": "glyph",
       "tier": "A",
       "reason": "Common Mage mobility pick"
     },
     "Glyph of Arcane Explosion": {
-      "rank": 25,
+      "rank": 24,
       "category": "glyph",
       "tier": "A",
       "reason": "Secondary Arcane option"
     },
     "Glyph of Cone of Cold": {
-      "rank": 26,
+      "rank": 25,
       "category": "glyph",
       "tier": "A",
       "reason": "Secondary Arcane option"
     },
     "Glyph of Pathfinding": {
-      "rank": 27,
+      "rank": 26,
       "category": "glyph",
       "tier": "A",
       "reason": "Hunter utility glyph with broader appeal"
     },
     "Glyph of Liberation": {
-      "rank": 28,
+      "rank": 27,
       "category": "glyph",
       "tier": "A",
       "reason": "Hunter secondary PvE option"
     },
     "Glyph of Touch of Death": {
-      "rank": 29,
+      "rank": 28,
       "category": "glyph",
       "tier": "A",
       "reason": "Secondary Windwalker option"
     },
     "Glyph of Prayer of Mending": {
-      "rank": 30,
+      "rank": 29,
       "category": "glyph",
       "tier": "A",
       "reason": "Secondary Priest healer demand"
     },
     "Glyph of Dash": {
-      "rank": 31,
+      "rank": 30,
       "category": "glyph",
       "tier": "A",
       "reason": "Common Druid utility demand"
     },
     "Glyph of Healing Touch": {
-      "rank": 32,
+      "rank": 31,
       "category": "glyph",
       "tier": "A",
       "reason": "Secondary Feral-related demand"
     },
     "Glyph of Rebirth": {
-      "rank": 33,
+      "rank": 32,
       "category": "glyph",
       "tier": "A",
       "reason": "General Druid utility demand"
     },
     "Cerulean Spellthread": {
-      "rank": 34,
+      "rank": 33,
       "category": "tailoring_spellthread",
       "tier": "A",
       "reason": "Lower-tier alternative spellthread"
     },
     "Pearlescent Spellthread": {
-      "rank": 35,
+      "rank": 34,
       "category": "tailoring_spellthread",
       "tier": "A",
       "reason": "Lower-tier alternative spellthread"
     },
     "Potion of Mogu Power": {
-      "rank": 36,
+      "rank": 35,
       "category": "potion",
       "tier": "A",
       "reason": "Strength potion, narrower than Int/Agi demand"
     },
     "Flask of Winter's Bite": {
-      "rank": 37,
+      "rank": 36,
       "category": "flask",
       "tier": "A",
       "reason": "Strength flask, narrower than Int/Agi demand"
     },
     "Greater Tiger Fang Inscription": {
-      "rank": 38,
+      "rank": 37,
       "category": "shoulder_inscription",
       "tier": "A",
       "reason": "Strength shoulder enchant"
     },
     "Flask of the Earth": {
-      "rank": 39,
+      "rank": 38,
       "category": "flask",
       "tier": "B",
       "reason": "Tank market is narrower"
     },
     "Potion of the Mountains": {
-      "rank": 40,
+      "rank": 39,
       "category": "potion",
       "tier": "B",
       "reason": "Tank market is narrower"
     },
     "Greater Ox Horn Inscription": {
-      "rank": 41,
+      "rank": 40,
       "category": "shoulder_inscription",
       "tier": "B",
       "reason": "Tank shoulder enchant, niche demand"
-    },
-    "Gloves of Creation": {
-      "rank": 42,
-      "category": "tailoring_epic",
-      "tier": "C",
-      "reason": "Phase 4 opportunistic craft only"
-    },
-    "Spelltwister's Gloves": {
-      "rank": 43,
-      "category": "tailoring_epic",
-      "tier": "C",
-      "reason": "Phase 4 opportunistic craft only"
-    },
-    "Robes of Creation": {
-      "rank": 44,
-      "category": "tailoring_epic",
-      "tier": "C",
-      "reason": "Phase 4 opportunistic craft only"
-    },
-    "Spelltwister's Grand Robe": {
-      "rank": 45,
-      "category": "tailoring_epic",
-      "tier": "C",
-      "reason": "Phase 4 opportunistic craft only"
-    },
-    "Imperial Silk Gloves": {
-      "rank": 46,
-      "category": "tailoring_epic",
-      "tier": "C",
-      "reason": "Catch-up paths reduce baseline demand"
-    },
-    "Touch of the Light": {
-      "rank": 47,
-      "category": "tailoring_epic",
-      "tier": "C",
-      "reason": "Catch-up paths reduce baseline demand"
-    },
-    "Legacy of the Emperor": {
-      "rank": 48,
-      "category": "tailoring_epic",
-      "tier": "C",
-      "reason": "Catch-up paths reduce baseline demand"
-    },
-    "Robe of Eternal Rule": {
-      "rank": 49,
-      "category": "tailoring_epic",
-      "tier": "C",
-      "reason": "Catch-up paths reduce baseline demand"
-    },
-    "Contender's Satin Raiment": {
-      "rank": 50,
-      "category": "tailoring_pvp",
-      "tier": "C",
-      "reason": "PvP niche, check only if market is clearly favorable"
-    },
-    "Contender's Silk Raiment": {
-      "rank": 51,
-      "category": "tailoring_pvp",
-      "tier": "C",
-      "reason": "PvP niche, check only if market is clearly favorable"
     }
   },
   "shared_item_groups": {
-    "all_characters": {
-      "note": "Broad utility items that are not tied to a single spec.",
-      "items": [
-        "Royal Satchel"
-      ]
-    },
     "intellect_consumables": {
       "note": "Primary consumables and shoulder enchant targets for Intellect specs.",
       "items": [
@@ -364,31 +292,6 @@
         "Greater Pearlescent Spellthread",
         "Cerulean Spellthread",
         "Pearlescent Spellthread"
-      ]
-    },
-    "cloth_tailoring_epics": {
-      "note": "Pandaria tailoring cloth epics and catch-up crafts for cloth Intellect users.",
-      "items": [
-        "Gloves of Creation",
-        "Spelltwister's Gloves",
-        "Robes of Creation",
-        "Spelltwister's Grand Robe",
-        "Imperial Silk Gloves",
-        "Touch of the Light",
-        "Legacy of the Emperor",
-        "Robe of Eternal Rule"
-      ]
-    },
-    "cloth_pvp_healer": {
-      "note": "Healer-leaning cloth PvP entry piece.",
-      "items": [
-        "Contender's Satin Raiment"
-      ]
-    },
-    "cloth_pvp_caster": {
-      "note": "Caster DPS-leaning cloth PvP entry piece.",
-      "items": [
-        "Contender's Silk Raiment"
       ]
     },
     "druid_utility_glyphs": {
@@ -436,7 +339,6 @@
         "role": "tank",
         "primary_stat": "Strength",
         "shared_groups": [
-          "all_characters",
           "tank_consumables"
         ],
         "situational_groups": [
@@ -444,7 +346,6 @@
         ],
         "dedicated_items": [],
         "likely_items": [
-          "Royal Satchel",
           "Potion of the Mountains",
           "Flask of the Earth",
           "Greater Ox Horn Inscription"
@@ -459,13 +360,11 @@
         "role": "melee_dps",
         "primary_stat": "Strength",
         "shared_groups": [
-          "all_characters",
           "strength_consumables"
         ],
         "situational_groups": [],
         "dedicated_items": [],
         "likely_items": [
-          "Royal Satchel",
           "Potion of Mogu Power",
           "Flask of Winter's Bite",
           "Greater Tiger Fang Inscription"
@@ -476,13 +375,11 @@
         "role": "melee_dps",
         "primary_stat": "Strength",
         "shared_groups": [
-          "all_characters",
           "strength_consumables"
         ],
         "situational_groups": [],
         "dedicated_items": [],
         "likely_items": [
-          "Royal Satchel",
           "Potion of Mogu Power",
           "Flask of Winter's Bite",
           "Greater Tiger Fang Inscription"
@@ -495,14 +392,12 @@
         "role": "ranged_dps",
         "primary_stat": "Intellect",
         "shared_groups": [
-          "all_characters",
           "intellect_consumables",
           "druid_utility_glyphs"
         ],
         "situational_groups": [],
         "dedicated_items": [],
         "likely_items": [
-          "Royal Satchel",
           "Potion of the Jade Serpent",
           "Flask of the Warm Sun",
           "Greater Crane Wing Inscription",
@@ -515,7 +410,6 @@
         "role": "melee_dps",
         "primary_stat": "Agility",
         "shared_groups": [
-          "all_characters",
           "agility_consumables",
           "druid_utility_glyphs"
         ],
@@ -526,7 +420,6 @@
           "Glyph of Healing Touch"
         ],
         "likely_items": [
-          "Royal Satchel",
           "Virmen's Bite",
           "Flask of Spring Blossoms",
           "Greater Tiger Claw Inscription",
@@ -542,7 +435,6 @@
         "role": "tank",
         "primary_stat": "Agility",
         "shared_groups": [
-          "all_characters",
           "tank_consumables",
           "druid_utility_glyphs"
         ],
@@ -551,7 +443,6 @@
         ],
         "dedicated_items": [],
         "likely_items": [
-          "Royal Satchel",
           "Potion of the Mountains",
           "Flask of the Earth",
           "Greater Ox Horn Inscription",
@@ -568,14 +459,12 @@
         "role": "healer",
         "primary_stat": "Intellect",
         "shared_groups": [
-          "all_characters",
           "intellect_consumables",
           "druid_utility_glyphs"
         ],
         "situational_groups": [],
         "dedicated_items": [],
         "likely_items": [
-          "Royal Satchel",
           "Potion of the Jade Serpent",
           "Flask of the Warm Sun",
           "Greater Crane Wing Inscription",
@@ -590,14 +479,12 @@
         "role": "ranged_dps",
         "primary_stat": "Agility",
         "shared_groups": [
-          "all_characters",
           "agility_consumables",
           "hunter_utility_glyphs"
         ],
         "situational_groups": [],
         "dedicated_items": [],
         "likely_items": [
-          "Royal Satchel",
           "Virmen's Bite",
           "Flask of Spring Blossoms",
           "Greater Tiger Claw Inscription",
@@ -610,14 +497,12 @@
         "role": "ranged_dps",
         "primary_stat": "Agility",
         "shared_groups": [
-          "all_characters",
           "agility_consumables",
           "hunter_utility_glyphs"
         ],
         "situational_groups": [],
         "dedicated_items": [],
         "likely_items": [
-          "Royal Satchel",
           "Virmen's Bite",
           "Flask of Spring Blossoms",
           "Greater Tiger Claw Inscription",
@@ -630,7 +515,6 @@
         "role": "ranged_dps",
         "primary_stat": "Agility",
         "shared_groups": [
-          "all_characters",
           "agility_consumables",
           "hunter_utility_glyphs"
         ],
@@ -640,7 +524,6 @@
           "Glyph of Deterrence"
         ],
         "likely_items": [
-          "Royal Satchel",
           "Virmen's Bite",
           "Flask of Spring Blossoms",
           "Greater Tiger Claw Inscription",
@@ -657,11 +540,8 @@
         "role": "ranged_dps",
         "primary_stat": "Intellect",
         "shared_groups": [
-          "all_characters",
           "intellect_consumables",
           "cloth_spellthreads",
-          "cloth_tailoring_epics",
-          "cloth_pvp_caster",
           "mage_utility_glyphs"
         ],
         "situational_groups": [],
@@ -671,7 +551,6 @@
           "Glyph of Cone of Cold"
         ],
         "likely_items": [
-          "Royal Satchel",
           "Potion of the Jade Serpent",
           "Flask of the Warm Sun",
           "Greater Crane Wing Inscription",
@@ -679,15 +558,6 @@
           "Greater Pearlescent Spellthread",
           "Cerulean Spellthread",
           "Pearlescent Spellthread",
-          "Gloves of Creation",
-          "Spelltwister's Gloves",
-          "Robes of Creation",
-          "Spelltwister's Grand Robe",
-          "Imperial Silk Gloves",
-          "Touch of the Light",
-          "Legacy of the Emperor",
-          "Robe of Eternal Rule",
-          "Contender's Silk Raiment",
           "Glyph of Rapid Displacement",
           "Glyph of Arcane Power",
           "Glyph of Arcane Explosion",
@@ -699,17 +569,13 @@
         "role": "ranged_dps",
         "primary_stat": "Intellect",
         "shared_groups": [
-          "all_characters",
           "intellect_consumables",
           "cloth_spellthreads",
-          "cloth_tailoring_epics",
-          "cloth_pvp_caster",
           "mage_utility_glyphs"
         ],
         "situational_groups": [],
         "dedicated_items": [],
         "likely_items": [
-          "Royal Satchel",
           "Potion of the Jade Serpent",
           "Flask of the Warm Sun",
           "Greater Crane Wing Inscription",
@@ -717,15 +583,6 @@
           "Greater Pearlescent Spellthread",
           "Cerulean Spellthread",
           "Pearlescent Spellthread",
-          "Gloves of Creation",
-          "Spelltwister's Gloves",
-          "Robes of Creation",
-          "Spelltwister's Grand Robe",
-          "Imperial Silk Gloves",
-          "Touch of the Light",
-          "Legacy of the Emperor",
-          "Robe of Eternal Rule",
-          "Contender's Silk Raiment",
           "Glyph of Rapid Displacement"
         ],
         "situational_items": []
@@ -734,17 +591,13 @@
         "role": "ranged_dps",
         "primary_stat": "Intellect",
         "shared_groups": [
-          "all_characters",
           "intellect_consumables",
           "cloth_spellthreads",
-          "cloth_tailoring_epics",
-          "cloth_pvp_caster",
           "mage_utility_glyphs"
         ],
         "situational_groups": [],
         "dedicated_items": [],
         "likely_items": [
-          "Royal Satchel",
           "Potion of the Jade Serpent",
           "Flask of the Warm Sun",
           "Greater Crane Wing Inscription",
@@ -752,15 +605,6 @@
           "Greater Pearlescent Spellthread",
           "Cerulean Spellthread",
           "Pearlescent Spellthread",
-          "Gloves of Creation",
-          "Spelltwister's Gloves",
-          "Robes of Creation",
-          "Spelltwister's Grand Robe",
-          "Imperial Silk Gloves",
-          "Touch of the Light",
-          "Legacy of the Emperor",
-          "Robe of Eternal Rule",
-          "Contender's Silk Raiment",
           "Glyph of Rapid Displacement"
         ],
         "situational_items": []
@@ -771,7 +615,6 @@
         "role": "tank",
         "primary_stat": "Agility",
         "shared_groups": [
-          "all_characters",
           "tank_consumables",
           "monk_utility_glyphs"
         ],
@@ -780,7 +623,6 @@
         ],
         "dedicated_items": [],
         "likely_items": [
-          "Royal Satchel",
           "Potion of the Mountains",
           "Flask of the Earth",
           "Greater Ox Horn Inscription",
@@ -796,14 +638,12 @@
         "role": "healer",
         "primary_stat": "Intellect",
         "shared_groups": [
-          "all_characters",
           "intellect_consumables",
           "monk_utility_glyphs"
         ],
         "situational_groups": [],
         "dedicated_items": [],
         "likely_items": [
-          "Royal Satchel",
           "Potion of the Jade Serpent",
           "Flask of the Warm Sun",
           "Greater Crane Wing Inscription",
@@ -815,7 +655,6 @@
         "role": "melee_dps",
         "primary_stat": "Agility",
         "shared_groups": [
-          "all_characters",
           "agility_consumables",
           "monk_utility_glyphs"
         ],
@@ -826,7 +665,6 @@
           "Glyph of Touch of Death"
         ],
         "likely_items": [
-          "Royal Satchel",
           "Virmen's Bite",
           "Flask of Spring Blossoms",
           "Greater Tiger Claw Inscription",
@@ -843,13 +681,11 @@
         "role": "healer",
         "primary_stat": "Intellect",
         "shared_groups": [
-          "all_characters",
           "intellect_consumables"
         ],
         "situational_groups": [],
         "dedicated_items": [],
         "likely_items": [
-          "Royal Satchel",
           "Potion of the Jade Serpent",
           "Flask of the Warm Sun",
           "Greater Crane Wing Inscription"
@@ -860,7 +696,6 @@
         "role": "tank",
         "primary_stat": "Strength",
         "shared_groups": [
-          "all_characters",
           "tank_consumables"
         ],
         "situational_groups": [
@@ -868,7 +703,6 @@
         ],
         "dedicated_items": [],
         "likely_items": [
-          "Royal Satchel",
           "Potion of the Mountains",
           "Flask of the Earth",
           "Greater Ox Horn Inscription"
@@ -883,13 +717,11 @@
         "role": "melee_dps",
         "primary_stat": "Strength",
         "shared_groups": [
-          "all_characters",
           "strength_consumables"
         ],
         "situational_groups": [],
         "dedicated_items": [],
         "likely_items": [
-          "Royal Satchel",
           "Potion of Mogu Power",
           "Flask of Winter's Bite",
           "Greater Tiger Fang Inscription"
@@ -902,11 +734,8 @@
         "role": "healer",
         "primary_stat": "Intellect",
         "shared_groups": [
-          "all_characters",
           "intellect_consumables",
           "cloth_spellthreads",
-          "cloth_tailoring_epics",
-          "cloth_pvp_healer",
           "priest_healer_utility_glyphs"
         ],
         "situational_groups": [],
@@ -916,7 +745,6 @@
           "Glyph of Smite"
         ],
         "likely_items": [
-          "Royal Satchel",
           "Potion of the Jade Serpent",
           "Flask of the Warm Sun",
           "Greater Crane Wing Inscription",
@@ -924,15 +752,6 @@
           "Greater Pearlescent Spellthread",
           "Cerulean Spellthread",
           "Pearlescent Spellthread",
-          "Gloves of Creation",
-          "Spelltwister's Gloves",
-          "Robes of Creation",
-          "Spelltwister's Grand Robe",
-          "Imperial Silk Gloves",
-          "Touch of the Light",
-          "Legacy of the Emperor",
-          "Robe of Eternal Rule",
-          "Contender's Satin Raiment",
           "Glyph of Prayer of Mending",
           "Glyph of Penance",
           "Glyph of Holy Fire",
@@ -944,17 +763,13 @@
         "role": "healer",
         "primary_stat": "Intellect",
         "shared_groups": [
-          "all_characters",
           "intellect_consumables",
           "cloth_spellthreads",
-          "cloth_tailoring_epics",
-          "cloth_pvp_healer",
           "priest_healer_utility_glyphs"
         ],
         "situational_groups": [],
         "dedicated_items": [],
         "likely_items": [
-          "Royal Satchel",
           "Potion of the Jade Serpent",
           "Flask of the Warm Sun",
           "Greater Crane Wing Inscription",
@@ -962,15 +777,6 @@
           "Greater Pearlescent Spellthread",
           "Cerulean Spellthread",
           "Pearlescent Spellthread",
-          "Gloves of Creation",
-          "Spelltwister's Gloves",
-          "Robes of Creation",
-          "Spelltwister's Grand Robe",
-          "Imperial Silk Gloves",
-          "Touch of the Light",
-          "Legacy of the Emperor",
-          "Robe of Eternal Rule",
-          "Contender's Satin Raiment",
           "Glyph of Prayer of Mending"
         ],
         "situational_items": []
@@ -979,32 +785,19 @@
         "role": "ranged_dps",
         "primary_stat": "Intellect",
         "shared_groups": [
-          "all_characters",
           "intellect_consumables",
-          "cloth_spellthreads",
-          "cloth_tailoring_epics",
-          "cloth_pvp_caster"
+          "cloth_spellthreads"
         ],
         "situational_groups": [],
         "dedicated_items": [],
         "likely_items": [
-          "Royal Satchel",
           "Potion of the Jade Serpent",
           "Flask of the Warm Sun",
           "Greater Crane Wing Inscription",
           "Greater Cerulean Spellthread",
           "Greater Pearlescent Spellthread",
           "Cerulean Spellthread",
-          "Pearlescent Spellthread",
-          "Gloves of Creation",
-          "Spelltwister's Gloves",
-          "Robes of Creation",
-          "Spelltwister's Grand Robe",
-          "Imperial Silk Gloves",
-          "Touch of the Light",
-          "Legacy of the Emperor",
-          "Robe of Eternal Rule",
-          "Contender's Silk Raiment"
+          "Pearlescent Spellthread"
         ],
         "situational_items": []
       }
@@ -1014,13 +807,11 @@
         "role": "melee_dps",
         "primary_stat": "Agility",
         "shared_groups": [
-          "all_characters",
           "agility_consumables"
         ],
         "situational_groups": [],
         "dedicated_items": [],
         "likely_items": [
-          "Royal Satchel",
           "Virmen's Bite",
           "Flask of Spring Blossoms",
           "Greater Tiger Claw Inscription"
@@ -1031,13 +822,11 @@
         "role": "melee_dps",
         "primary_stat": "Agility",
         "shared_groups": [
-          "all_characters",
           "agility_consumables"
         ],
         "situational_groups": [],
         "dedicated_items": [],
         "likely_items": [
-          "Royal Satchel",
           "Virmen's Bite",
           "Flask of Spring Blossoms",
           "Greater Tiger Claw Inscription"
@@ -1048,13 +837,11 @@
         "role": "melee_dps",
         "primary_stat": "Agility",
         "shared_groups": [
-          "all_characters",
           "agility_consumables"
         ],
         "situational_groups": [],
         "dedicated_items": [],
         "likely_items": [
-          "Royal Satchel",
           "Virmen's Bite",
           "Flask of Spring Blossoms",
           "Greater Tiger Claw Inscription"
@@ -1067,13 +854,11 @@
         "role": "ranged_dps",
         "primary_stat": "Intellect",
         "shared_groups": [
-          "all_characters",
           "intellect_consumables"
         ],
         "situational_groups": [],
         "dedicated_items": [],
         "likely_items": [
-          "Royal Satchel",
           "Potion of the Jade Serpent",
           "Flask of the Warm Sun",
           "Greater Crane Wing Inscription"
@@ -1084,13 +869,11 @@
         "role": "melee_dps",
         "primary_stat": "Agility",
         "shared_groups": [
-          "all_characters",
           "agility_consumables"
         ],
         "situational_groups": [],
         "dedicated_items": [],
         "likely_items": [
-          "Royal Satchel",
           "Virmen's Bite",
           "Flask of Spring Blossoms",
           "Greater Tiger Claw Inscription"
@@ -1101,13 +884,11 @@
         "role": "healer",
         "primary_stat": "Intellect",
         "shared_groups": [
-          "all_characters",
           "intellect_consumables"
         ],
         "situational_groups": [],
         "dedicated_items": [],
         "likely_items": [
-          "Royal Satchel",
           "Potion of the Jade Serpent",
           "Flask of the Warm Sun",
           "Greater Crane Wing Inscription"
@@ -1120,11 +901,8 @@
         "role": "ranged_dps",
         "primary_stat": "Intellect",
         "shared_groups": [
-          "all_characters",
           "intellect_consumables",
           "cloth_spellthreads",
-          "cloth_tailoring_epics",
-          "cloth_pvp_caster",
           "warlock_utility_glyphs"
         ],
         "situational_groups": [],
@@ -1133,7 +911,6 @@
           "Glyph of Siphon Life"
         ],
         "likely_items": [
-          "Royal Satchel",
           "Potion of the Jade Serpent",
           "Flask of the Warm Sun",
           "Greater Crane Wing Inscription",
@@ -1141,15 +918,6 @@
           "Greater Pearlescent Spellthread",
           "Cerulean Spellthread",
           "Pearlescent Spellthread",
-          "Gloves of Creation",
-          "Spelltwister's Gloves",
-          "Robes of Creation",
-          "Spelltwister's Grand Robe",
-          "Imperial Silk Gloves",
-          "Touch of the Light",
-          "Legacy of the Emperor",
-          "Robe of Eternal Rule",
-          "Contender's Silk Raiment",
           "Glyph of Soulstone",
           "Glyph of Unstable Affliction",
           "Glyph of Siphon Life"
@@ -1160,17 +928,13 @@
         "role": "ranged_dps",
         "primary_stat": "Intellect",
         "shared_groups": [
-          "all_characters",
           "intellect_consumables",
           "cloth_spellthreads",
-          "cloth_tailoring_epics",
-          "cloth_pvp_caster",
           "warlock_utility_glyphs"
         ],
         "situational_groups": [],
         "dedicated_items": [],
         "likely_items": [
-          "Royal Satchel",
           "Potion of the Jade Serpent",
           "Flask of the Warm Sun",
           "Greater Crane Wing Inscription",
@@ -1178,15 +942,6 @@
           "Greater Pearlescent Spellthread",
           "Cerulean Spellthread",
           "Pearlescent Spellthread",
-          "Gloves of Creation",
-          "Spelltwister's Gloves",
-          "Robes of Creation",
-          "Spelltwister's Grand Robe",
-          "Imperial Silk Gloves",
-          "Touch of the Light",
-          "Legacy of the Emperor",
-          "Robe of Eternal Rule",
-          "Contender's Silk Raiment",
           "Glyph of Soulstone"
         ],
         "situational_items": []
@@ -1195,17 +950,13 @@
         "role": "ranged_dps",
         "primary_stat": "Intellect",
         "shared_groups": [
-          "all_characters",
           "intellect_consumables",
           "cloth_spellthreads",
-          "cloth_tailoring_epics",
-          "cloth_pvp_caster",
           "warlock_utility_glyphs"
         ],
         "situational_groups": [],
         "dedicated_items": [],
         "likely_items": [
-          "Royal Satchel",
           "Potion of the Jade Serpent",
           "Flask of the Warm Sun",
           "Greater Crane Wing Inscription",
@@ -1213,15 +964,6 @@
           "Greater Pearlescent Spellthread",
           "Cerulean Spellthread",
           "Pearlescent Spellthread",
-          "Gloves of Creation",
-          "Spelltwister's Gloves",
-          "Robes of Creation",
-          "Spelltwister's Grand Robe",
-          "Imperial Silk Gloves",
-          "Touch of the Light",
-          "Legacy of the Emperor",
-          "Robe of Eternal Rule",
-          "Contender's Silk Raiment",
           "Glyph of Soulstone"
         ],
         "situational_items": []
@@ -1232,13 +974,11 @@
         "role": "melee_dps",
         "primary_stat": "Strength",
         "shared_groups": [
-          "all_characters",
           "strength_consumables"
         ],
         "situational_groups": [],
         "dedicated_items": [],
         "likely_items": [
-          "Royal Satchel",
           "Potion of Mogu Power",
           "Flask of Winter's Bite",
           "Greater Tiger Fang Inscription"
@@ -1249,13 +989,11 @@
         "role": "melee_dps",
         "primary_stat": "Strength",
         "shared_groups": [
-          "all_characters",
           "strength_consumables"
         ],
         "situational_groups": [],
         "dedicated_items": [],
         "likely_items": [
-          "Royal Satchel",
           "Potion of Mogu Power",
           "Flask of Winter's Bite",
           "Greater Tiger Fang Inscription"
@@ -1266,7 +1004,6 @@
         "role": "tank",
         "primary_stat": "Strength",
         "shared_groups": [
-          "all_characters",
           "tank_consumables"
         ],
         "situational_groups": [
@@ -1274,7 +1011,6 @@
         ],
         "dedicated_items": [],
         "likely_items": [
-          "Royal Satchel",
           "Potion of the Mountains",
           "Flask of the Earth",
           "Greater Ox Horn Inscription"
