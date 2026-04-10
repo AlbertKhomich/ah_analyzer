@@ -2,3 +2,5 @@
 !.gitignore
 !think.py
 !ranking.json
+!class_spec_items.json
+!crafting_data.json

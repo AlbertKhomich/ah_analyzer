@@ -1,0 +1,1329 @@
+{
+  "meta": {
+    "game": "World of Warcraft Classic: Mists of Pandaria",
+    "server": "EU Hoptallus",
+    "phase": "Phase 4",
+    "purpose": "Craft target list plus supporting sub-recipes for pricing and profession planning.",
+    "reagents_source_note": "Reagents were filled from accessible recipe/database mirrors and wiki sources when direct Wowhead access was unavailable.",
+    "stocking_rules": {
+      "glyph": "usually 1 copy each to start",
+      "flask": "medium to high volume if margins hold",
+      "potion": "medium to high volume if margins hold",
+      "shoulder_inscription": "low to medium volume",
+      "tailoring_spellthread": "medium volume",
+      "tailoring_bag": "low volume",
+      "tailoring_epic": "craft only if margin is clearly high and competition is low"
+    }
+  },
+  "craft_targets": [
+    {
+      "rank": 1,
+      "item": "Potion of the Jade Serpent",
+      "category": "potion",
+      "tier": "S",
+      "reason": "Strong repeat demand from Intellect users",
+      "reagents": [
+        {
+          "item": "Crystal Vial",
+          "qty": 1
+        },
+        {
+          "item": "Green Tea Leaf",
+          "qty": 1
+        },
+        {
+          "item": "Silkweed",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 2,
+      "item": "Virmen's Bite",
+      "category": "potion",
+      "tier": "S",
+      "reason": "Strong repeat demand from Agility users",
+      "reagents": [
+        {
+          "item": "Crystal Vial",
+          "qty": 1
+        },
+        {
+          "item": "Green Tea Leaf",
+          "qty": 1
+        },
+        {
+          "item": "Snow Lily",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 3,
+      "item": "Flask of the Warm Sun",
+      "category": "flask",
+      "tier": "S",
+      "reason": "Core Intellect flask across multiple popular specs",
+      "reagents": [
+        {
+          "item": "Crystal Vial",
+          "qty": 1
+        },
+        {
+          "item": "Silkweed",
+          "qty": 4
+        },
+        {
+          "item": "Golden Lotus",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 4,
+      "item": "Flask of Spring Blossoms",
+      "category": "flask",
+      "tier": "S",
+      "reason": "Core Agility flask across multiple popular specs",
+      "reagents": [
+        {
+          "item": "Crystal Vial",
+          "qty": 1
+        },
+        {
+          "item": "Snow Lily",
+          "qty": 4
+        },
+        {
+          "item": "Golden Lotus",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 5,
+      "item": "Greater Crane Wing Inscription",
+      "category": "shoulder_inscription",
+      "tier": "S",
+      "reason": "Main Intellect shoulder enchant",
+      "reagents": [
+        {
+          "item": "Starlight Ink",
+          "qty": 3
+        },
+        {
+          "item": "Light Parchment",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 6,
+      "item": "Greater Tiger Claw Inscription",
+      "category": "shoulder_inscription",
+      "tier": "S",
+      "reason": "Main Agility shoulder enchant",
+      "reagents": [
+        {
+          "item": "Starlight Ink",
+          "qty": 3
+        },
+        {
+          "item": "Light Parchment",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 7,
+      "item": "Greater Cerulean Spellthread",
+      "category": "tailoring_spellthread",
+      "tier": "S",
+      "reason": "Phase 4 tailoring staple with broad utility",
+      "reagents": [
+        {
+          "item": "Imperial Silk",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 8,
+      "item": "Greater Pearlescent Spellthread",
+      "category": "tailoring_spellthread",
+      "tier": "S",
+      "reason": "Phase 4 tailoring staple with broad utility",
+      "reagents": [
+        {
+          "item": "Imperial Silk",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 9,
+      "item": "Royal Satchel",
+      "category": "tailoring_bag",
+      "tier": "S",
+      "reason": "Broad utility item, not tied only to raid catch-up gearing",
+      "reagents": [
+        {
+          "item": "Imperial Silk",
+          "qty": 12
+        }
+      ]
+    },
+    {
+      "rank": 10,
+      "item": "Glyph of Unstable Affliction",
+      "category": "glyph",
+      "tier": "S",
+      "reason": "Top glyph linked to a highly relevant raid spec",
+      "reagents": [
+        {
+          "item": "Ink of the Sea",
+          "qty": 3
+        },
+        {
+          "item": "Resilient Parchment",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 11,
+      "item": "Glyph of Arcane Power",
+      "category": "glyph",
+      "tier": "S",
+      "reason": "Top glyph linked to a highly relevant raid spec",
+      "reagents": [
+        {
+          "item": "Ethereal Ink",
+          "qty": 3
+        },
+        {
+          "item": "Resilient Parchment",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 12,
+      "item": "Glyph of Animal Bond",
+      "category": "glyph",
+      "tier": "S",
+      "reason": "High-priority PvE glyph for Survival Hunter demand",
+      "reagents": [
+        {
+          "item": "Ink of the Sea",
+          "qty": 3
+        },
+        {
+          "item": "Resilient Parchment",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 13,
+      "item": "Glyph of Deterrence",
+      "category": "glyph",
+      "tier": "S",
+      "reason": "High-priority PvE glyph for Survival Hunter demand",
+      "reagents": [
+        {
+          "item": "Celestial Ink",
+          "qty": 1
+        },
+        {
+          "item": "Light Parchment",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 14,
+      "item": "Glyph of Spinning Crane Kick",
+      "category": "glyph",
+      "tier": "S",
+      "reason": "High-priority PvE glyph for Windwalker demand",
+      "reagents": [
+        {
+          "item": "Ink of Dreams",
+          "qty": 3
+        },
+        {
+          "item": "Light Parchment",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 15,
+      "item": "Glyph of Touch of Karma",
+      "category": "glyph",
+      "tier": "S",
+      "reason": "High-priority PvE glyph for Windwalker demand",
+      "reagents": [
+        {
+          "item": "Ink of the Sea",
+          "qty": 3
+        },
+        {
+          "item": "Light Parchment",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 16,
+      "item": "Glyph of Zen Meditation",
+      "category": "glyph",
+      "tier": "S",
+      "reason": "Common Monk utility/PvE demand",
+      "reagents": [
+        {
+          "item": "Jadefire Ink",
+          "qty": 3
+        },
+        {
+          "item": "Light Parchment",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 17,
+      "item": "Glyph of Penance",
+      "category": "glyph",
+      "tier": "S",
+      "reason": "High-priority PvE glyph for Discipline Priest demand",
+      "reagents": [
+        {
+          "item": "Ethereal Ink",
+          "qty": 3
+        },
+        {
+          "item": "Resilient Parchment",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 18,
+      "item": "Glyph of Holy Fire",
+      "category": "glyph",
+      "tier": "S",
+      "reason": "High-priority PvE glyph for Discipline Priest demand",
+      "reagents": [
+        {
+          "item": "Midnight Ink",
+          "qty": 3
+        },
+        {
+          "item": "Light Parchment",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 19,
+      "item": "Glyph of Smite",
+      "category": "glyph",
+      "tier": "S",
+      "reason": "High-priority PvE glyph for Discipline Priest demand",
+      "reagents": [
+        {
+          "item": "Celestial Ink",
+          "qty": 3
+        },
+        {
+          "item": "Heavy Parchment",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 20,
+      "item": "Glyph of Savagery",
+      "category": "glyph",
+      "tier": "S",
+      "reason": "High-priority PvE glyph for Feral demand",
+      "reagents": [
+        {
+          "item": "Lion's Ink",
+          "qty": 3
+        },
+        {
+          "item": "Light Parchment",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 21,
+      "item": "Glyph of Shred",
+      "category": "glyph",
+      "tier": "S",
+      "reason": "High-priority PvE glyph for Feral demand",
+      "reagents": [
+        {
+          "item": "Jadefire Ink",
+          "qty": 3
+        },
+        {
+          "item": "Light Parchment",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 22,
+      "item": "Glyph of Siphon Life",
+      "category": "glyph",
+      "tier": "A",
+      "reason": "Strong secondary Warlock glyph",
+      "reagents": [
+        {
+          "item": "Ink of the Sea",
+          "qty": 3
+        },
+        {
+          "item": "Light Parchment",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 23,
+      "item": "Glyph of Soulstone",
+      "category": "glyph",
+      "tier": "A",
+      "reason": "Warlock utility glyph with steady situational demand",
+      "reagents": [
+        {
+          "item": "Celestial Ink",
+          "qty": 1
+        },
+        {
+          "item": "Light Parchment",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 24,
+      "item": "Glyph of Rapid Displacement",
+      "category": "glyph",
+      "tier": "A",
+      "reason": "Common Mage mobility pick",
+      "reagents": [
+        {
+          "item": "Ink of the Sea",
+          "qty": 3
+        },
+        {
+          "item": "Light Parchment",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 25,
+      "item": "Glyph of Arcane Explosion",
+      "category": "glyph",
+      "tier": "A",
+      "reason": "Secondary Arcane option",
+      "reagents": [
+        {
+          "item": "Ink of the Sea",
+          "qty": 3
+        },
+        {
+          "item": "Light Parchment",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 26,
+      "item": "Glyph of Cone of Cold",
+      "category": "glyph",
+      "tier": "A",
+      "reason": "Secondary Arcane option",
+      "reagents": [
+        {
+          "item": "Ink of the Sea",
+          "qty": 3
+        },
+        {
+          "item": "Light Parchment",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 27,
+      "item": "Glyph of Pathfinding",
+      "category": "glyph",
+      "tier": "A",
+      "reason": "Hunter utility glyph with broader appeal",
+      "reagents": [
+        {
+          "item": "Ethereal Ink",
+          "qty": 3
+        },
+        {
+          "item": "Light Parchment",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 28,
+      "item": "Glyph of Liberation",
+      "category": "glyph",
+      "tier": "A",
+      "reason": "Hunter secondary PvE option",
+      "reagents": [
+        {
+          "item": "Ink of the Sea",
+          "qty": 3
+        },
+        {
+          "item": "Light Parchment",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 29,
+      "item": "Glyph of Touch of Death",
+      "category": "glyph",
+      "tier": "A",
+      "reason": "Secondary Windwalker option",
+      "reagents": [
+        {
+          "item": "Celestial Ink",
+          "qty": 3
+        },
+        {
+          "item": "Light Parchment",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 30,
+      "item": "Glyph of Prayer of Mending",
+      "category": "glyph",
+      "tier": "A",
+      "reason": "Secondary Priest healer demand",
+      "reagents": [
+        {
+          "item": "Ink of the Sea",
+          "qty": 3
+        },
+        {
+          "item": "Light Parchment",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 31,
+      "item": "Glyph of Dash",
+      "category": "glyph",
+      "tier": "A",
+      "reason": "Common Druid utility demand",
+      "reagents": [
+        {
+          "item": "Jadefire Ink",
+          "qty": 3
+        },
+        {
+          "item": "Light Parchment",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 32,
+      "item": "Glyph of Healing Touch",
+      "category": "glyph",
+      "tier": "A",
+      "reason": "Secondary Feral-related demand",
+      "reagents": [
+        {
+          "item": "Lion's Ink",
+          "qty": 3
+        },
+        {
+          "item": "Light Parchment",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 33,
+      "item": "Glyph of Rebirth",
+      "category": "glyph",
+      "tier": "A",
+      "reason": "General Druid utility demand",
+      "reagents": [
+        {
+          "item": "Jadefire Ink",
+          "qty": 1
+        },
+        {
+          "item": "Light Parchment",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 34,
+      "item": "Cerulean Spellthread",
+      "category": "tailoring_spellthread",
+      "tier": "A",
+      "reason": "Lower-tier alternative spellthread",
+      "reagents": [
+        {
+          "item": "Bolt of Windwool Cloth",
+          "qty": 4
+        }
+      ]
+    },
+    {
+      "rank": 35,
+      "item": "Pearlescent Spellthread",
+      "category": "tailoring_spellthread",
+      "tier": "A",
+      "reason": "Lower-tier alternative spellthread",
+      "reagents": [
+        {
+          "item": "Bolt of Windwool Cloth",
+          "qty": 4
+        }
+      ]
+    },
+    {
+      "rank": 36,
+      "item": "Potion of Mogu Power",
+      "category": "potion",
+      "tier": "A",
+      "reason": "Strength potion, narrower than Int/Agi demand",
+      "reagents": [
+        {
+          "item": "Crystal Vial",
+          "qty": 1
+        },
+        {
+          "item": "Green Tea Leaf",
+          "qty": 1
+        },
+        {
+          "item": "Fool's Cap",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 37,
+      "item": "Flask of Winter's Bite",
+      "category": "flask",
+      "tier": "A",
+      "reason": "Strength flask, narrower than Int/Agi demand",
+      "reagents": [
+        {
+          "item": "Crystal Vial",
+          "qty": 1
+        },
+        {
+          "item": "Fool's Cap",
+          "qty": 4
+        },
+        {
+          "item": "Golden Lotus",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 38,
+      "item": "Greater Tiger Fang Inscription",
+      "category": "shoulder_inscription",
+      "tier": "A",
+      "reason": "Strength shoulder enchant",
+      "reagents": [
+        {
+          "item": "Starlight Ink",
+          "qty": 3
+        },
+        {
+          "item": "Light Parchment",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 39,
+      "item": "Flask of the Earth",
+      "category": "flask",
+      "tier": "B",
+      "reason": "Tank market is narrower",
+      "reagents": [
+        {
+          "item": "Crystal Vial",
+          "qty": 1
+        },
+        {
+          "item": "Rain Poppy",
+          "qty": 4
+        },
+        {
+          "item": "Golden Lotus",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 40,
+      "item": "Potion of the Mountains",
+      "category": "potion",
+      "tier": "B",
+      "reason": "Tank market is narrower",
+      "reagents": [
+        {
+          "item": "Crystal Vial",
+          "qty": 1
+        },
+        {
+          "item": "Green Tea Leaf",
+          "qty": 1
+        },
+        {
+          "item": "Rain Poppy",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 41,
+      "item": "Greater Ox Horn Inscription",
+      "category": "shoulder_inscription",
+      "tier": "B",
+      "reason": "Tank shoulder enchant, niche demand",
+      "reagents": [
+        {
+          "item": "Starlight Ink",
+          "qty": 3
+        },
+        {
+          "item": "Light Parchment",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 42,
+      "item": "Gloves of Creation",
+      "category": "tailoring_epic",
+      "tier": "C",
+      "reason": "Phase 4 opportunistic craft only",
+      "reagents": [
+        {
+          "item": "Imperial Silk",
+          "qty": 4
+        }
+      ]
+    },
+    {
+      "rank": 43,
+      "item": "Spelltwister's Gloves",
+      "category": "tailoring_epic",
+      "tier": "C",
+      "reason": "Phase 4 opportunistic craft only",
+      "reagents": [
+        {
+          "item": "Imperial Silk",
+          "qty": 4
+        }
+      ]
+    },
+    {
+      "rank": 44,
+      "item": "Robes of Creation",
+      "category": "tailoring_epic",
+      "tier": "C",
+      "reason": "Phase 4 opportunistic craft only",
+      "reagents": [
+        {
+          "item": "Imperial Silk",
+          "qty": 6
+        }
+      ]
+    },
+    {
+      "rank": 45,
+      "item": "Spelltwister's Grand Robe",
+      "category": "tailoring_epic",
+      "tier": "C",
+      "reason": "Phase 4 opportunistic craft only",
+      "reagents": [
+        {
+          "item": "Imperial Silk",
+          "qty": 6
+        }
+      ]
+    },
+    {
+      "rank": 46,
+      "item": "Imperial Silk Gloves",
+      "category": "tailoring_epic",
+      "tier": "C",
+      "reason": "Catch-up paths reduce baseline demand",
+      "reagents": [
+        {
+          "item": "Imperial Silk",
+          "qty": 4
+        },
+        {
+          "item": "Blood Spirit",
+          "qty": 5
+        }
+      ]
+    },
+    {
+      "rank": 47,
+      "item": "Touch of the Light",
+      "category": "tailoring_epic",
+      "tier": "C",
+      "reason": "Catch-up paths reduce baseline demand",
+      "reagents": [
+        {
+          "item": "Imperial Silk",
+          "qty": 4
+        },
+        {
+          "item": "Blood Spirit",
+          "qty": 5
+        }
+      ]
+    },
+    {
+      "rank": 48,
+      "item": "Legacy of the Emperor",
+      "category": "tailoring_epic",
+      "tier": "C",
+      "reason": "Catch-up paths reduce baseline demand",
+      "reagents": [
+        {
+          "item": "Imperial Silk",
+          "qty": 6
+        },
+        {
+          "item": "Blood Spirit",
+          "qty": 8
+        }
+      ]
+    },
+    {
+      "rank": 49,
+      "item": "Robe of Eternal Rule",
+      "category": "tailoring_epic",
+      "tier": "C",
+      "reason": "Catch-up paths reduce baseline demand",
+      "reagents": [
+        {
+          "item": "Imperial Silk",
+          "qty": 6
+        },
+        {
+          "item": "Blood Spirit",
+          "qty": 8
+        }
+      ]
+    },
+    {
+      "rank": 50,
+      "item": "Contender's Satin Raiment",
+      "category": "tailoring_pvp",
+      "tier": "C",
+      "reason": "PvP niche, check only if market is clearly favorable",
+      "reagents": [
+        {
+          "item": "Bolt of Windwool Cloth",
+          "qty": 5
+        }
+      ]
+    },
+    {
+      "rank": 51,
+      "item": "Contender's Silk Raiment",
+      "category": "tailoring_pvp",
+      "tier": "C",
+      "reason": "PvP niche, check only if market is clearly favorable",
+      "reagents": [
+        {
+          "item": "Bolt of Windwool Cloth",
+          "qty": 5
+        }
+      ]
+    }
+  ],
+  "supporting_recipes": {
+    "milling": {
+      "rules": {
+        "herbs_per_mill": 5,
+        "expected_common_pigment_per_mill": 3.0,
+        "expected_common_pigment_per_mill_note": "Inference used for planning: common pigments are described as yielding 2-4 per mill, so the planner uses the midpoint when valuing herb -> pigment -> ink paths.",
+        "common_pigment_yield_note": "Milling typically yields common pigments, with uncommon pigments appearing as bonus outcomes when applicable.",
+        "pandaria_note": "Any common Pandaria herb can produce Shadow Pigment, while Misty Pigment is the uncommon Pandaria result used for Starlight Ink."
+      },
+      "pigments": {
+        "Dusky Pigment": {
+          "quality": "common",
+          "made_via": "Milling",
+          "milled_from": [
+            "Mageroyal",
+            "Briarthorn",
+            "Swiftthistle",
+            "Bruiseweed",
+            "Stranglekelp"
+          ],
+          "used_for": [
+            "Midnight Ink"
+          ]
+        },
+        "Golden Pigment": {
+          "quality": "common",
+          "made_via": "Milling",
+          "milled_from": [
+            "Wild Steelbloom",
+            "Kingsblood",
+            "Liferoot",
+            "Fadeleaf",
+            "Goldthorn",
+            "Khadgar's Whisker",
+            "Wintersbite",
+            "Firebloom",
+            "Purple Lotus",
+            "Arthas' Tears",
+            "Sungrass",
+            "Blindweed",
+            "Ghost Mushroom",
+            "Gromsblood"
+          ],
+          "used_for": [
+            "Lion's Ink"
+          ]
+        },
+        "Emerald Pigment": {
+          "quality": "common",
+          "made_via": "Milling",
+          "milled_from": [
+            "Golden Sansam",
+            "Dreamfoil",
+            "Mountain Silversage",
+            "Plaguebloom",
+            "Icecap"
+          ],
+          "used_for": [
+            "Jadefire Ink"
+          ]
+        },
+        "Violet Pigment": {
+          "quality": "common",
+          "made_via": "Milling",
+          "milled_from": [
+            "Felweed",
+            "Dreaming Glory",
+            "Ragveil",
+            "Flame Cap",
+            "Terocone",
+            "Ancient Lichen",
+            "Netherbloom",
+            "Nightmare Vine",
+            "Mana Thistle"
+          ],
+          "used_for": [
+            "Celestial Ink"
+          ]
+        },
+        "Nether Pigment": {
+          "quality": "common",
+          "made_via": "Milling",
+          "milled_from": [
+            "Goldclover",
+            "Tiger Lily",
+            "Talandra's Rose",
+            "Adder's Tongue",
+            "Lichbloom",
+            "Icethorn"
+          ],
+          "used_for": [
+            "Ethereal Ink"
+          ]
+        },
+        "Azure Pigment": {
+          "quality": "common",
+          "made_via": "Milling",
+          "milled_from": [
+            "Goldclover",
+            "Tiger Lily",
+            "Talandra's Rose",
+            "Adder's Tongue",
+            "Lichbloom",
+            "Icethorn"
+          ],
+          "used_for": [
+            "Ink of the Sea"
+          ]
+        },
+        "Shadow Pigment": {
+          "quality": "common",
+          "made_via": "Milling",
+          "milled_from": [
+            "Green Tea Leaf",
+            "Silkweed",
+            "Rain Poppy",
+            "Snow Lily",
+            "Fool's Cap"
+          ],
+          "used_for": [
+            "Ink of Dreams"
+          ]
+        },
+        "Misty Pigment": {
+          "quality": "uncommon",
+          "made_via": "Milling",
+          "milled_from": [
+            "Green Tea Leaf",
+            "Silkweed",
+            "Rain Poppy",
+            "Snow Lily",
+            "Fool's Cap"
+          ],
+          "used_for": [
+            "Starlight Ink"
+          ]
+        }
+      }
+    },
+    "inscription": {
+      "inks": {
+        "Midnight Ink": {
+          "profession": "Inscription",
+          "crafted_from": [
+            {
+              "item": "Dusky Pigment",
+              "qty": 2
+            }
+          ],
+          "used_in": [
+            "Glyph of Holy Fire"
+          ]
+        },
+        "Lion's Ink": {
+          "profession": "Inscription",
+          "crafted_from": [
+            {
+              "item": "Golden Pigment",
+              "qty": 2
+            }
+          ],
+          "used_in": [
+            "Glyph of Savagery",
+            "Glyph of Healing Touch"
+          ]
+        },
+        "Jadefire Ink": {
+          "profession": "Inscription",
+          "crafted_from": [
+            {
+              "item": "Emerald Pigment",
+              "qty": 2
+            }
+          ],
+          "used_in": [
+            "Glyph of Zen Meditation",
+            "Glyph of Shred",
+            "Glyph of Dash",
+            "Glyph of Rebirth"
+          ]
+        },
+        "Celestial Ink": {
+          "profession": "Inscription",
+          "crafted_from": [
+            {
+              "item": "Violet Pigment",
+              "qty": 2
+            }
+          ],
+          "used_in": [
+            "Glyph of Deterrence",
+            "Glyph of Smite",
+            "Glyph of Soulstone",
+            "Glyph of Touch of Death"
+          ]
+        },
+        "Ethereal Ink": {
+          "profession": "Inscription",
+          "crafted_from": [
+            {
+              "item": "Nether Pigment",
+              "qty": 2
+            }
+          ],
+          "used_in": [
+            "Glyph of Arcane Power",
+            "Glyph of Penance",
+            "Glyph of Pathfinding"
+          ]
+        },
+        "Ink of the Sea": {
+          "profession": "Inscription",
+          "crafted_from": [
+            {
+              "item": "Azure Pigment",
+              "qty": 2
+            }
+          ],
+          "used_in": [
+            "Glyph of Unstable Affliction",
+            "Glyph of Animal Bond",
+            "Glyph of Touch of Karma",
+            "Glyph of Siphon Life",
+            "Glyph of Rapid Displacement",
+            "Glyph of Arcane Explosion",
+            "Glyph of Cone of Cold",
+            "Glyph of Liberation",
+            "Glyph of Prayer of Mending"
+          ]
+        },
+        "Ink of Dreams": {
+          "profession": "Inscription",
+          "crafted_from": [
+            {
+              "item": "Shadow Pigment",
+              "qty": 2
+            }
+          ],
+          "used_in": [
+            "Glyph of Spinning Crane Kick"
+          ]
+        },
+        "Starlight Ink": {
+          "profession": "Inscription",
+          "crafted_from": [
+            {
+              "item": "Misty Pigment",
+              "qty": 2
+            }
+          ],
+          "used_in": [
+            "Greater Crane Wing Inscription",
+            "Greater Tiger Claw Inscription",
+            "Greater Tiger Fang Inscription",
+            "Greater Ox Horn Inscription"
+          ]
+        }
+      },
+      "vendor_trades": {
+        "Midnight Ink": {
+          "cost": [
+            {
+              "item": "Ink of Dreams",
+              "qty": 1
+            }
+          ],
+          "note": "Legacy ink trade priced through Ink of Dreams."
+        },
+        "Lion's Ink": {
+          "cost": [
+            {
+              "item": "Ink of Dreams",
+              "qty": 1
+            }
+          ],
+          "note": "Legacy ink trade priced through Ink of Dreams."
+        },
+        "Jadefire Ink": {
+          "cost": [
+            {
+              "item": "Ink of Dreams",
+              "qty": 1
+            }
+          ],
+          "note": "Legacy ink trade priced through Ink of Dreams."
+        },
+        "Celestial Ink": {
+          "cost": [
+            {
+              "item": "Ink of Dreams",
+              "qty": 1
+            }
+          ],
+          "note": "Legacy ink trade priced through Ink of Dreams."
+        },
+        "Ethereal Ink": {
+          "cost": [
+            {
+              "item": "Ink of Dreams",
+              "qty": 1
+            }
+          ],
+          "note": "Legacy ink trade priced through Ink of Dreams."
+        },
+        "Ink of the Sea": {
+          "cost": [
+            {
+              "item": "Ink of Dreams",
+              "qty": 1
+            }
+          ],
+          "note": "Legacy ink trade priced through Ink of Dreams."
+        },
+        "Starlight Ink": {
+          "cost": [
+            {
+              "item": "Ink of Dreams",
+              "qty": 10
+            }
+          ],
+          "note": "Pandaria rare ink trade priced through Ink of Dreams."
+        }
+      },
+      "vendor_exchange_note": "Pandaria ink traders also let scribes trade Ink of Dreams into older inks when direct milling is less attractive."
+    },
+    "tailoring_subcrafts": {
+      "Bolt of Windwool Cloth": {
+        "profession": "Tailoring",
+        "crafted_from": [
+          {
+            "item": "Windwool Cloth",
+            "qty": 5
+          }
+        ],
+        "used_in": [
+          "Cerulean Spellthread",
+          "Pearlescent Spellthread",
+          "Imperial Silk",
+          "Contender's Satin Raiment",
+          "Contender's Silk Raiment"
+        ]
+      },
+      "Imperial Silk": {
+        "profession": "Tailoring",
+        "crafted_from": [
+          {
+            "item": "Bolt of Windwool Cloth",
+            "qty": 5
+          },
+          {
+            "item": "Spirit of Harmony",
+            "qty": 3
+          }
+        ],
+        "alternative_sources": [
+          "Silkworm Cocoon"
+        ],
+        "used_in": [
+          "Greater Cerulean Spellthread",
+          "Greater Pearlescent Spellthread",
+          "Royal Satchel",
+          "Gloves of Creation",
+          "Spelltwister's Gloves",
+          "Robes of Creation",
+          "Spelltwister's Grand Robe",
+          "Imperial Silk Gloves",
+          "Touch of the Light",
+          "Legacy of the Emperor",
+          "Robe of Eternal Rule"
+        ]
+      }
+    }
+  },
+  "scan_template_fields": [
+    "item",
+    "category",
+    "rank",
+    "tier",
+    "material_cost",
+    "lowest_ah_price",
+    "ah_cut",
+    "net_after_cut",
+    "estimated_profit",
+    "competition_count",
+    "recommended_stock",
+    "craft_decision"
+  ],
+  "reagent_confidence_notes": {
+    "high_confidence_exact": [
+      "Cerulean Spellthread",
+      "Contender's Satin Raiment",
+      "Contender's Silk Raiment",
+      "Flask of Spring Blossoms",
+      "Flask of Winter's Bite",
+      "Flask of the Earth",
+      "Flask of the Warm Sun",
+      "Gloves of Creation",
+      "Glyph of Animal Bond",
+      "Glyph of Arcane Power",
+      "Glyph of Cone of Cold",
+      "Glyph of Dash",
+      "Glyph of Deterrence",
+      "Glyph of Healing Touch",
+      "Glyph of Liberation",
+      "Glyph of Pathfinding",
+      "Glyph of Penance",
+      "Glyph of Prayer of Mending",
+      "Glyph of Rapid Displacement",
+      "Glyph of Rebirth",
+      "Glyph of Savagery",
+      "Glyph of Smite",
+      "Glyph of Touch of Karma",
+      "Glyph of Unstable Affliction",
+      "Glyph of Zen Meditation",
+      "Greater Cerulean Spellthread",
+      "Greater Crane Wing Inscription",
+      "Greater Ox Horn Inscription",
+      "Greater Pearlescent Spellthread",
+      "Greater Tiger Claw Inscription",
+      "Greater Tiger Fang Inscription",
+      "Imperial Silk Gloves",
+      "Legacy of the Emperor",
+      "Pearlescent Spellthread",
+      "Potion of Mogu Power",
+      "Potion of the Jade Serpent",
+      "Potion of the Mountains",
+      "Robe of Eternal Rule",
+      "Robes of Creation",
+      "Royal Satchel",
+      "Spelltwister's Gloves",
+      "Spelltwister's Grand Robe",
+      "Touch of the Light",
+      "Virmen's Bite"
+    ],
+    "backfilled_from_reference": [
+      "Cerulean Spellthread",
+      "Pearlescent Spellthread",
+      "Imperial Silk Gloves",
+      "Touch of the Light",
+      "Legacy of the Emperor",
+      "Robe of Eternal Rule",
+      "Contender's Satin Raiment",
+      "Contender's Silk Raiment"
+    ],
+    "needs_manual_backfill": [],
+    "extra_sanity_check_recommended": [
+      "Glyph of Spinning Crane Kick",
+      "Glyph of Touch of Death",
+      "Glyph of Holy Fire",
+      "Glyph of Shred",
+      "Glyph of Siphon Life",
+      "Glyph of Soulstone"
+    ]
+  }
+}
