@@ -2,7 +2,6 @@ import csv
 import json
 import math
 import re
-import statistics
 from typing import Any, Dict, List, Optional, Set, Tuple
 
 # =========================
@@ -26,21 +25,14 @@ FALLBACK_PRICES = {
     "Light Parchment": 1500,
     "Resilient Parchment": 1500,
     "Heavy Parchment": 1500,
-    "Imperial Silk": 2000000,  # fallback only if snapshot can't derive it
 }
 
-USE_DYNAMIC_IMPERIAL_SILK_PRICE = True
-IMPERIAL_SILK_PRICING_MODE = "median"   # "max", "median", or "weighted"
-MIN_SILK_SOURCE_AVAILABLE = 3
+NON_AH_REAGENT_PRICES = {
+    "Spirit of Harmony": 0,
+}
 
-IMPERIAL_SILK_OUTPUTS = {
-    "Greater Cerulean Spellthread": {"silk_qty": 1, "other_mats": []},
-    "Greater Pearlescent Spellthread": {"silk_qty": 1, "other_mats": []},
-    "Royal Satchel": {"silk_qty": 12, "other_mats": []},
-    "Gloves of Creation": {"silk_qty": 4, "other_mats": []},
-    "Spelltwister's Gloves": {"silk_qty": 4, "other_mats": []},
-    "Robes of Creation": {"silk_qty": 6, "other_mats": []},
-    "Spelltwister's Grand Robe": {"silk_qty": 6, "other_mats": []},
+FORCE_CRAFTED_COST_ITEMS = {
+    "Imperial Silk",
 }
 
 # Normalize some recipe reagent names if needed
@@ -198,6 +190,8 @@ def reagent_unit_price(name: str, snapshot: Dict[str, Dict[str, Any]]) -> Option
     normalized = normalize_name(name)
     if normalized in snapshot:
         return snapshot[normalized]["price"]
+    if normalized in NON_AH_REAGENT_PRICES:
+        return NON_AH_REAGENT_PRICES[normalized]
     if normalized in FALLBACK_PRICES:
         return FALLBACK_PRICES[normalized]
     return None
@@ -364,27 +358,40 @@ def resolve_unit_cost(
     if milling_option is not None:
         options.append(milling_option)
 
+    if normalized in NON_AH_REAGENT_PRICES:
+        options.append({
+            "item": normalized,
+            "unit_cost": NON_AH_REAGENT_PRICES[normalized],
+            "source_type": "non_ah",
+            "source_summary": "non-AH",
+            "source_detail": "Non-AH reagent excluded from gold-spend ranking.",
+            "chain": "non-AH",
+        })
+
     if normalized in FALLBACK_PRICES:
-        source_summary = "fallback" if normalized == "Imperial Silk" else "vendor"
-        source_detail = (
-            "Derived fallback or shadow price."
-            if normalized == "Imperial Silk"
-            else "Fixed vendor fallback price."
-        )
         options.append({
             "item": normalized,
             "unit_cost": FALLBACK_PRICES[normalized],
             "source_type": "fallback",
-            "source_summary": source_summary,
-            "source_detail": source_detail,
-            "chain": source_summary,
+            "source_summary": "vendor",
+            "source_detail": "Fixed vendor fallback price.",
+            "chain": "vendor",
         })
 
     stack.remove(normalized)
     if not options:
         return None
 
-    best_option = min(options, key=lambda option: option["unit_cost"])
+    best_options = options
+    if normalized in FORCE_CRAFTED_COST_ITEMS:
+        crafted_options = [
+            option for option in options
+            if option["source_type"] in {"crafted", "vendor_trade", "milling"}
+        ]
+        if crafted_options:
+            best_options = crafted_options
+
+    best_option = min(best_options, key=lambda option: option["unit_cost"])
     cost_cache[normalized] = best_option
     return best_option
 
@@ -457,109 +464,6 @@ def recommended_quantity(
         qty = min(qty, 2)
 
     return qty
-
-def compute_other_tradeable_mat_cost(other_mats, snapshot):
-    total = 0
-    for reagent in other_mats:
-        unit = reagent_unit_price(reagent["item"], snapshot)
-        if unit is None:
-            return None
-        total += unit * int(reagent["qty"])
-    return total
-
-def derive_imperial_silk_price(
-    snapshot: Dict[str, Dict[str, Any]],
-    allowed_outputs: Optional[Set[str]] = None,
-):
-    candidates = []
-    excluded = []
-
-    for item_name, info in IMPERIAL_SILK_OUTPUTS.items():
-        normalized = normalize_name(item_name)
-        if allowed_outputs is not None and normalized not in allowed_outputs:
-            excluded.append({
-                "item": normalized,
-                "reason": "not_in_class_spec_items",
-            })
-            continue
-        if normalized not in snapshot:
-            excluded.append({
-                "item": normalized,
-                "reason": "missing_output_price",
-            })
-            continue
-
-        available = snapshot[normalized]["available"]
-        if available < MIN_SILK_SOURCE_AVAILABLE:
-            excluded.append({
-                "item": normalized,
-                "reason": "insufficient_available",
-                "available": available,
-            })
-            continue
-
-        sell_price = snapshot[normalized]["price"]
-        net_sell = math.floor(sell_price * (1 - AH_CUT))
-
-        other_cost = compute_other_tradeable_mat_cost(info.get("other_mats", []), snapshot)
-        if other_cost is None:
-            excluded.append({
-                "item": normalized,
-                "reason": "missing_other_mat_price",
-            })
-            continue
-
-        silk_qty = info["silk_qty"]
-        if silk_qty <= 0:
-            excluded.append({
-                "item": normalized,
-                "reason": "invalid_silk_qty",
-                "silk_qty": silk_qty,
-            })
-            continue
-
-        per_silk = (net_sell - other_cost) / silk_qty
-        if per_silk <= 0:
-            excluded.append({
-                "item": normalized,
-                "reason": "non_positive_per_silk",
-                "per_silk": int(per_silk),
-            })
-            continue
-
-        candidates.append({
-            "item": normalized,
-            "sell_price": sell_price,
-            "sell_price_readable": copper_to_gold(sell_price),
-            "net_sell_after_cut": net_sell,
-            "net_sell_after_cut_readable": copper_to_gold(net_sell),
-            "other_cost": other_cost,
-            "other_cost_readable": copper_to_gold(other_cost),
-            "silk_qty": silk_qty,
-            "per_silk": int(per_silk),
-            "per_silk_readable": copper_to_gold(int(per_silk)),
-            "available": available,
-        })
-
-    if not candidates:
-        return FALLBACK_PRICES["Imperial Silk"], [], excluded
-
-    values = [c["per_silk"] for c in candidates]
-
-    if IMPERIAL_SILK_PRICING_MODE == "max":
-        silk_price = max(values)
-    elif IMPERIAL_SILK_PRICING_MODE == "weighted":
-        weighted_sum = 0.0
-        weight_total = 0.0
-        for c in candidates:
-            weight = 1 / max(1, math.log2(c["available"] + 2))
-            weighted_sum += c["per_silk"] * weight
-            weight_total += weight
-        silk_price = int(weighted_sum / weight_total)
-    else:
-        silk_price = int(statistics.median(values))
-
-    return silk_price, candidates, excluded
 
 def build_plan(
     snapshot: Dict[str, Dict[str, Any]],
@@ -719,21 +623,18 @@ def write_outputs(results: List[Dict[str, Any]], output_json: str, output_csv: s
 
 def write_pricing_debug(
     output_path: str,
-    silk_price: int,
-    silk_candidates: List[Dict[str, Any]],
-    silk_excluded: List[Dict[str, Any]],
+    imperial_silk_cost: Optional[Dict[str, Any]],
 ) -> None:
-    payload = {
-        "imperial_silk": {
-            "derived_price": silk_price,
-            "derived_price_readable": copper_to_gold(silk_price),
-            "pricing_mode": IMPERIAL_SILK_PRICING_MODE,
-            "minimum_source_available": MIN_SILK_SOURCE_AVAILABLE,
-            "candidate_count": len(silk_candidates),
-            "candidates": silk_candidates,
-            "excluded_outputs": silk_excluded,
+    payload = {"imperial_silk": None}
+    if imperial_silk_cost is not None:
+        payload["imperial_silk"] = {
+            "unit_cost": imperial_silk_cost["unit_cost"],
+            "unit_cost_readable": copper_to_gold(imperial_silk_cost["unit_cost"]),
+            "source_type": imperial_silk_cost["source_type"],
+            "source_summary": imperial_silk_cost["source_summary"],
+            "source_detail": imperial_silk_cost["source_detail"],
+            "chain": imperial_silk_cost["chain"],
         }
-    }
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(payload, f, indent=2, ensure_ascii=False)
 
@@ -754,6 +655,8 @@ def print_top(results: List[Dict[str, Any]], limit: int = 20) -> None:
             f" | avail={row['available']}"
             f" | craft={row['recommended_quantity']}"
         )
+        if row.get("material_source_summary"):
+            print(f"    chain={row['material_source_summary']}")
         if shown >= limit:
             break
 
@@ -764,32 +667,24 @@ def print_top(results: List[Dict[str, Any]], limit: int = 20) -> None:
         print(
             f"{row['rank']:>2}. {row['item']} | status={row['status']} | reason={row['reason']}"
         )
+        if row.get("material_source_summary"):
+            print(f"    chain={row['material_source_summary']}")
 
 def main() -> None:
     snapshot = load_snapshot(SNAPSHOT_CSV)
     class_spec_data = load_json(CLASS_SPEC_JSON)
     crafting_data = load_json(CRAFTING_JSON)
     planner_entries = build_planner_entries(class_spec_data)
-    planner_item_names = {entry["item"] for entry in planner_entries}
-    silk_price = FALLBACK_PRICES["Imperial Silk"]
-    silk_candidates: List[Dict[str, Any]] = []
-    silk_excluded: List[Dict[str, Any]] = []
-
-    if USE_DYNAMIC_IMPERIAL_SILK_PRICE:
-        silk_price, silk_candidates, silk_excluded = derive_imperial_silk_price(snapshot, planner_item_names)
-        FALLBACK_PRICES["Imperial Silk"] = silk_price
-
-        print("\n=== IMPERIAL SILK SHADOW PRICE ===")
-        print(f"Derived Imperial Silk price: {copper_to_gold(silk_price)}")
-        for c in silk_candidates:
-            print(
-                f"- {c['item']}: {copper_to_gold(c['per_silk'])} per silk"
-                f" | avail={c['available']}"
-            )
-
     results = build_plan(snapshot, planner_entries, crafting_data)
     write_outputs(results, OUTPUT_JSON, OUTPUT_CSV)
-    write_pricing_debug(PRICING_DEBUG_JSON, silk_price, silk_candidates, silk_excluded)
+    imperial_silk_cost = resolve_unit_cost("Imperial Silk", snapshot, crafting_data, {}, set())
+    write_pricing_debug(PRICING_DEBUG_JSON, imperial_silk_cost)
+    if imperial_silk_cost is not None:
+        print("\n=== IMPERIAL SILK COST ===")
+        print(
+            f"Imperial Silk: {copper_to_gold(imperial_silk_cost['unit_cost'])}"
+            f" via {imperial_silk_cost['chain']}"
+        )
     print_top(results, limit=20)
     print(f"\nSaved: {OUTPUT_JSON}")
     print(f"Saved: {OUTPUT_CSV}")
