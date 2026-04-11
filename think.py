@@ -638,7 +638,7 @@ def write_pricing_debug(
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(payload, f, indent=2, ensure_ascii=False)
 
-def print_top(results: List[Dict[str, Any]], limit: int = 20) -> None:
+def print_top(results: List[Dict[str, Any]], limit: Optional[int] = None) -> None:
     print("\n=== TOP CRAFTS ===")
     shown = 0
     for row in results:
@@ -657,7 +657,7 @@ def print_top(results: List[Dict[str, Any]], limit: int = 20) -> None:
         )
         if row.get("material_source_summary"):
             print(f"    chain={row['material_source_summary']}")
-        if shown >= limit:
+        if limit is not None and shown >= limit:
             break
 
     print("\n=== SKIP / INCOMPLETE ===")
@@ -685,7 +685,7 @@ def main() -> None:
             f"Imperial Silk: {copper_to_gold(imperial_silk_cost['unit_cost'])}"
             f" via {imperial_silk_cost['chain']}"
         )
-    print_top(results, limit=20)
+    print_top(results)
     print(f"\nSaved: {OUTPUT_JSON}")
     print(f"Saved: {OUTPUT_CSV}")
     print(f"Saved: {PRICING_DEBUG_JSON}")
