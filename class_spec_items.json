@@ -7,7 +7,8 @@
     "notes": [
       "This file is organized by who might want each item rather than by craft rank.",
       "Likely items are the main watchlist for that spec from the current target pool.",
-      "Situational items are optional alternatives, mainly for tank specs that may swap toward damage throughput."
+      "Situational items are optional alternatives, mainly for tank specs that may swap toward damage throughput.",
+      "Alchemy transmutations are included as market-driven targets even when they are not tied to a specific class or specialization."
     ]
   },
   "item_index": {
@@ -250,6 +251,60 @@
       "category": "shoulder_inscription",
       "tier": "B",
       "reason": "Tank shoulder enchant, niche demand"
+    },
+    "Living Steel": {
+      "rank": 41,
+      "category": "alchemy_transmutation",
+      "tier": "S",
+      "reason": "Top-value MoP transmute with broad crafted-material demand"
+    },
+    "Trillium Bar": {
+      "rank": 42,
+      "category": "alchemy_transmutation",
+      "tier": "A",
+      "reason": "Flexible bar transmute that feeds Living Steel and other MoP crafts"
+    },
+    "Primal Diamond": {
+      "rank": 43,
+      "category": "alchemy_transmutation",
+      "tier": "A",
+      "reason": "Meta gem transmute with strong Phase 4 cut demand"
+    },
+    "Primordial Ruby": {
+      "rank": 44,
+      "category": "alchemy_transmutation",
+      "tier": "B",
+      "reason": "High-demand red gem transmute with broad cut coverage"
+    },
+    "Vermilion Onyx": {
+      "rank": 45,
+      "category": "alchemy_transmutation",
+      "tier": "B",
+      "reason": "Strong orange gem transmute with several popular cuts"
+    },
+    "Imperial Amethyst": {
+      "rank": 46,
+      "category": "alchemy_transmutation",
+      "tier": "C",
+      "reason": "Lower-demand purple gem transmute that also feeds Primal Diamond"
+    },
+    "River's Heart": {
+      "rank": 47,
+      "category": "alchemy_transmutation",
+      "tier": "C",
+      "reason": "Lower-demand blue gem transmute with narrower cut demand"
+    },
+    "Sun's Radiance": {
+      "rank": 48,
+      "category": "alchemy_transmutation",
+      "tier": "C",
+      "reason": "Lower-demand yellow gem transmute with narrower cut demand"
+    },
+    "Wild Jade": {
+      "rank": 49,
+      "category": "alchemy_transmutation",
+      "tier": "C",
+      "reason": "Lower-demand green gem transmute that also feeds Primal Diamond"
     }
   },
   "shared_item_groups": {
@@ -283,6 +338,20 @@
         "Potion of the Mountains",
         "Flask of the Earth",
         "Greater Ox Horn Inscription"
+      ]
+    },
+    "alchemy_transmutations": {
+      "note": "Pandaria alchemy transmute outputs worth tracking without Mining or Jewelcrafting support crafts.",
+      "items": [
+        "Living Steel",
+        "Trillium Bar",
+        "Primal Diamond",
+        "Primordial Ruby",
+        "Vermilion Onyx",
+        "Imperial Amethyst",
+        "River's Heart",
+        "Sun's Radiance",
+        "Wild Jade"
       ]
     },
     "cloth_spellthreads": {

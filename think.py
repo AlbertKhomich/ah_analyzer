@@ -47,6 +47,7 @@ BASE_STOCK = {
     "potion": {"S": 40, "A": 25, "B": 12, "C": 0},
     "flask": {"S": 20, "A": 12, "B": 8, "C": 0},
     "shoulder_inscription": {"S": 5, "A": 4, "B": 2, "C": 0},
+    "alchemy_transmutation": {"S": 2, "A": 1, "B": 1, "C": 0},
     "tailoring_spellthread": {"S": 5, "A": 3, "B": 1, "C": 0},
     "tailoring_bag": {"S": 2, "A": 1, "B": 1, "C": 0},
     "tailoring_epic": {"S": 1, "A": 1, "B": 1, "C": 0},
@@ -200,6 +201,7 @@ def resolve_reagent_list(
     reagents: List[Dict[str, Any]],
     snapshot: Dict[str, Dict[str, Any]],
     crafting_data: Dict[str, Any],
+    recipe_lookup: Dict[str, Dict[str, Any]],
     cost_cache: Dict[str, Dict[str, Any]],
     stack: Set[str],
 ) -> Optional[Dict[str, Any]]:
@@ -210,7 +212,14 @@ def resolve_reagent_list(
     for reagent in reagents:
         reagent_name = normalize_name(reagent["item"])
         qty = float(reagent["qty"])
-        resolved = resolve_unit_cost(reagent_name, snapshot, crafting_data, cost_cache, stack)
+        resolved = resolve_unit_cost(
+            reagent_name,
+            snapshot,
+            crafting_data,
+            recipe_lookup,
+            cost_cache,
+            stack,
+        )
         if resolved is None:
             return None
 
@@ -238,6 +247,7 @@ def resolve_milling_cost(
     item_name: str,
     snapshot: Dict[str, Dict[str, Any]],
     crafting_data: Dict[str, Any],
+    recipe_lookup: Dict[str, Dict[str, Any]],
     cost_cache: Dict[str, Dict[str, Any]],
     stack: Set[str],
 ) -> Optional[Dict[str, Any]]:
@@ -264,7 +274,14 @@ def resolve_milling_cost(
     best_option = None
     for herb in pigment_data.get("milled_from", []):
         herb_name = normalize_name(herb)
-        herb_cost = resolve_unit_cost(herb_name, snapshot, crafting_data, cost_cache, stack)
+        herb_cost = resolve_unit_cost(
+            herb_name,
+            snapshot,
+            crafting_data,
+            recipe_lookup,
+            cost_cache,
+            stack,
+        )
         if herb_cost is None:
             continue
 
@@ -289,6 +306,7 @@ def resolve_unit_cost(
     item_name: str,
     snapshot: Dict[str, Dict[str, Any]],
     crafting_data: Dict[str, Any],
+    recipe_lookup: Dict[str, Dict[str, Any]],
     cost_cache: Dict[str, Dict[str, Any]],
     stack: Set[str],
 ) -> Optional[Dict[str, Any]]:
@@ -314,9 +332,36 @@ def resolve_unit_cost(
             "chain": "AH",
         })
 
+    recipe_entry = recipe_lookup.get(normalized)
+    if recipe_entry is not None and recipe_entry.get("reagents"):
+        crafted = resolve_reagent_list(
+            recipe_entry["reagents"],
+            snapshot,
+            crafting_data,
+            recipe_lookup,
+            cost_cache,
+            stack,
+        )
+        if crafted is not None:
+            options.append({
+                "item": normalized,
+                "unit_cost": crafted["total_cost"],
+                "source_type": "crafted",
+                "source_summary": "craft",
+                "source_detail": f"Crafted via recipe entry from {crafted['chain']}.",
+                "chain": f"craft({crafted['chain']})",
+            })
+
     ink_entry = get_named_entry(inscription.get("inks", {}), normalized)
     if ink_entry is not None and ink_entry[1].get("crafted_from"):
-        crafted = resolve_reagent_list(ink_entry[1]["crafted_from"], snapshot, crafting_data, cost_cache, stack)
+        crafted = resolve_reagent_list(
+            ink_entry[1]["crafted_from"],
+            snapshot,
+            crafting_data,
+            recipe_lookup,
+            cost_cache,
+            stack,
+        )
         if crafted is not None:
             options.append({
                 "item": normalized,
@@ -329,7 +374,14 @@ def resolve_unit_cost(
 
     tailoring_entry = get_named_entry(tailoring, normalized)
     if tailoring_entry is not None and tailoring_entry[1].get("crafted_from"):
-        crafted = resolve_reagent_list(tailoring_entry[1]["crafted_from"], snapshot, crafting_data, cost_cache, stack)
+        crafted = resolve_reagent_list(
+            tailoring_entry[1]["crafted_from"],
+            snapshot,
+            crafting_data,
+            recipe_lookup,
+            cost_cache,
+            stack,
+        )
         if crafted is not None:
             options.append({
                 "item": normalized,
@@ -342,7 +394,14 @@ def resolve_unit_cost(
 
     trade_entry = get_named_entry(inscription.get("vendor_trades", {}), normalized)
     if trade_entry is not None and trade_entry[1].get("cost"):
-        traded = resolve_reagent_list(trade_entry[1]["cost"], snapshot, crafting_data, cost_cache, stack)
+        traded = resolve_reagent_list(
+            trade_entry[1]["cost"],
+            snapshot,
+            crafting_data,
+            recipe_lookup,
+            cost_cache,
+            stack,
+        )
         if traded is not None:
             note = trade_entry[1].get("note", "Vendor trade path.")
             options.append({
@@ -354,7 +413,14 @@ def resolve_unit_cost(
                 "chain": f"trade({traded['chain']})",
             })
 
-    milling_option = resolve_milling_cost(normalized, snapshot, crafting_data, cost_cache, stack)
+    milling_option = resolve_milling_cost(
+        normalized,
+        snapshot,
+        crafting_data,
+        recipe_lookup,
+        cost_cache,
+        stack,
+    )
     if milling_option is not None:
         options.append(milling_option)
 
@@ -399,12 +465,20 @@ def compute_material_cost_details(
     reagents: Optional[List[Dict[str, Any]]],
     snapshot: Dict[str, Dict[str, Any]],
     crafting_data: Dict[str, Any],
+    recipe_lookup: Dict[str, Dict[str, Any]],
     cost_cache: Dict[str, Dict[str, Any]],
 ) -> Tuple[Optional[int], List[Dict[str, Any]], str]:
     if not reagents:
         return None, [], ""
 
-    resolved = resolve_reagent_list(reagents, snapshot, crafting_data, cost_cache, set())
+    resolved = resolve_reagent_list(
+        reagents,
+        snapshot,
+        crafting_data,
+        recipe_lookup,
+        cost_cache,
+        set(),
+    )
     if resolved is None:
         return None, [], ""
     return resolved["total_cost"], resolved["components"], resolved["chain"]
@@ -533,7 +607,11 @@ def build_plan(
         sell_price = snapshot[item_name]["price"]
         available = snapshot[item_name]["available"]
         mat_cost, material_sources, material_source_summary = compute_material_cost_details(
-            recipe_entry.get("reagents"), snapshot, crafting_data, cost_cache
+            recipe_entry.get("reagents"),
+            snapshot,
+            crafting_data,
+            recipe_lookup,
+            cost_cache,
         )
         net_sell = math.floor(sell_price * (1 - AH_CUT))
 
@@ -677,7 +755,14 @@ def main() -> None:
     planner_entries = build_planner_entries(class_spec_data)
     results = build_plan(snapshot, planner_entries, crafting_data)
     write_outputs(results, OUTPUT_JSON, OUTPUT_CSV)
-    imperial_silk_cost = resolve_unit_cost("Imperial Silk", snapshot, crafting_data, {}, set())
+    imperial_silk_cost = resolve_unit_cost(
+        "Imperial Silk",
+        snapshot,
+        crafting_data,
+        build_recipe_lookup(crafting_data),
+        {},
+        set(),
+    )
     write_pricing_debug(PRICING_DEBUG_JSON, imperial_silk_cost)
     if imperial_silk_cost is not None:
         print("\n=== IMPERIAL SILK COST ===")

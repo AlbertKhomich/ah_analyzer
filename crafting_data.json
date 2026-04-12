@@ -9,6 +9,7 @@
       "glyph": "usually 1 copy each to start",
       "flask": "medium to high volume if margins hold",
       "potion": "medium to high volume if margins hold",
+      "alchemy_transmutation": "keep this conservative and favor Living Steel, Trillium Bar, and the strongest gem markets",
       "shoulder_inscription": "low to medium volume",
       "tailoring_spellthread": "medium volume",
       "tailoring_bag": "low volume",
@@ -249,7 +250,7 @@
       "reason": "High-priority PvE glyph for Windwalker demand",
       "reagents": [
         {
-          "item": "Ink of Dreams",
+          "item": "Ink of the Sea",
           "qty": 3
         },
         {
@@ -727,6 +728,155 @@
     },
     {
       "rank": 42,
+      "item": "Living Steel",
+      "category": "alchemy_transmutation",
+      "tier": "S",
+      "reason": "Top-value MoP transmute with broad crafted-material demand",
+      "reagents": [
+        {
+          "item": "Trillium Bar",
+          "qty": 6
+        }
+      ]
+    },
+    {
+      "rank": 43,
+      "item": "Trillium Bar",
+      "category": "alchemy_transmutation",
+      "tier": "A",
+      "reason": "Flexible bar transmute that feeds Living Steel and other MoP crafts",
+      "reagents": [
+        {
+          "item": "Ghost Iron Bar",
+          "qty": 10
+        }
+      ]
+    },
+    {
+      "rank": 44,
+      "item": "Primal Diamond",
+      "category": "alchemy_transmutation",
+      "tier": "A",
+      "reason": "Meta gem transmute with strong Phase 4 cut demand",
+      "reagents": [
+        {
+          "item": "Wild Jade",
+          "qty": 2
+        },
+        {
+          "item": "Vermilion Onyx",
+          "qty": 2
+        },
+        {
+          "item": "Imperial Amethyst",
+          "qty": 2
+        }
+      ]
+    },
+    {
+      "rank": 45,
+      "item": "Primordial Ruby",
+      "category": "alchemy_transmutation",
+      "tier": "B",
+      "reason": "High-demand red gem transmute with broad cut coverage",
+      "reagents": [
+        {
+          "item": "Pandarian Garnet",
+          "qty": 1
+        },
+        {
+          "item": "Golden Lotus",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 46,
+      "item": "Vermilion Onyx",
+      "category": "alchemy_transmutation",
+      "tier": "B",
+      "reason": "Strong orange gem transmute with several popular cuts",
+      "reagents": [
+        {
+          "item": "Tiger Opal",
+          "qty": 1
+        },
+        {
+          "item": "Golden Lotus",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 47,
+      "item": "Imperial Amethyst",
+      "category": "alchemy_transmutation",
+      "tier": "C",
+      "reason": "Lower-demand purple gem transmute that also feeds Primal Diamond",
+      "reagents": [
+        {
+          "item": "Roguestone",
+          "qty": 1
+        },
+        {
+          "item": "Golden Lotus",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 48,
+      "item": "River's Heart",
+      "category": "alchemy_transmutation",
+      "tier": "C",
+      "reason": "Lower-demand blue gem transmute with narrower cut demand",
+      "reagents": [
+        {
+          "item": "Lapis Lazuli",
+          "qty": 1
+        },
+        {
+          "item": "Golden Lotus",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 49,
+      "item": "Sun's Radiance",
+      "category": "alchemy_transmutation",
+      "tier": "C",
+      "reason": "Lower-demand yellow gem transmute with narrower cut demand",
+      "reagents": [
+        {
+          "item": "Sunstone",
+          "qty": 1
+        },
+        {
+          "item": "Golden Lotus",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 50,
+      "item": "Wild Jade",
+      "category": "alchemy_transmutation",
+      "tier": "C",
+      "reason": "Lower-demand green gem transmute that also feeds Primal Diamond",
+      "reagents": [
+        {
+          "item": "Alexandrite",
+          "qty": 1
+        },
+        {
+          "item": "Golden Lotus",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 51,
       "item": "Gloves of Creation",
       "category": "tailoring_epic",
       "tier": "C",
@@ -739,7 +889,7 @@
       ]
     },
     {
-      "rank": 43,
+      "rank": 52,
       "item": "Spelltwister's Gloves",
       "category": "tailoring_epic",
       "tier": "C",
@@ -752,7 +902,7 @@
       ]
     },
     {
-      "rank": 44,
+      "rank": 53,
       "item": "Robes of Creation",
       "category": "tailoring_epic",
       "tier": "C",
@@ -765,7 +915,7 @@
       ]
     },
     {
-      "rank": 45,
+      "rank": 54,
       "item": "Spelltwister's Grand Robe",
       "category": "tailoring_epic",
       "tier": "C",
@@ -778,7 +928,7 @@
       ]
     },
     {
-      "rank": 46,
+      "rank": 55,
       "item": "Imperial Silk Gloves",
       "category": "tailoring_epic",
       "tier": "C",
@@ -795,7 +945,7 @@
       ]
     },
     {
-      "rank": 47,
+      "rank": 56,
       "item": "Touch of the Light",
       "category": "tailoring_epic",
       "tier": "C",
@@ -812,7 +962,7 @@
       ]
     },
     {
-      "rank": 48,
+      "rank": 57,
       "item": "Legacy of the Emperor",
       "category": "tailoring_epic",
       "tier": "C",
@@ -829,7 +979,7 @@
       ]
     },
     {
-      "rank": 49,
+      "rank": 58,
       "item": "Robe of Eternal Rule",
       "category": "tailoring_epic",
       "tier": "C",
@@ -846,7 +996,7 @@
       ]
     },
     {
-      "rank": 50,
+      "rank": 59,
       "item": "Contender's Satin Raiment",
       "category": "tailoring_pvp",
       "tier": "C",
@@ -859,7 +1009,7 @@
       ]
     },
     {
-      "rank": 51,
+      "rank": 60,
       "item": "Contender's Silk Raiment",
       "category": "tailoring_pvp",
       "tier": "C",
@@ -1084,6 +1234,7 @@
           "used_in": [
             "Glyph of Unstable Affliction",
             "Glyph of Animal Bond",
+            "Glyph of Spinning Crane Kick",
             "Glyph of Touch of Karma",
             "Glyph of Siphon Life",
             "Glyph of Rapid Displacement",
@@ -1101,9 +1252,7 @@
               "qty": 2
             }
           ],
-          "used_in": [
-            "Glyph of Spinning Crane Kick"
-          ]
+          "used_in": []
         },
         "Starlight Ink": {
           "profession": "Inscription",
