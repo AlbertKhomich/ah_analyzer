@@ -197,6 +197,47 @@ def reagent_unit_price(name: str, snapshot: Dict[str, Dict[str, Any]]) -> Option
         return FALLBACK_PRICES[normalized]
     return None
 
+def resolve_milling_rebate_value(
+    pigment_name: str,
+    herb_name: str,
+    snapshot: Dict[str, Dict[str, Any]],
+    crafting_data: Dict[str, Any],
+) -> Tuple[float, str]:
+    milling = get_supporting_recipes(crafting_data).get("milling", {})
+    rebates = milling.get("rules", {}).get("expected_value_rebates", {})
+    rebate_entry = get_named_entry(rebates, pigment_name)
+    if rebate_entry is None:
+        return 0.0, ""
+
+    rebate_data = rebate_entry[1]
+    rebate_item = normalize_name(rebate_data.get("item", ""))
+    if not rebate_item:
+        return 0.0, ""
+
+    rebate_price = reagent_unit_price(rebate_item, snapshot)
+    if rebate_price is None or rebate_price <= 0:
+        return 0.0, ""
+
+    rebate_yield = rebate_data.get("expected_yield_per_mill")
+    herb_overrides = rebate_data.get("expected_yield_per_mill_by_herb", {})
+    herb_override = get_named_entry(herb_overrides, herb_name)
+    if herb_override is not None:
+        rebate_yield = herb_override[1]
+
+    if rebate_yield is None:
+        return 0.0, ""
+
+    rebate_yield = float(rebate_yield)
+    if rebate_yield <= 0:
+        return 0.0, ""
+
+    rebate_value = rebate_yield * rebate_price
+    rebate_detail = (
+        f" Includes {format_qty(rebate_yield)} expected {rebate_item} per mill "
+        f"for a {copper_to_gold(int(round(rebate_value)))} herb-cost rebate."
+    )
+    return rebate_value, rebate_detail
+
 def resolve_reagent_list(
     reagents: List[Dict[str, Any]],
     snapshot: Dict[str, Dict[str, Any]],
@@ -285,7 +326,15 @@ def resolve_milling_cost(
         if herb_cost is None:
             continue
 
-        unit_cost = int(round((herb_cost["unit_cost"] * herbs_per_mill) / float(expected_yield)))
+        herb_input_cost = herb_cost["unit_cost"] * herbs_per_mill
+        rebate_value, rebate_detail = resolve_milling_rebate_value(
+            pigment_name,
+            herb_name,
+            snapshot,
+            crafting_data,
+        )
+        effective_input_cost = max(herb_input_cost - rebate_value, 0.0)
+        unit_cost = int(round(effective_input_cost / float(expected_yield)))
         option = {
             "item": pigment_name,
             "unit_cost": unit_cost,
@@ -294,6 +343,7 @@ def resolve_milling_cost(
             "source_detail": (
                 f"Milling via {format_qty(herbs_per_mill)}x {herb_name} per cast "
                 f"with {expected_yield} expected {quality} pigment per mill."
+                f"{rebate_detail}"
             ),
             "chain": f"mill:{herb_name}",
         }

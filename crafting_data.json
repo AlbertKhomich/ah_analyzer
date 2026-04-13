@@ -1029,7 +1029,17 @@
         "expected_common_pigment_per_mill": 3.0,
         "expected_common_pigment_per_mill_note": "Inference used for planning: common pigments are described as yielding 2-4 per mill, so the planner uses the midpoint when valuing herb -> pigment -> ink paths.",
         "common_pigment_yield_note": "Milling typically yields common pigments, with uncommon pigments appearing as bonus outcomes when applicable.",
-        "pandaria_note": "Any common Pandaria herb can produce Shadow Pigment, while Misty Pigment is the uncommon Pandaria result used for Starlight Ink."
+        "pandaria_note": "Any common Pandaria herb can produce Shadow Pigment, while Misty Pigment is the uncommon Pandaria result used for Starlight Ink.",
+        "expected_value_rebates": {
+          "Shadow Pigment": {
+            "item": "Misty Pigment",
+            "expected_yield_per_mill": 0.25,
+            "expected_yield_per_mill_by_herb": {
+              "Fool's Cap": 0.5
+            },
+            "note": "Treat Misty Pigment as an expected-value rebate when milling Pandaria herbs for Shadow Pigment: about 1 per 20 herbs for regular herbs and about 2 per 20 herbs for Fool's Cap."
+          }
+        }
       },
       "pigments": {
         "Dusky Pigment": {
