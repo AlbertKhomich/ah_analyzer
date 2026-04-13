@@ -1023,6 +1023,15 @@
     }
   ],
   "supporting_recipes": {
+    "alchemy_specializations": {
+      "expected_output_multipliers_by_category": {
+        "potion": {
+          "multiplier": 1.2,
+          "source": "Potion Master",
+          "note": "Model Potion Master as 20% expected extra output per potion craft for valuation. Adjust this multiplier if your own craft logs suggest a different long-run average."
+        }
+      }
+    },
     "milling": {
       "rules": {
         "herbs_per_mill": 5,

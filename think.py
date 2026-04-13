@@ -238,6 +238,110 @@ def resolve_milling_rebate_value(
     )
     return rebate_value, rebate_detail
 
+def resolve_recipe_output_profile(
+    recipe_entry: Dict[str, Any],
+    crafting_data: Dict[str, Any],
+) -> Dict[str, Any]:
+    base_output_raw = recipe_entry.get("output_qty", 1)
+    try:
+        base_output = float(base_output_raw)
+    except (TypeError, ValueError):
+        base_output = 1.0
+
+    if base_output <= 0:
+        return {
+            "base_output": 0.0,
+            "expected_output": 0.0,
+            "source": "",
+        }
+
+    expected_output = base_output
+    source = ""
+
+    alchemy_specializations = get_supporting_recipes(crafting_data).get("alchemy_specializations", {})
+    category_rules = alchemy_specializations.get("expected_output_multipliers_by_category", {})
+    category = recipe_entry.get("category", "")
+    category_rule = category_rules.get(category)
+
+    multiplier = 1.0
+    if isinstance(category_rule, dict):
+        try:
+            multiplier = float(category_rule.get("multiplier", 1.0))
+        except (TypeError, ValueError):
+            multiplier = 1.0
+        source = str(category_rule.get("source", "")).strip()
+    elif isinstance(category_rule, (int, float)):
+        multiplier = float(category_rule)
+
+    if multiplier > 0:
+        expected_output *= multiplier
+
+    return {
+        "base_output": base_output,
+        "expected_output": expected_output,
+        "source": source,
+    }
+
+def resolve_recipe_craft_cost(
+    recipe_entry: Dict[str, Any],
+    snapshot: Dict[str, Dict[str, Any]],
+    crafting_data: Dict[str, Any],
+    recipe_lookup: Dict[str, Dict[str, Any]],
+    cost_cache: Dict[str, Dict[str, Any]],
+    stack: Set[str],
+) -> Optional[Dict[str, Any]]:
+    if not recipe_entry.get("reagents"):
+        return None
+
+    crafted = resolve_reagent_list(
+        recipe_entry["reagents"],
+        snapshot,
+        crafting_data,
+        recipe_lookup,
+        cost_cache,
+        stack,
+    )
+    if crafted is None:
+        return None
+
+    output_profile = resolve_recipe_output_profile(recipe_entry, crafting_data)
+    expected_output = output_profile["expected_output"]
+    if expected_output <= 0:
+        return None
+
+    unit_cost = int(round(crafted["total_cost"] / expected_output))
+    source_detail = f"Crafted via recipe entry from {crafted['chain']}."
+    cost_detail = ""
+
+    base_output = output_profile["base_output"]
+    item_name = normalize_name(recipe_entry.get("item", "crafted item"))
+    if abs(expected_output - base_output) > 1e-9:
+        source = output_profile["source"] or "specialization"
+        source_detail += (
+            f" Expected output valued at {format_qty(expected_output)} per craft via {source}."
+        )
+        cost_detail = (
+            f"Recipe input cost {copper_to_gold(crafted['total_cost'])} per craft. "
+            f"Expected output valued at {format_qty(expected_output)} {item_name} per craft "
+            f"via {source}, for an effective unit cost of {copper_to_gold(unit_cost)}."
+        )
+    elif abs(base_output - 1.0) > 1e-9:
+        source_detail += f" Base recipe output {format_qty(base_output)} per craft."
+        cost_detail = (
+            f"Recipe input cost {copper_to_gold(crafted['total_cost'])} per craft. "
+            f"Base recipe output valued at {format_qty(base_output)} {item_name} per craft, "
+            f"for an effective unit cost of {copper_to_gold(unit_cost)}."
+        )
+
+    return {
+        "unit_cost": unit_cost,
+        "components": crafted["components"],
+        "component_chain": crafted["chain"],
+        "chain": f"craft({crafted['chain']})",
+        "source_detail": source_detail,
+        "cost_detail": cost_detail,
+    }
+
 def resolve_reagent_list(
     reagents: List[Dict[str, Any]],
     snapshot: Dict[str, Dict[str, Any]],
@@ -384,8 +488,8 @@ def resolve_unit_cost(
 
     recipe_entry = recipe_lookup.get(normalized)
     if recipe_entry is not None and recipe_entry.get("reagents"):
-        crafted = resolve_reagent_list(
-            recipe_entry["reagents"],
+        crafted = resolve_recipe_craft_cost(
+            recipe_entry,
             snapshot,
             crafting_data,
             recipe_lookup,
@@ -395,11 +499,11 @@ def resolve_unit_cost(
         if crafted is not None:
             options.append({
                 "item": normalized,
-                "unit_cost": crafted["total_cost"],
+                "unit_cost": crafted["unit_cost"],
                 "source_type": "crafted",
                 "source_summary": "craft",
-                "source_detail": f"Crafted via recipe entry from {crafted['chain']}.",
-                "chain": f"craft({crafted['chain']})",
+                "source_detail": crafted["source_detail"],
+                "chain": crafted["chain"],
             })
 
     ink_entry = get_named_entry(inscription.get("inks", {}), normalized)
@@ -627,6 +731,7 @@ def build_plan(
                 "recommended_quantity": 0,
                 "material_sources": [],
                 "material_source_summary": "",
+                "material_cost_detail": "",
                 "reason": "Recipe entry not found in crafting data",
             })
             continue
@@ -650,22 +755,24 @@ def build_plan(
                 "recommended_quantity": 0,
                 "material_sources": [],
                 "material_source_summary": "",
+                "material_cost_detail": "",
                 "reason": "Output item not found in AH snapshot"
             })
             continue
 
         sell_price = snapshot[item_name]["price"]
         available = snapshot[item_name]["available"]
-        mat_cost, material_sources, material_source_summary = compute_material_cost_details(
-            recipe_entry.get("reagents"),
+        crafted_cost = resolve_recipe_craft_cost(
+            recipe_entry,
             snapshot,
             crafting_data,
             recipe_lookup,
             cost_cache,
+            set(),
         )
         net_sell = math.floor(sell_price * (1 - AH_CUT))
 
-        if mat_cost is None:
+        if crafted_cost is None:
             results.append({
                 "rank": rank,
                 "item": item_name,
@@ -684,9 +791,15 @@ def build_plan(
                 "recommended_quantity": 0,
                 "material_sources": [],
                 "material_source_summary": "",
+                "material_cost_detail": "",
                 "reason": "At least one reagent price missing"
             })
             continue
+
+        mat_cost = crafted_cost["unit_cost"]
+        material_sources = crafted_cost["components"]
+        material_source_summary = crafted_cost["component_chain"]
+        material_cost_detail = crafted_cost["cost_detail"]
 
         profit = net_sell - mat_cost
         roi = profit / mat_cost if mat_cost > 0 else None
@@ -710,6 +823,7 @@ def build_plan(
             "recommended_quantity": qty,
             "material_sources": material_sources,
             "material_source_summary": material_source_summary,
+            "material_cost_detail": material_cost_detail,
             "reason": entry.get("reason", "")
         })
 
@@ -743,7 +857,7 @@ def write_outputs(results: List[Dict[str, Any]], output_json: str, output_csv: s
             "class_spec_score", "likely_spec_count", "situational_spec_count",
             "material_cost", "sell_price", "net_sell_after_cut",
             "profit", "roi", "available", "recommended_quantity",
-            "material_source_summary", "reason"
+            "material_source_summary", "material_cost_detail", "reason"
         ]
         writer = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore")
         writer.writeheader()
@@ -785,6 +899,8 @@ def print_top(results: List[Dict[str, Any]], limit: Optional[int] = None) -> Non
         )
         if row.get("material_source_summary"):
             print(f"    chain={row['material_source_summary']}")
+        if row.get("material_cost_detail"):
+            print(f"    cost={row['material_cost_detail']}")
         if limit is not None and shown >= limit:
             break
 
