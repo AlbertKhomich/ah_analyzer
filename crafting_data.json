@@ -10,6 +10,8 @@
       "flask": "medium to high volume if margins hold",
       "potion": "medium to high volume if margins hold",
       "alchemy_transmutation": "keep this conservative and favor Living Steel, Trillium Bar, and the strongest gem markets",
+      "alchemy_mount": "very low volume, only when margin comfortably covers the heavy vendor reagent spend",
+      "inscription_card": "very opportunistic, only if flip value still meaningfully beats materials and repost friction",
       "shoulder_inscription": "low to medium volume",
       "tailoring_spellthread": "medium volume",
       "tailoring_bag": "low volume",
@@ -186,7 +188,7 @@
           "qty": 3
         },
         {
-          "item": "Resilient Parchment",
+          "item": "Light Parchment",
           "qty": 1
         }
       ]
@@ -203,7 +205,7 @@
           "qty": 3
         },
         {
-          "item": "Resilient Parchment",
+          "item": "Light Parchment",
           "qty": 1
         }
       ]
@@ -220,7 +222,7 @@
           "qty": 3
         },
         {
-          "item": "Resilient Parchment",
+          "item": "Light Parchment",
           "qty": 1
         }
       ]
@@ -305,7 +307,7 @@
           "qty": 3
         },
         {
-          "item": "Resilient Parchment",
+          "item": "Light Parchment",
           "qty": 1
         }
       ]
@@ -339,7 +341,7 @@
           "qty": 3
         },
         {
-          "item": "Heavy Parchment",
+          "item": "Light Parchment",
           "qty": 1
         }
       ]
@@ -1020,6 +1022,338 @@
           "qty": 5
         }
       ]
+    },
+    {
+      "rank": 61,
+      "item": "Vial of the Sands",
+      "category": "alchemy_mount",
+      "tier": "S",
+      "reason": "High-ticket prestige mount with durable legacy demand",
+      "reagents": [
+        {
+          "item": "Pyrium-Laced Crystalline Vial",
+          "qty": 1
+        },
+        {
+          "item": "Sands of Time",
+          "qty": 8
+        },
+        {
+          "item": "Truegold",
+          "qty": 12
+        },
+        {
+          "item": "Flask of the Winds",
+          "qty": 8
+        },
+        {
+          "item": "Flask of Titanic Strength",
+          "qty": 8
+        },
+        {
+          "item": "Deepstone Oil",
+          "qty": 8
+        }
+      ]
+    },
+    {
+      "rank": 62,
+      "item": "Illusionary Bag",
+      "category": "tailoring_bag",
+      "tier": "S",
+      "reason": "Premium Cataclysm bag with steady utility demand",
+      "reagents": [
+        {
+          "item": "Dreamcloth",
+          "qty": 8
+        }
+      ]
+    },
+    {
+      "rank": 63,
+      "item": "Embersilk Bag",
+      "category": "tailoring_bag",
+      "tier": "S",
+      "reason": "Fast-moving 22-slot bag with broad alt demand",
+      "reagents": [
+        {
+          "item": "Bolt of Embersilk Cloth",
+          "qty": 15
+        },
+        {
+          "item": "Hypnotic Dust",
+          "qty": 15
+        }
+      ]
+    },
+    {
+      "rank": 64,
+      "item": "Netherweave Bag",
+      "category": "tailoring_bag",
+      "tier": "S",
+      "reason": "Low-capital legacy bag with constant baseline demand",
+      "reagents": [
+        {
+          "item": "Bolt of Netherweave",
+          "qty": 4
+        },
+        {
+          "item": "Rune Thread",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 65,
+      "item": "Truegold",
+      "category": "alchemy_transmutation",
+      "tier": "A",
+      "reason": "Key Cataclysm transmute feeding Vial of the Sands and other legacy crafts",
+      "reagents": [
+        {
+          "item": "Pyrium Bar",
+          "qty": 3
+        },
+        {
+          "item": "Volatile Fire",
+          "qty": 10
+        },
+        {
+          "item": "Volatile Air",
+          "qty": 10
+        },
+        {
+          "item": "Volatile Water",
+          "qty": 10
+        }
+      ]
+    },
+    {
+      "rank": 66,
+      "item": "Frostweave Bag",
+      "category": "tailoring_bag",
+      "tier": "A",
+      "reason": "Reliable Wrath bag seller with a straightforward cloth chain",
+      "reagents": [
+        {
+          "item": "Bolt of Imbued Frostweave",
+          "qty": 6
+        },
+        {
+          "item": "Eternium Thread",
+          "qty": 2
+        }
+      ]
+    },
+    {
+      "rank": 67,
+      "item": "Glacial Bag",
+      "category": "tailoring_bag",
+      "tier": "A",
+      "reason": "Premium Wrath bag with specialty-cloth scarcity support",
+      "reagents": [
+        {
+          "item": "Moonshroud",
+          "qty": 4
+        },
+        {
+          "item": "Ebonweave",
+          "qty": 4
+        },
+        {
+          "item": "Eternium Thread",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 68,
+      "item": "Mysterious Fortune Card",
+      "category": "inscription_card",
+      "tier": "C",
+      "reason": "Speculative inscription craft worth checking only when margins still hold",
+      "reagents": [
+        {
+          "item": "Blackfallow Ink",
+          "qty": 1
+        },
+        {
+          "item": "Light Parchment",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 69,
+      "item": "Flask of the Winds",
+      "category": "flask",
+      "tier": "C",
+      "reason": "Supporting Cataclysm alchemy component for Vial of the Sands",
+      "reagents": [
+        {
+          "item": "Crystal Vial",
+          "qty": 1
+        },
+        {
+          "item": "Whiptail",
+          "qty": 8
+        },
+        {
+          "item": "Azshara's Veil",
+          "qty": 8
+        },
+        {
+          "item": "Volatile Life",
+          "qty": 8
+        }
+      ]
+    },
+    {
+      "rank": 70,
+      "item": "Flask of Titanic Strength",
+      "category": "flask",
+      "tier": "C",
+      "reason": "Supporting Cataclysm alchemy component for Vial of the Sands",
+      "reagents": [
+        {
+          "item": "Crystal Vial",
+          "qty": 1
+        },
+        {
+          "item": "Whiptail",
+          "qty": 8
+        },
+        {
+          "item": "Cinderbloom",
+          "qty": 8
+        },
+        {
+          "item": "Volatile Life",
+          "qty": 8
+        }
+      ]
+    },
+    {
+      "rank": 71,
+      "item": "Deepstone Oil",
+      "category": "alchemy_reagent",
+      "tier": "C",
+      "reason": "Supporting Cataclysm alchemy component for Vial of the Sands",
+      "output_qty": 1.5,
+      "reagents": [
+        {
+          "item": "Albino Cavefish",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "rank": 72,
+      "item": "Bolt of Embersilk Cloth",
+      "category": "tailoring_subcraft",
+      "tier": "C",
+      "reason": "Supporting Cataclysm tailoring cloth conversion",
+      "reagents": [
+        {
+          "item": "Embersilk Cloth",
+          "qty": 5
+        }
+      ]
+    },
+    {
+      "rank": 73,
+      "item": "Dreamcloth",
+      "category": "tailoring_subcraft",
+      "tier": "C",
+      "reason": "Supporting Cataclysm tailoring cooldown cloth for Illusionary Bag",
+      "note": "Planner models the Volatile Life recipe. Compare against other Dreamcloth variants or direct AH pricing if they are cheaper on your realm.",
+      "reagents": [
+        {
+          "item": "Bolt of Embersilk Cloth",
+          "qty": 8
+        },
+        {
+          "item": "Volatile Life",
+          "qty": 30
+        }
+      ]
+    },
+    {
+      "rank": 74,
+      "item": "Bolt of Netherweave",
+      "category": "tailoring_subcraft",
+      "tier": "C",
+      "reason": "Supporting Burning Crusade tailoring cloth conversion",
+      "reagents": [
+        {
+          "item": "Netherweave Cloth",
+          "qty": 5
+        }
+      ]
+    },
+    {
+      "rank": 75,
+      "item": "Bolt of Frostweave",
+      "category": "tailoring_subcraft",
+      "tier": "C",
+      "reason": "Supporting Wrath tailoring cloth conversion",
+      "reagents": [
+        {
+          "item": "Frostweave Cloth",
+          "qty": 5
+        }
+      ]
+    },
+    {
+      "rank": 76,
+      "item": "Bolt of Imbued Frostweave",
+      "category": "tailoring_subcraft",
+      "tier": "C",
+      "reason": "Supporting Wrath tailoring imbued cloth conversion",
+      "reagents": [
+        {
+          "item": "Bolt of Frostweave",
+          "qty": 2
+        },
+        {
+          "item": "Infinite Dust",
+          "qty": 2
+        }
+      ]
+    },
+    {
+      "rank": 77,
+      "item": "Moonshroud",
+      "category": "tailoring_subcraft",
+      "tier": "C",
+      "reason": "Supporting Wrath specialty cloth for Glacial Bag",
+      "reagents": [
+        {
+          "item": "Bolt of Imbued Frostweave",
+          "qty": 1
+        },
+        {
+          "item": "Eternal Life",
+          "qty": 2
+        }
+      ]
+    },
+    {
+      "rank": 78,
+      "item": "Ebonweave",
+      "category": "tailoring_subcraft",
+      "tier": "C",
+      "reason": "Supporting Wrath specialty cloth for Glacial Bag",
+      "reagents": [
+        {
+          "item": "Bolt of Imbued Frostweave",
+          "qty": 1
+        },
+        {
+          "item": "Eternal Shadow",
+          "qty": 2
+        }
+      ]
     }
   ],
   "supporting_recipes": {
@@ -1155,6 +1489,21 @@
             "Ink of Dreams"
           ]
         },
+        "Ashen Pigment": {
+          "quality": "common",
+          "made_via": "Milling",
+          "milled_from": [
+            "Cinderbloom",
+            "Stormvine",
+            "Azshara's Veil",
+            "Heartblossom",
+            "Twilight Jasmine",
+            "Whiptail"
+          ],
+          "used_for": [
+            "Blackfallow Ink"
+          ]
+        },
         "Misty Pigment": {
           "quality": "uncommon",
           "made_via": "Milling",
@@ -1287,6 +1636,18 @@
             "Greater Tiger Fang Inscription",
             "Greater Ox Horn Inscription"
           ]
+        },
+        "Blackfallow Ink": {
+          "profession": "Inscription",
+          "crafted_from": [
+            {
+              "item": "Ashen Pigment",
+              "qty": 2
+            }
+          ],
+          "used_in": [
+            "Mysterious Fortune Card"
+          ]
         }
       },
       "vendor_trades": {
@@ -1352,6 +1713,15 @@
             }
           ],
           "note": "Pandaria rare ink trade priced through Ink of Dreams."
+        },
+        "Blackfallow Ink": {
+          "cost": [
+            {
+              "item": "Ink of Dreams",
+              "qty": 1
+            }
+          ],
+          "note": "Legacy ink trade priced through Ink of Dreams."
         }
       },
       "vendor_exchange_note": "Pandaria ink traders also let scribes trade Ink of Dreams into older inks when direct milling is less attractive."

@@ -2,6 +2,7 @@ import csv
 import json
 import math
 import re
+from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple
 
 # =========================
@@ -9,7 +10,10 @@ from typing import Any, Dict, List, Optional, Set, Tuple
 # =========================
 
 SNAPSHOT_CSV = "ah_snapshot.csv"
-CLASS_SPEC_JSON = "class_spec_items.json"
+PLANNER_JSON_FILES = [
+    "class_spec_items.json",
+    "always_profit_craft.json",
+]
 CRAFTING_JSON = "crafting_data.json"
 OUTPUT_JSON = "craft_plan.json"
 OUTPUT_CSV = "craft_plan.csv"
@@ -22,9 +26,11 @@ AH_CUT = 0.05
 # Adjust if needed.
 FALLBACK_PRICES = {
     "Crystal Vial": 500,
+    "Eternium Thread": 300,
     "Light Parchment": 1500,
-    "Resilient Parchment": 1500,
-    "Heavy Parchment": 1500,
+    "Pyrium-Laced Crystalline Vial": 50000000,
+    "Rune Thread": 5000,
+    "Sands of Time": 30000000,
 }
 
 NON_AH_REAGENT_PRICES = {
@@ -36,10 +42,7 @@ FORCE_CRAFTED_COST_ITEMS = {
 }
 
 # Normalize some recipe reagent names if needed
-NAME_ALIASES = {
-    "Resilient Parchment": "Light Parchment",
-    "Heavy Parchment": "Light Parchment",
-}
+NAME_ALIASES = {}
 
 # Base stock caps by category and tier
 BASE_STOCK = {
@@ -48,6 +51,8 @@ BASE_STOCK = {
     "flask": {"S": 20, "A": 12, "B": 8, "C": 0},
     "shoulder_inscription": {"S": 5, "A": 4, "B": 2, "C": 0},
     "alchemy_transmutation": {"S": 2, "A": 1, "B": 1, "C": 0},
+    "alchemy_mount": {"S": 1, "A": 1, "B": 0, "C": 0},
+    "inscription_card": {"S": 5, "A": 3, "B": 1, "C": 0},
     "tailoring_spellthread": {"S": 5, "A": 3, "B": 1, "C": 0},
     "tailoring_bag": {"S": 2, "A": 1, "B": 1, "C": 0},
     "tailoring_epic": {"S": 1, "A": 1, "B": 1, "C": 0},
@@ -92,6 +97,46 @@ def load_snapshot(csv_path: str) -> Dict[str, Dict[str, Any]]:
 def load_json(json_path: str) -> Dict[str, Any]:
     with open(json_path, "r", encoding="utf-8-sig") as f:
         return json.load(f)
+
+def load_planner_data(json_paths: List[str]) -> Dict[str, Any]:
+    merged: Dict[str, Any] = {
+        "meta": {"sources": [], "notes": []},
+        "item_index": {},
+        "shared_item_groups": {},
+        "classes": {},
+    }
+
+    loaded_any = False
+    for json_path in json_paths:
+        path = Path(json_path)
+        if not path.exists():
+            continue
+
+        loaded_any = True
+        data = load_json(str(path))
+        merged["meta"]["sources"].append(path.name)
+
+        for note in data.get("meta", {}).get("notes", []):
+            if note not in merged["meta"]["notes"]:
+                merged["meta"]["notes"].append(note)
+
+        for item_name, item_data in data.get("item_index", {}).items():
+            merged["item_index"][item_name] = item_data
+
+        for group_name, group_data in data.get("shared_item_groups", {}).items():
+            merged["shared_item_groups"][group_name] = group_data
+
+        for class_name, class_block in data.get("classes", {}).items():
+            target_class = merged["classes"].setdefault(class_name, {})
+            for spec_name, spec_block in class_block.items():
+                target_class[spec_name] = spec_block
+
+    if not loaded_any:
+        raise FileNotFoundError(
+            f"No planner data files found. Checked: {', '.join(json_paths)}"
+        )
+
+    return merged
 
 def get_recipe_entries(data: Dict[str, Any]) -> List[Dict[str, Any]]:
     if "craft_targets" in data:
@@ -916,7 +961,7 @@ def print_top(results: List[Dict[str, Any]], limit: Optional[int] = None) -> Non
 
 def main() -> None:
     snapshot = load_snapshot(SNAPSHOT_CSV)
-    class_spec_data = load_json(CLASS_SPEC_JSON)
+    class_spec_data = load_planner_data(PLANNER_JSON_FILES)
     crafting_data = load_json(CRAFTING_JSON)
     planner_entries = build_planner_entries(class_spec_data)
     results = build_plan(snapshot, planner_entries, crafting_data)

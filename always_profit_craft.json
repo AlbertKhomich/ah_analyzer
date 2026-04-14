@@ -1,0 +1,102 @@
+{
+  "meta": {
+    "game": "World of Warcraft Classic: Mists of Pandaria",
+    "server": "EU Hoptallus",
+    "phase": "Phase 4",
+    "purpose": "Always-profitable craft targets kept separate from the class/spec demand map.",
+    "notes": [
+      "This file uses the same planner schema as class_spec_items.json so the scripts can merge both datasets.",
+      "These crafts are cross-expansion markets driven by utility, prestige, or legacy material demand rather than spec-specific gearing demand.",
+      "Ranks are local priority for this always-profit list."
+    ]
+  },
+  "item_index": {
+    "Vial of the Sands": {
+      "rank": 1,
+      "category": "alchemy_mount",
+      "tier": "S",
+      "reason": "High-ticket prestige mount with durable legacy demand"
+    },
+    "Illusionary Bag": {
+      "rank": 2,
+      "category": "tailoring_bag",
+      "tier": "S",
+      "reason": "Premium Cataclysm bag with steady utility demand"
+    },
+    "Embersilk Bag": {
+      "rank": 3,
+      "category": "tailoring_bag",
+      "tier": "S",
+      "reason": "Fast-moving 22-slot bag with broad alt demand"
+    },
+    "Netherweave Bag": {
+      "rank": 4,
+      "category": "tailoring_bag",
+      "tier": "S",
+      "reason": "Low-capital legacy bag with constant baseline demand"
+    },
+    "Truegold": {
+      "rank": 5,
+      "category": "alchemy_transmutation",
+      "tier": "A",
+      "reason": "Key Cataclysm transmute feeding Vial of the Sands and other legacy crafts"
+    },
+    "Frostweave Bag": {
+      "rank": 6,
+      "category": "tailoring_bag",
+      "tier": "A",
+      "reason": "Reliable Wrath bag seller with a straightforward cloth chain"
+    },
+    "Glacial Bag": {
+      "rank": 7,
+      "category": "tailoring_bag",
+      "tier": "A",
+      "reason": "Premium Wrath bag with specialty-cloth scarcity support"
+    },
+    "Mysterious Fortune Card": {
+      "rank": 8,
+      "category": "inscription_card",
+      "tier": "C",
+      "reason": "Speculative inscription craft worth checking only when margins still hold"
+    }
+  },
+  "shared_item_groups": {
+    "always_profit_s": {
+      "note": "Top always-profit legacy crafts.",
+      "items": [
+        "Vial of the Sands",
+        "Illusionary Bag",
+        "Embersilk Bag",
+        "Netherweave Bag"
+      ]
+    },
+    "always_profit_a": {
+      "note": "Strong secondary always-profit legacy crafts.",
+      "items": [
+        "Truegold",
+        "Frostweave Bag",
+        "Glacial Bag"
+      ]
+    },
+    "always_profit_c": {
+      "note": "Low-priority opportunistic legacy crafts.",
+      "items": [
+        "Mysterious Fortune Card"
+      ]
+    },
+    "always_profit_all": {
+      "note": "All always-profit legacy crafts in one group.",
+      "items": [
+        "Vial of the Sands",
+        "Illusionary Bag",
+        "Embersilk Bag",
+        "Netherweave Bag",
+        "Truegold",
+        "Frostweave Bag",
+        "Glacial Bag",
+        "Mysterious Fortune Card"
+      ]
+    }
+  },
+  "classes": {}
+}

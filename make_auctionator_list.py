@@ -4,7 +4,10 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Set, Tuple
 
 
-CLASS_SPEC_JSON = "class_spec_items.json"
+PLANNER_JSON_FILES = [
+    "class_spec_items.json",
+    "always_profit_craft.json",
+]
 CRAFTING_JSON = "crafting_data.json"
 ENTRY_SUFFIX = '";;0;0;0;0;0;0;0;0;;#;;'
 
@@ -12,6 +15,47 @@ ENTRY_SUFFIX = '";;0;0;0;0;0;0;0;0;;#;;'
 def load_json(path: str) -> Dict[str, Any]:
     with open(path, "r", encoding="utf-8-sig") as handle:
         return json.load(handle)
+
+
+def load_planner_data(paths: List[str]) -> Dict[str, Any]:
+    merged: Dict[str, Any] = {
+        "meta": {"sources": [], "notes": []},
+        "item_index": {},
+        "shared_item_groups": {},
+        "classes": {},
+    }
+
+    loaded_any = False
+    for raw_path in paths:
+        path = Path(raw_path)
+        if not path.exists():
+            continue
+
+        loaded_any = True
+        data = load_json(str(path))
+        merged["meta"]["sources"].append(path.name)
+
+        for note in data.get("meta", {}).get("notes", []):
+            if note not in merged["meta"]["notes"]:
+                merged["meta"]["notes"].append(note)
+
+        for item_name, item_data in data.get("item_index", {}).items():
+            merged["item_index"][item_name] = item_data
+
+        for group_name, group_data in data.get("shared_item_groups", {}).items():
+            merged["shared_item_groups"][group_name] = group_data
+
+        for class_name, class_block in data.get("classes", {}).items():
+            target_class = merged["classes"].setdefault(class_name, {})
+            for spec_name, spec_block in class_block.items():
+                target_class[spec_name] = spec_block
+
+    if not loaded_any:
+        raise FileNotFoundError(
+            f"No planner data files found. Checked: {', '.join(paths)}"
+        )
+
+    return merged
 
 
 def build_craft_lookup(crafting_data: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
@@ -227,7 +271,7 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
-    class_spec_data = load_json(CLASS_SPEC_JSON)
+    class_spec_data = load_planner_data(PLANNER_JSON_FILES)
     crafting_data = load_json(CRAFTING_JSON)
     craft_lookup = build_craft_lookup(crafting_data)
 
