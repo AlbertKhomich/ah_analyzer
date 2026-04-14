@@ -7,3 +7,6 @@
 !make_auctionator_list.py
 !requirements.txt
 !always_profit_craft.json
+!planner_data.py
+!planning.py
+!pricing.py

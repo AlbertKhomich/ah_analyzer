@@ -1266,7 +1266,7 @@
       "category": "tailoring_subcraft",
       "tier": "C",
       "reason": "Supporting Cataclysm tailoring cooldown cloth for Illusionary Bag",
-      "note": "Planner models the Volatile Life recipe. Compare against other Dreamcloth variants or direct AH pricing if they are cheaper on your realm.",
+      "note": "The ranked list keeps the Volatile Life recipe as a readable reference, but pricing uses supporting_recipes.tailoring_subcrafts so the planner can compare all Dreamcloth variants automatically. Dream of Destruction will participate too when Chaos Orb has a local price.",
       "reagents": [
         {
           "item": "Bolt of Embersilk Cloth",
@@ -1357,6 +1357,22 @@
     }
   ],
   "supporting_recipes": {
+    "pricing": {
+      "auction_house_cut": 0.05,
+      "fallback_prices": {
+        "Crystal Vial": 500,
+        "Eternium Thread": 300,
+        "Light Parchment": 1500,
+        "Pyrium-Laced Crystalline Vial": 50000000,
+        "Rune Thread": 5000,
+        "Sands of Time": 30000000
+      },
+      "non_ah_reagent_prices": {
+        "Spirit of Harmony": 1000000000
+      },
+      "force_crafted_cost_items": ["Imperial Silk"],
+      "name_aliases": {}
+    },
     "alchemy_specializations": {
       "expected_output_multipliers_by_category": {
         "potion": {
@@ -1395,9 +1411,7 @@
             "Bruiseweed",
             "Stranglekelp"
           ],
-          "used_for": [
-            "Midnight Ink"
-          ]
+          "used_for": ["Midnight Ink"]
         },
         "Golden Pigment": {
           "quality": "common",
@@ -1408,9 +1422,7 @@
             "Kingsblood",
             "Liferoot"
           ],
-          "used_for": [
-            "Lion's Ink"
-          ]
+          "used_for": ["Lion's Ink"]
         },
         "Emerald Pigment": {
           "quality": "common",
@@ -1421,9 +1433,7 @@
             "Khadgar's Whisker",
             "Dragon's Teeth"
           ],
-          "used_for": [
-            "Jadefire Ink"
-          ]
+          "used_for": ["Jadefire Ink"]
         },
         "Violet Pigment": {
           "quality": "common",
@@ -1437,9 +1447,7 @@
             "Ghost Mushroom",
             "Gromsblood"
           ],
-          "used_for": [
-            "Celestial Ink"
-          ]
+          "used_for": ["Celestial Ink"]
         },
         "Nether Pigment": {
           "quality": "common",
@@ -1454,9 +1462,7 @@
             "Nightmare Vine",
             "Mana Thistle"
           ],
-          "used_for": [
-            "Ethereal Ink"
-          ]
+          "used_for": ["Ethereal Ink"]
         },
         "Azure Pigment": {
           "quality": "common",
@@ -1471,9 +1477,7 @@
             "Deadnettle",
             "Fire Leaf"
           ],
-          "used_for": [
-            "Ink of the Sea"
-          ]
+          "used_for": ["Ink of the Sea"]
         },
         "Shadow Pigment": {
           "quality": "common",
@@ -1485,9 +1489,7 @@
             "Snow Lily",
             "Fool's Cap"
           ],
-          "used_for": [
-            "Ink of Dreams"
-          ]
+          "used_for": ["Ink of Dreams"]
         },
         "Ashen Pigment": {
           "quality": "common",
@@ -1500,9 +1502,7 @@
             "Twilight Jasmine",
             "Whiptail"
           ],
-          "used_for": [
-            "Blackfallow Ink"
-          ]
+          "used_for": ["Blackfallow Ink"]
         },
         "Misty Pigment": {
           "quality": "uncommon",
@@ -1514,9 +1514,7 @@
             "Snow Lily",
             "Fool's Cap"
           ],
-          "used_for": [
-            "Starlight Ink"
-          ]
+          "used_for": ["Starlight Ink"]
         }
       }
     },
@@ -1530,9 +1528,7 @@
               "qty": 2
             }
           ],
-          "used_in": [
-            "Glyph of Holy Fire"
-          ]
+          "used_in": ["Glyph of Holy Fire"]
         },
         "Lion's Ink": {
           "profession": "Inscription",
@@ -1542,10 +1538,7 @@
               "qty": 2
             }
           ],
-          "used_in": [
-            "Glyph of Savagery",
-            "Glyph of Healing Touch"
-          ]
+          "used_in": ["Glyph of Savagery", "Glyph of Healing Touch"]
         },
         "Jadefire Ink": {
           "profession": "Inscription",
@@ -1645,9 +1638,7 @@
               "qty": 2
             }
           ],
-          "used_in": [
-            "Mysterious Fortune Card"
-          ]
+          "used_in": ["Mysterious Fortune Card"]
         }
       },
       "vendor_trades": {
@@ -1743,21 +1734,123 @@
           "Contender's Silk Raiment"
         ]
       },
-      "Imperial Silk": {
+      "Dreamcloth": {
         "profession": "Tailoring",
-        "crafted_from": [
+        "note": "Planner compares the volatile Dreamcloth variants and will use Dream of Destruction too if Chaos Orb is priced in non_ah_reagent_prices or the snapshot.",
+        "pricing_mode": "support_options_only",
+        "shopping_list_mode": "all_options",
+        "crafted_from_options": [
           {
-            "item": "Bolt of Windwool Cloth",
-            "qty": 8
+            "name": "Dream of Hyjal",
+            "crafted_from": [
+              {
+                "item": "Bolt of Embersilk Cloth",
+                "qty": 8
+              },
+              {
+                "item": "Volatile Life",
+                "qty": 30
+              }
+            ]
           },
           {
-            "item": "Spirit of Harmony",
-            "qty": 3
+            "name": "Dream of Azshara",
+            "crafted_from": [
+              {
+                "item": "Bolt of Embersilk Cloth",
+                "qty": 8
+              },
+              {
+                "item": "Volatile Water",
+                "qty": 30
+              }
+            ]
+          },
+          {
+            "name": "Dream of Deepholm",
+            "crafted_from": [
+              {
+                "item": "Bolt of Embersilk Cloth",
+                "qty": 8
+              },
+              {
+                "item": "Volatile Earth",
+                "qty": 30
+              }
+            ]
+          },
+          {
+            "name": "Dream of Ragnaros",
+            "crafted_from": [
+              {
+                "item": "Bolt of Embersilk Cloth",
+                "qty": 8
+              },
+              {
+                "item": "Volatile Fire",
+                "qty": 30
+              }
+            ]
+          },
+          {
+            "name": "Dream of Skywall",
+            "crafted_from": [
+              {
+                "item": "Bolt of Embersilk Cloth",
+                "qty": 8
+              },
+              {
+                "item": "Volatile Air",
+                "qty": 30
+              }
+            ]
+          },
+          {
+            "name": "Dream of Destruction",
+            "note": "Included for completeness; this path will be ignored unless Chaos Orb is priced locally.",
+            "crafted_from": [
+              {
+                "item": "Bolt of Embersilk Cloth",
+                "qty": 8
+              },
+              {
+                "item": "Chaos Orb",
+                "qty": 4
+              }
+            ]
           }
         ],
-        "alternative_sources": [
-          "Silkworm Cocoon"
+        "used_in": ["Illusionary Bag"]
+      },
+      "Imperial Silk": {
+        "profession": "Tailoring",
+        "note": "Imperial Silk can come from the daily Silkworm Cocoon route or from Song of Harmony. Planner compares both crafted paths and keeps direct AH Imperial Silk disabled because force_crafted_cost_items models your own tailoring cooldown usage.",
+        "crafted_from_options": [
+          {
+            "name": "Silkworm Cocoon",
+            "note": "Daily cooldown path that turns 8 Bolts of Windwool Cloth into one Silkworm Cocoon, which yields Imperial Silk.",
+            "crafted_from": [
+              {
+                "item": "Bolt of Windwool Cloth",
+                "qty": 8
+              }
+            ]
+          },
+          {
+            "name": "Song of Harmony",
+            "crafted_from": [
+              {
+                "item": "Bolt of Windwool Cloth",
+                "qty": 5
+              },
+              {
+                "item": "Spirit of Harmony",
+                "qty": 3
+              }
+            ]
+          }
         ],
+        "alternative_sources": ["Silkworm Cocoon"],
         "used_in": [
           "Greater Cerulean Spellthread",
           "Greater Pearlescent Spellthread",
@@ -1772,6 +1865,401 @@
           "Robe of Eternal Rule"
         ]
       }
+    },
+    "tailoring_phase4_catalog": {
+      "scope_note": "Tailoring recipes available by MoP Classic Phase 4, centered on AH-facing crafts and core subcrafts for this planner, with the rank 3 tailor-only perks included so the phase-4 catalog is not missing the profession's personal enchants.",
+      "source_note": "Recipe names, reagent counts, and unlock notes were checked against Warcraft Wiki/Wowpedia tailoring recipe pages, especially the Pandaria tailoring patterns table plus individual item or pattern pages when the aggregate table snippet was ambiguous.",
+      "excluded_after_phase_4": [
+        {
+          "family": "Celestial Cloth and its 553 tailoring epics",
+          "added_in_patch": "5.4.0"
+        },
+        {
+          "family": "Crafted Malevolent Gladiator tailoring set",
+          "added_in_patch": "5.4.0"
+        }
+      ],
+      "groups": [
+        {
+          "group": "pandaria_core_materials_and_spellthreads",
+          "phase_added": "5.0.4",
+          "recipes": [
+            {
+              "item": "Bolt of Windwool Cloth",
+              "source": "Trainer",
+              "reagents": [
+                {
+                  "item": "Windwool Cloth",
+                  "qty": 5
+                }
+              ]
+            },
+            {
+              "item": "Imperial Silk",
+              "source": "Trainer",
+              "reagent_paths": [
+                {
+                  "name": "Silkworm Cocoon",
+                  "reagents": [
+                    {
+                      "item": "Bolt of Windwool Cloth",
+                      "qty": 8
+                    }
+                  ]
+                },
+                {
+                  "name": "Song of Harmony",
+                  "reagents": [
+                    {
+                      "item": "Bolt of Windwool Cloth",
+                      "qty": 5
+                    },
+                    {
+                      "item": "Spirit of Harmony",
+                      "qty": 3
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "item": "Cerulean Spellthread",
+              "source": "Trainer",
+              "reagents": [
+                {
+                  "item": "Bolt of Windwool Cloth",
+                  "qty": 4
+                }
+              ]
+            },
+            {
+              "item": "Pearlescent Spellthread",
+              "source": "Trainer",
+              "reagents": [
+                {
+                  "item": "Bolt of Windwool Cloth",
+                  "qty": 4
+                }
+              ]
+            },
+            {
+              "item": "Greater Cerulean Spellthread",
+              "source": "Golden Lotus - Honored",
+              "reagents": [
+                {
+                  "item": "Imperial Silk",
+                  "qty": 1
+                }
+              ]
+            },
+            {
+              "item": "Greater Pearlescent Spellthread",
+              "source": "Golden Lotus - Honored",
+              "reagents": [
+                {
+                  "item": "Imperial Silk",
+                  "qty": 1
+                }
+              ]
+            },
+            {
+              "item": "Royal Satchel",
+              "source": "August Celestials - Exalted",
+              "reagents": [
+                {
+                  "item": "Imperial Silk",
+                  "qty": 12
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "group": "tailor_only_rank_3_perks",
+          "phase_added": "5.0.4",
+          "tailor_only": true,
+          "note": "These do not participate in AH planning, but they are available by Phase 4 and were added here so the tailoring catalog is not missing the profession-only rank 3 recipes.",
+          "batches": [
+            {
+              "source": "Automatic rank-up at 550 tailoring skill",
+              "reagents": [
+                {
+                  "item": "Eternium Thread",
+                  "qty": 3
+                }
+              ],
+              "items": [
+                "Master's Spellthread (Rank 3)",
+                "Sanctified Spellthread (Rank 3)"
+              ]
+            },
+            {
+              "source": "Automatic rank-up at 575 tailoring skill",
+              "reagents": [
+                {
+                  "item": "Eternium Thread",
+                  "qty": 3
+                }
+              ],
+              "items": [
+                "Darkglow Embroidery (Rank 3)",
+                "Lightweave Embroidery (Rank 3)",
+                "Swordguard Embroidery (Rank 3)"
+              ]
+            }
+          ]
+        },
+        {
+          "group": "contender_satin_set",
+          "phase_added": "5.0.4",
+          "source": "Raishen the Needle / Esha the Loommaiden",
+          "batches": [
+            {
+              "reagents": [
+                {
+                  "item": "Bolt of Windwool Cloth",
+                  "qty": 3
+                }
+              ],
+              "items": ["Contender's Satin Cuffs"]
+            },
+            {
+              "reagents": [
+                {
+                  "item": "Bolt of Windwool Cloth",
+                  "qty": 4
+                }
+              ],
+              "items": [
+                "Contender's Satin Amice",
+                "Contender's Satin Belt",
+                "Contender's Satin Footwraps",
+                "Contender's Satin Handwraps"
+              ]
+            },
+            {
+              "reagents": [
+                {
+                  "item": "Bolt of Windwool Cloth",
+                  "qty": 5
+                }
+              ],
+              "items": [
+                "Contender's Satin Cowl",
+                "Contender's Satin Pants",
+                "Contender's Satin Raiment"
+              ]
+            }
+          ]
+        },
+        {
+          "group": "contender_silk_set",
+          "phase_added": "5.0.4",
+          "source": "Raishen the Needle / Esha the Loommaiden",
+          "batches": [
+            {
+              "reagents": [
+                {
+                  "item": "Bolt of Windwool Cloth",
+                  "qty": 3
+                }
+              ],
+              "items": ["Contender's Silk Cuffs"]
+            },
+            {
+              "reagents": [
+                {
+                  "item": "Bolt of Windwool Cloth",
+                  "qty": 4
+                }
+              ],
+              "items": [
+                "Contender's Silk Amice",
+                "Contender's Silk Belt",
+                "Contender's Silk Footwraps",
+                "Contender's Silk Handwraps"
+              ]
+            },
+            {
+              "reagents": [
+                {
+                  "item": "Bolt of Windwool Cloth",
+                  "qty": 5
+                }
+              ],
+              "items": [
+                "Contender's Silk Cowl",
+                "Contender's Silk Pants",
+                "Contender's Silk Raiment"
+              ]
+            }
+          ]
+        },
+        {
+          "group": "golden_lotus_epics",
+          "phase_added": "5.0.4",
+          "source": "Golden Lotus - Honored",
+          "batches": [
+            {
+              "reagents": [
+                {
+                  "item": "Imperial Silk",
+                  "qty": 4
+                }
+              ],
+              "items": ["Gloves of Creation", "Spelltwister's Gloves"]
+            },
+            {
+              "reagents": [
+                {
+                  "item": "Imperial Silk",
+                  "qty": 6
+                }
+              ],
+              "items": ["Robes of Creation", "Spelltwister's Grand Robe"]
+            }
+          ]
+        },
+        {
+          "group": "blood_spirit_raid_drop_epics",
+          "phase_added": "5.0.4",
+          "source": "Random drop patterns from Mogu'shan Vaults, Heart of Fear, and Terrace of Endless Spring",
+          "batches": [
+            {
+              "reagents": [
+                {
+                  "item": "Imperial Silk",
+                  "qty": 4
+                },
+                {
+                  "item": "Blood Spirit",
+                  "qty": 5
+                }
+              ],
+              "items": ["Imperial Silk Gloves", "Touch of the Light"]
+            },
+            {
+              "reagents": [
+                {
+                  "item": "Imperial Silk",
+                  "qty": 6
+                },
+                {
+                  "item": "Blood Spirit",
+                  "qty": 8
+                }
+              ],
+              "items": ["Legacy of the Emperor", "Robe of Eternal Rule"]
+            }
+          ]
+        },
+        {
+          "group": "falling_blossom_discoveries",
+          "phase_added": "5.2.0",
+          "source": "Discovery from Imperial Silk",
+          "batches": [
+            {
+              "reagents": [
+                {
+                  "item": "Imperial Silk",
+                  "qty": 4
+                },
+                {
+                  "item": "Haunting Spirit",
+                  "qty": 6
+                }
+              ],
+              "items": ["Falling Blossom Sandals", "Falling Blossom Treads"]
+            },
+            {
+              "reagents": [
+                {
+                  "item": "Imperial Silk",
+                  "qty": 6
+                },
+                {
+                  "item": "Haunting Spirit",
+                  "qty": 8
+                }
+              ],
+              "items": ["Falling Blossom Cowl", "Falling Blossom Hood"]
+            }
+          ]
+        },
+        {
+          "group": "crafted_dreadful_gladiator",
+          "phase_added": "5.2.0",
+          "source": "Discovery from Imperial Silk",
+          "batches": [
+            {
+              "reagents": [
+                {
+                  "item": "Bolt of Windwool Cloth",
+                  "qty": 4
+                }
+              ],
+              "items": [
+                "Crafted Dreadful Gladiator's Cape of Cruelty",
+                "Crafted Dreadful Gladiator's Cape of Prowess",
+                "Crafted Dreadful Gladiator's Cloak of Alacrity",
+                "Crafted Dreadful Gladiator's Cloak of Prowess",
+                "Crafted Dreadful Gladiator's Cuffs of Accuracy",
+                "Crafted Dreadful Gladiator's Cuffs of Meditation",
+                "Crafted Dreadful Gladiator's Cuffs of Prowess",
+                "Crafted Dreadful Gladiator's Drape of Cruelty",
+                "Crafted Dreadful Gladiator's Drape of Meditation",
+                "Crafted Dreadful Gladiator's Drape of Prowess"
+              ]
+            },
+            {
+              "reagents": [
+                {
+                  "item": "Bolt of Windwool Cloth",
+                  "qty": 5
+                }
+              ],
+              "items": [
+                "Crafted Dreadful Gladiator's Cord of Accuracy",
+                "Crafted Dreadful Gladiator's Cord of Cruelty",
+                "Crafted Dreadful Gladiator's Cord of Meditation",
+                "Crafted Dreadful Gladiator's Felweave Amice",
+                "Crafted Dreadful Gladiator's Felweave Handguards",
+                "Crafted Dreadful Gladiator's Mooncloth Gloves",
+                "Crafted Dreadful Gladiator's Mooncloth Mantle",
+                "Crafted Dreadful Gladiator's Satin Gloves",
+                "Crafted Dreadful Gladiator's Satin Mantle",
+                "Crafted Dreadful Gladiator's Silk Amice",
+                "Crafted Dreadful Gladiator's Silk Handguards",
+                "Crafted Dreadful Gladiator's Treads of Alacrity",
+                "Crafted Dreadful Gladiator's Treads of Cruelty",
+                "Crafted Dreadful Gladiator's Treads of Meditation"
+              ]
+            },
+            {
+              "reagents": [
+                {
+                  "item": "Bolt of Windwool Cloth",
+                  "qty": 6
+                }
+              ],
+              "items": [
+                "Crafted Dreadful Gladiator's Felweave Cowl",
+                "Crafted Dreadful Gladiator's Felweave Raiment",
+                "Crafted Dreadful Gladiator's Felweave Trousers",
+                "Crafted Dreadful Gladiator's Mooncloth Helm",
+                "Crafted Dreadful Gladiator's Mooncloth Leggings",
+                "Crafted Dreadful Gladiator's Mooncloth Robe",
+                "Crafted Dreadful Gladiator's Satin Hood",
+                "Crafted Dreadful Gladiator's Satin Leggings",
+                "Crafted Dreadful Gladiator's Satin Robe",
+                "Crafted Dreadful Gladiator's Silk Cowl",
+                "Crafted Dreadful Gladiator's Silk Robe",
+                "Crafted Dreadful Gladiator's Silk Trousers"
+              ]
+            }
+          ]
+        }
+      ]
     }
   },
   "scan_template_fields": [
