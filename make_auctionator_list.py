@@ -445,8 +445,6 @@ def main() -> None:
 
     ordered_items: List[str] = []
     seen: Set[str] = set()
-    visited_nodes: Set[str] = set()
-
     for item_name in seeds:
         expand_item_chain(
             item_name=item_name,
@@ -455,7 +453,7 @@ def main() -> None:
             craft_lookup=craft_lookup,
             crafting_data=crafting_data,
             pricing_context=pricing_context,
-            visited_nodes=visited_nodes,
+            visited_nodes=set(),
         )
 
     packed = pack_auctionator_list(args.name, ordered_items)

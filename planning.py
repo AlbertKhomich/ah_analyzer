@@ -8,6 +8,8 @@ BASE_STOCK = {
     "glyph": {"S": 2, "A": 1, "B": 1, "C": 0},
     "potion": {"S": 40, "A": 25, "B": 12, "C": 0},
     "flask": {"S": 20, "A": 12, "B": 8, "C": 0},
+    "food": {"S": 25, "A": 18, "B": 10, "C": 5},
+    "feast": {"S": 4, "A": 2, "B": 1, "C": 0},
     "shoulder_inscription": {"S": 5, "A": 4, "B": 2, "C": 0},
     "alchemy_transmutation": {"S": 2, "A": 1, "B": 1, "C": 0},
     "alchemy_mount": {"S": 1, "A": 1, "B": 0, "C": 0},

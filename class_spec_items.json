@@ -1,4 +1,4 @@
-﻿{
+{
   "meta": {
     "game": "World of Warcraft Classic: Mists of Pandaria",
     "server": "EU Hoptallus",
@@ -8,7 +8,8 @@
       "This file is organized by who might want each item rather than by craft rank.",
       "Likely items are the main watchlist for that spec from the current target pool.",
       "Situational items are optional alternatives, mainly for tank specs that may swap toward damage throughput.",
-      "Alchemy transmutations are included as market-driven targets even when they are not tied to a specific class or specialization."
+      "Alchemy transmutations are included as market-driven targets even when they are not tied to a specific class or specialization.",
+      "Cooking foods and raid feasts were added for MoP Classic Phase 4, including the 5.4 Ancient Guo-Lai Cache food recipes and Pandaren noodle cart kit."
     ]
   },
   "item_index": {
@@ -305,6 +306,84 @@
       "category": "alchemy_transmutation",
       "tier": "C",
       "reason": "Lower-demand green gem transmute that also feeds Primal Diamond"
+    },
+    "Great Pandaren Banquet": {
+      "rank": 50,
+      "category": "feast",
+      "tier": "S",
+      "reason": "Top universal raid feast with broad Phase 4 group demand"
+    },
+    "Pandaren Treasure Noodle Cart Kit": {
+      "rank": 51,
+      "category": "feast",
+      "tier": "S",
+      "reason": "Patch 5.4 noodle cart kit with broad raid and group utility demand"
+    },
+    "Pandaren Banquet": {
+      "rank": 52,
+      "category": "feast",
+      "tier": "A",
+      "reason": "Smaller raid feast with broad reset-night demand"
+    },
+    "Mogu Fish Stew": {
+      "rank": 53,
+      "category": "food",
+      "tier": "A",
+      "reason": "Core Intellect personal food for caster and healer markets"
+    },
+    "Sea Mist Rice Noodles": {
+      "rank": 54,
+      "category": "food",
+      "tier": "A",
+      "reason": "Core Agility personal food for leather and mail DPS demand"
+    },
+    "Black Pepper Ribs and Shrimp": {
+      "rank": 55,
+      "category": "food",
+      "tier": "A",
+      "reason": "Core Strength personal food for plate DPS demand"
+    },
+    "Steamed Crab Surprise": {
+      "rank": 56,
+      "category": "food",
+      "tier": "B",
+      "reason": "Spirit food aimed at healer mana-stability demand"
+    },
+    "Chun Tian Spring Rolls": {
+      "rank": 57,
+      "category": "food",
+      "tier": "B",
+      "reason": "Stamina food aimed at dedicated tank buyers"
+    },
+    "Spiced Blossom Soup": {
+      "rank": 58,
+      "category": "food",
+      "tier": "B",
+      "reason": "Patch 5.4 Intellect alternative from Ancient Guo-Lai Cache recipes"
+    },
+    "Seasoned Pomfruit Slices": {
+      "rank": 59,
+      "category": "food",
+      "tier": "B",
+      "reason": "Patch 5.4 Agility alternative from Ancient Guo-Lai Cache recipes"
+    },
+    "Fluffy Silkfeather Omelet": {
+      "rank": 60,
+      "category": "food",
+      "tier": "B",
+      "reason": "Patch 5.4 Strength alternative from Ancient Guo-Lai Cache recipes"
+    },
+    "Farmer's Delight": {
+      "rank": 61,
+      "category": "food",
+      "tier": "C",
+      "reason": "Patch 5.4 Spirit alternative from Ancient Guo-Lai Cache recipes"
+    },
+    "Stuffed Lushrooms": {
+      "rank": 62,
+      "category": "food",
+      "tier": "C",
+      "reason": "Patch 5.4 Stamina alternative from Ancient Guo-Lai Cache recipes"
     }
   },
   "shared_item_groups": {
@@ -400,6 +479,49 @@
       "items": [
         "Glyph of Soulstone"
       ]
+    },
+    "raid_feasts": {
+      "note": "Universal group consumables for raids and larger dungeon sessions.",
+      "items": [
+        "Great Pandaren Banquet",
+        "Pandaren Treasure Noodle Cart Kit",
+        "Pandaren Banquet"
+      ]
+    },
+    "intellect_foods": {
+      "note": "Pandaria Intellect foods for casters and Intellect healers who buy personal food.",
+      "items": [
+        "Mogu Fish Stew",
+        "Spiced Blossom Soup"
+      ]
+    },
+    "agility_foods": {
+      "note": "Pandaria Agility foods for leather and mail DPS demand.",
+      "items": [
+        "Sea Mist Rice Noodles",
+        "Seasoned Pomfruit Slices"
+      ]
+    },
+    "strength_foods": {
+      "note": "Pandaria Strength foods for plate DPS demand.",
+      "items": [
+        "Black Pepper Ribs and Shrimp",
+        "Fluffy Silkfeather Omelet"
+      ]
+    },
+    "tank_foods": {
+      "note": "Pandaria Stamina foods for tank-focused buyers.",
+      "items": [
+        "Chun Tian Spring Rolls",
+        "Stuffed Lushrooms"
+      ]
+    },
+    "healer_spirit_foods": {
+      "note": "Pandaria Spirit foods for healer mana management demand.",
+      "items": [
+        "Steamed Crab Surprise",
+        "Farmer's Delight"
+      ]
     }
   },
   "classes": {
@@ -408,7 +530,9 @@
         "role": "tank",
         "primary_stat": "Strength",
         "shared_groups": [
-          "tank_consumables"
+          "tank_consumables",
+          "tank_foods",
+          "raid_feasts"
         ],
         "situational_groups": [
           "strength_consumables"
@@ -417,7 +541,12 @@
         "likely_items": [
           "Potion of the Mountains",
           "Flask of the Earth",
-          "Greater Ox Horn Inscription"
+          "Greater Ox Horn Inscription",
+          "Chun Tian Spring Rolls",
+          "Stuffed Lushrooms",
+          "Great Pandaren Banquet",
+          "Pandaren Treasure Noodle Cart Kit",
+          "Pandaren Banquet"
         ],
         "situational_items": [
           "Potion of Mogu Power",
@@ -429,14 +558,21 @@
         "role": "melee_dps",
         "primary_stat": "Strength",
         "shared_groups": [
-          "strength_consumables"
+          "strength_consumables",
+          "strength_foods",
+          "raid_feasts"
         ],
         "situational_groups": [],
         "dedicated_items": [],
         "likely_items": [
           "Potion of Mogu Power",
           "Flask of Winter's Bite",
-          "Greater Tiger Fang Inscription"
+          "Greater Tiger Fang Inscription",
+          "Black Pepper Ribs and Shrimp",
+          "Fluffy Silkfeather Omelet",
+          "Great Pandaren Banquet",
+          "Pandaren Treasure Noodle Cart Kit",
+          "Pandaren Banquet"
         ],
         "situational_items": []
       },
@@ -444,14 +580,21 @@
         "role": "melee_dps",
         "primary_stat": "Strength",
         "shared_groups": [
-          "strength_consumables"
+          "strength_consumables",
+          "strength_foods",
+          "raid_feasts"
         ],
         "situational_groups": [],
         "dedicated_items": [],
         "likely_items": [
           "Potion of Mogu Power",
           "Flask of Winter's Bite",
-          "Greater Tiger Fang Inscription"
+          "Greater Tiger Fang Inscription",
+          "Black Pepper Ribs and Shrimp",
+          "Fluffy Silkfeather Omelet",
+          "Great Pandaren Banquet",
+          "Pandaren Treasure Noodle Cart Kit",
+          "Pandaren Banquet"
         ],
         "situational_items": []
       }
@@ -462,6 +605,8 @@
         "primary_stat": "Intellect",
         "shared_groups": [
           "intellect_consumables",
+          "intellect_foods",
+          "raid_feasts",
           "druid_utility_glyphs"
         ],
         "situational_groups": [],
@@ -470,6 +615,11 @@
           "Potion of the Jade Serpent",
           "Flask of the Warm Sun",
           "Greater Crane Wing Inscription",
+          "Mogu Fish Stew",
+          "Spiced Blossom Soup",
+          "Great Pandaren Banquet",
+          "Pandaren Treasure Noodle Cart Kit",
+          "Pandaren Banquet",
           "Glyph of Dash",
           "Glyph of Rebirth"
         ],
@@ -480,6 +630,8 @@
         "primary_stat": "Agility",
         "shared_groups": [
           "agility_consumables",
+          "agility_foods",
+          "raid_feasts",
           "druid_utility_glyphs"
         ],
         "situational_groups": [],
@@ -492,6 +644,11 @@
           "Virmen's Bite",
           "Flask of Spring Blossoms",
           "Greater Tiger Claw Inscription",
+          "Sea Mist Rice Noodles",
+          "Seasoned Pomfruit Slices",
+          "Great Pandaren Banquet",
+          "Pandaren Treasure Noodle Cart Kit",
+          "Pandaren Banquet",
           "Glyph of Dash",
           "Glyph of Rebirth",
           "Glyph of Savagery",
@@ -505,6 +662,8 @@
         "primary_stat": "Agility",
         "shared_groups": [
           "tank_consumables",
+          "tank_foods",
+          "raid_feasts",
           "druid_utility_glyphs"
         ],
         "situational_groups": [
@@ -515,6 +674,11 @@
           "Potion of the Mountains",
           "Flask of the Earth",
           "Greater Ox Horn Inscription",
+          "Chun Tian Spring Rolls",
+          "Stuffed Lushrooms",
+          "Great Pandaren Banquet",
+          "Pandaren Treasure Noodle Cart Kit",
+          "Pandaren Banquet",
           "Glyph of Dash",
           "Glyph of Rebirth"
         ],
@@ -529,6 +693,8 @@
         "primary_stat": "Intellect",
         "shared_groups": [
           "intellect_consumables",
+          "healer_spirit_foods",
+          "raid_feasts",
           "druid_utility_glyphs"
         ],
         "situational_groups": [],
@@ -537,6 +703,11 @@
           "Potion of the Jade Serpent",
           "Flask of the Warm Sun",
           "Greater Crane Wing Inscription",
+          "Steamed Crab Surprise",
+          "Farmer's Delight",
+          "Great Pandaren Banquet",
+          "Pandaren Treasure Noodle Cart Kit",
+          "Pandaren Banquet",
           "Glyph of Dash",
           "Glyph of Rebirth"
         ],
@@ -549,6 +720,8 @@
         "primary_stat": "Agility",
         "shared_groups": [
           "agility_consumables",
+          "agility_foods",
+          "raid_feasts",
           "hunter_utility_glyphs"
         ],
         "situational_groups": [],
@@ -557,6 +730,11 @@
           "Virmen's Bite",
           "Flask of Spring Blossoms",
           "Greater Tiger Claw Inscription",
+          "Sea Mist Rice Noodles",
+          "Seasoned Pomfruit Slices",
+          "Great Pandaren Banquet",
+          "Pandaren Treasure Noodle Cart Kit",
+          "Pandaren Banquet",
           "Glyph of Pathfinding",
           "Glyph of Liberation"
         ],
@@ -567,6 +745,8 @@
         "primary_stat": "Agility",
         "shared_groups": [
           "agility_consumables",
+          "agility_foods",
+          "raid_feasts",
           "hunter_utility_glyphs"
         ],
         "situational_groups": [],
@@ -575,6 +755,11 @@
           "Virmen's Bite",
           "Flask of Spring Blossoms",
           "Greater Tiger Claw Inscription",
+          "Sea Mist Rice Noodles",
+          "Seasoned Pomfruit Slices",
+          "Great Pandaren Banquet",
+          "Pandaren Treasure Noodle Cart Kit",
+          "Pandaren Banquet",
           "Glyph of Pathfinding",
           "Glyph of Liberation"
         ],
@@ -585,6 +770,8 @@
         "primary_stat": "Agility",
         "shared_groups": [
           "agility_consumables",
+          "agility_foods",
+          "raid_feasts",
           "hunter_utility_glyphs"
         ],
         "situational_groups": [],
@@ -596,6 +783,11 @@
           "Virmen's Bite",
           "Flask of Spring Blossoms",
           "Greater Tiger Claw Inscription",
+          "Sea Mist Rice Noodles",
+          "Seasoned Pomfruit Slices",
+          "Great Pandaren Banquet",
+          "Pandaren Treasure Noodle Cart Kit",
+          "Pandaren Banquet",
           "Glyph of Pathfinding",
           "Glyph of Liberation",
           "Glyph of Animal Bond",
@@ -610,6 +802,8 @@
         "primary_stat": "Intellect",
         "shared_groups": [
           "intellect_consumables",
+          "intellect_foods",
+          "raid_feasts",
           "cloth_spellthreads",
           "mage_utility_glyphs"
         ],
@@ -623,6 +817,11 @@
           "Potion of the Jade Serpent",
           "Flask of the Warm Sun",
           "Greater Crane Wing Inscription",
+          "Mogu Fish Stew",
+          "Spiced Blossom Soup",
+          "Great Pandaren Banquet",
+          "Pandaren Treasure Noodle Cart Kit",
+          "Pandaren Banquet",
           "Greater Cerulean Spellthread",
           "Greater Pearlescent Spellthread",
           "Cerulean Spellthread",
@@ -639,6 +838,8 @@
         "primary_stat": "Intellect",
         "shared_groups": [
           "intellect_consumables",
+          "intellect_foods",
+          "raid_feasts",
           "cloth_spellthreads",
           "mage_utility_glyphs"
         ],
@@ -648,6 +849,11 @@
           "Potion of the Jade Serpent",
           "Flask of the Warm Sun",
           "Greater Crane Wing Inscription",
+          "Mogu Fish Stew",
+          "Spiced Blossom Soup",
+          "Great Pandaren Banquet",
+          "Pandaren Treasure Noodle Cart Kit",
+          "Pandaren Banquet",
           "Greater Cerulean Spellthread",
           "Greater Pearlescent Spellthread",
           "Cerulean Spellthread",
@@ -661,6 +867,8 @@
         "primary_stat": "Intellect",
         "shared_groups": [
           "intellect_consumables",
+          "intellect_foods",
+          "raid_feasts",
           "cloth_spellthreads",
           "mage_utility_glyphs"
         ],
@@ -670,6 +878,11 @@
           "Potion of the Jade Serpent",
           "Flask of the Warm Sun",
           "Greater Crane Wing Inscription",
+          "Mogu Fish Stew",
+          "Spiced Blossom Soup",
+          "Great Pandaren Banquet",
+          "Pandaren Treasure Noodle Cart Kit",
+          "Pandaren Banquet",
           "Greater Cerulean Spellthread",
           "Greater Pearlescent Spellthread",
           "Cerulean Spellthread",
@@ -685,6 +898,8 @@
         "primary_stat": "Agility",
         "shared_groups": [
           "tank_consumables",
+          "tank_foods",
+          "raid_feasts",
           "monk_utility_glyphs"
         ],
         "situational_groups": [
@@ -695,6 +910,11 @@
           "Potion of the Mountains",
           "Flask of the Earth",
           "Greater Ox Horn Inscription",
+          "Chun Tian Spring Rolls",
+          "Stuffed Lushrooms",
+          "Great Pandaren Banquet",
+          "Pandaren Treasure Noodle Cart Kit",
+          "Pandaren Banquet",
           "Glyph of Zen Meditation"
         ],
         "situational_items": [
@@ -708,6 +928,8 @@
         "primary_stat": "Intellect",
         "shared_groups": [
           "intellect_consumables",
+          "healer_spirit_foods",
+          "raid_feasts",
           "monk_utility_glyphs"
         ],
         "situational_groups": [],
@@ -716,6 +938,11 @@
           "Potion of the Jade Serpent",
           "Flask of the Warm Sun",
           "Greater Crane Wing Inscription",
+          "Steamed Crab Surprise",
+          "Farmer's Delight",
+          "Great Pandaren Banquet",
+          "Pandaren Treasure Noodle Cart Kit",
+          "Pandaren Banquet",
           "Glyph of Zen Meditation"
         ],
         "situational_items": []
@@ -725,6 +952,8 @@
         "primary_stat": "Agility",
         "shared_groups": [
           "agility_consumables",
+          "agility_foods",
+          "raid_feasts",
           "monk_utility_glyphs"
         ],
         "situational_groups": [],
@@ -737,6 +966,11 @@
           "Virmen's Bite",
           "Flask of Spring Blossoms",
           "Greater Tiger Claw Inscription",
+          "Sea Mist Rice Noodles",
+          "Seasoned Pomfruit Slices",
+          "Great Pandaren Banquet",
+          "Pandaren Treasure Noodle Cart Kit",
+          "Pandaren Banquet",
           "Glyph of Zen Meditation",
           "Glyph of Spinning Crane Kick",
           "Glyph of Touch of Karma",
@@ -750,14 +984,21 @@
         "role": "healer",
         "primary_stat": "Intellect",
         "shared_groups": [
-          "intellect_consumables"
+          "intellect_consumables",
+          "healer_spirit_foods",
+          "raid_feasts"
         ],
         "situational_groups": [],
         "dedicated_items": [],
         "likely_items": [
           "Potion of the Jade Serpent",
           "Flask of the Warm Sun",
-          "Greater Crane Wing Inscription"
+          "Greater Crane Wing Inscription",
+          "Steamed Crab Surprise",
+          "Farmer's Delight",
+          "Great Pandaren Banquet",
+          "Pandaren Treasure Noodle Cart Kit",
+          "Pandaren Banquet"
         ],
         "situational_items": []
       },
@@ -765,7 +1006,9 @@
         "role": "tank",
         "primary_stat": "Strength",
         "shared_groups": [
-          "tank_consumables"
+          "tank_consumables",
+          "tank_foods",
+          "raid_feasts"
         ],
         "situational_groups": [
           "strength_consumables"
@@ -774,7 +1017,12 @@
         "likely_items": [
           "Potion of the Mountains",
           "Flask of the Earth",
-          "Greater Ox Horn Inscription"
+          "Greater Ox Horn Inscription",
+          "Chun Tian Spring Rolls",
+          "Stuffed Lushrooms",
+          "Great Pandaren Banquet",
+          "Pandaren Treasure Noodle Cart Kit",
+          "Pandaren Banquet"
         ],
         "situational_items": [
           "Potion of Mogu Power",
@@ -786,14 +1034,21 @@
         "role": "melee_dps",
         "primary_stat": "Strength",
         "shared_groups": [
-          "strength_consumables"
+          "strength_consumables",
+          "strength_foods",
+          "raid_feasts"
         ],
         "situational_groups": [],
         "dedicated_items": [],
         "likely_items": [
           "Potion of Mogu Power",
           "Flask of Winter's Bite",
-          "Greater Tiger Fang Inscription"
+          "Greater Tiger Fang Inscription",
+          "Black Pepper Ribs and Shrimp",
+          "Fluffy Silkfeather Omelet",
+          "Great Pandaren Banquet",
+          "Pandaren Treasure Noodle Cart Kit",
+          "Pandaren Banquet"
         ],
         "situational_items": []
       }
@@ -804,6 +1059,8 @@
         "primary_stat": "Intellect",
         "shared_groups": [
           "intellect_consumables",
+          "healer_spirit_foods",
+          "raid_feasts",
           "cloth_spellthreads",
           "priest_healer_utility_glyphs"
         ],
@@ -817,6 +1074,11 @@
           "Potion of the Jade Serpent",
           "Flask of the Warm Sun",
           "Greater Crane Wing Inscription",
+          "Steamed Crab Surprise",
+          "Farmer's Delight",
+          "Great Pandaren Banquet",
+          "Pandaren Treasure Noodle Cart Kit",
+          "Pandaren Banquet",
           "Greater Cerulean Spellthread",
           "Greater Pearlescent Spellthread",
           "Cerulean Spellthread",
@@ -833,6 +1095,8 @@
         "primary_stat": "Intellect",
         "shared_groups": [
           "intellect_consumables",
+          "healer_spirit_foods",
+          "raid_feasts",
           "cloth_spellthreads",
           "priest_healer_utility_glyphs"
         ],
@@ -842,6 +1106,11 @@
           "Potion of the Jade Serpent",
           "Flask of the Warm Sun",
           "Greater Crane Wing Inscription",
+          "Steamed Crab Surprise",
+          "Farmer's Delight",
+          "Great Pandaren Banquet",
+          "Pandaren Treasure Noodle Cart Kit",
+          "Pandaren Banquet",
           "Greater Cerulean Spellthread",
           "Greater Pearlescent Spellthread",
           "Cerulean Spellthread",
@@ -855,6 +1124,8 @@
         "primary_stat": "Intellect",
         "shared_groups": [
           "intellect_consumables",
+          "intellect_foods",
+          "raid_feasts",
           "cloth_spellthreads"
         ],
         "situational_groups": [],
@@ -863,6 +1134,11 @@
           "Potion of the Jade Serpent",
           "Flask of the Warm Sun",
           "Greater Crane Wing Inscription",
+          "Mogu Fish Stew",
+          "Spiced Blossom Soup",
+          "Great Pandaren Banquet",
+          "Pandaren Treasure Noodle Cart Kit",
+          "Pandaren Banquet",
           "Greater Cerulean Spellthread",
           "Greater Pearlescent Spellthread",
           "Cerulean Spellthread",
@@ -876,14 +1152,21 @@
         "role": "melee_dps",
         "primary_stat": "Agility",
         "shared_groups": [
-          "agility_consumables"
+          "agility_consumables",
+          "agility_foods",
+          "raid_feasts"
         ],
         "situational_groups": [],
         "dedicated_items": [],
         "likely_items": [
           "Virmen's Bite",
           "Flask of Spring Blossoms",
-          "Greater Tiger Claw Inscription"
+          "Greater Tiger Claw Inscription",
+          "Sea Mist Rice Noodles",
+          "Seasoned Pomfruit Slices",
+          "Great Pandaren Banquet",
+          "Pandaren Treasure Noodle Cart Kit",
+          "Pandaren Banquet"
         ],
         "situational_items": []
       },
@@ -891,14 +1174,21 @@
         "role": "melee_dps",
         "primary_stat": "Agility",
         "shared_groups": [
-          "agility_consumables"
+          "agility_consumables",
+          "agility_foods",
+          "raid_feasts"
         ],
         "situational_groups": [],
         "dedicated_items": [],
         "likely_items": [
           "Virmen's Bite",
           "Flask of Spring Blossoms",
-          "Greater Tiger Claw Inscription"
+          "Greater Tiger Claw Inscription",
+          "Sea Mist Rice Noodles",
+          "Seasoned Pomfruit Slices",
+          "Great Pandaren Banquet",
+          "Pandaren Treasure Noodle Cart Kit",
+          "Pandaren Banquet"
         ],
         "situational_items": []
       },
@@ -906,14 +1196,21 @@
         "role": "melee_dps",
         "primary_stat": "Agility",
         "shared_groups": [
-          "agility_consumables"
+          "agility_consumables",
+          "agility_foods",
+          "raid_feasts"
         ],
         "situational_groups": [],
         "dedicated_items": [],
         "likely_items": [
           "Virmen's Bite",
           "Flask of Spring Blossoms",
-          "Greater Tiger Claw Inscription"
+          "Greater Tiger Claw Inscription",
+          "Sea Mist Rice Noodles",
+          "Seasoned Pomfruit Slices",
+          "Great Pandaren Banquet",
+          "Pandaren Treasure Noodle Cart Kit",
+          "Pandaren Banquet"
         ],
         "situational_items": []
       }
@@ -923,14 +1220,21 @@
         "role": "ranged_dps",
         "primary_stat": "Intellect",
         "shared_groups": [
-          "intellect_consumables"
+          "intellect_consumables",
+          "intellect_foods",
+          "raid_feasts"
         ],
         "situational_groups": [],
         "dedicated_items": [],
         "likely_items": [
           "Potion of the Jade Serpent",
           "Flask of the Warm Sun",
-          "Greater Crane Wing Inscription"
+          "Greater Crane Wing Inscription",
+          "Mogu Fish Stew",
+          "Spiced Blossom Soup",
+          "Great Pandaren Banquet",
+          "Pandaren Treasure Noodle Cart Kit",
+          "Pandaren Banquet"
         ],
         "situational_items": []
       },
@@ -938,14 +1242,21 @@
         "role": "melee_dps",
         "primary_stat": "Agility",
         "shared_groups": [
-          "agility_consumables"
+          "agility_consumables",
+          "agility_foods",
+          "raid_feasts"
         ],
         "situational_groups": [],
         "dedicated_items": [],
         "likely_items": [
           "Virmen's Bite",
           "Flask of Spring Blossoms",
-          "Greater Tiger Claw Inscription"
+          "Greater Tiger Claw Inscription",
+          "Sea Mist Rice Noodles",
+          "Seasoned Pomfruit Slices",
+          "Great Pandaren Banquet",
+          "Pandaren Treasure Noodle Cart Kit",
+          "Pandaren Banquet"
         ],
         "situational_items": []
       },
@@ -953,14 +1264,21 @@
         "role": "healer",
         "primary_stat": "Intellect",
         "shared_groups": [
-          "intellect_consumables"
+          "intellect_consumables",
+          "healer_spirit_foods",
+          "raid_feasts"
         ],
         "situational_groups": [],
         "dedicated_items": [],
         "likely_items": [
           "Potion of the Jade Serpent",
           "Flask of the Warm Sun",
-          "Greater Crane Wing Inscription"
+          "Greater Crane Wing Inscription",
+          "Steamed Crab Surprise",
+          "Farmer's Delight",
+          "Great Pandaren Banquet",
+          "Pandaren Treasure Noodle Cart Kit",
+          "Pandaren Banquet"
         ],
         "situational_items": []
       }
@@ -971,6 +1289,8 @@
         "primary_stat": "Intellect",
         "shared_groups": [
           "intellect_consumables",
+          "intellect_foods",
+          "raid_feasts",
           "cloth_spellthreads",
           "warlock_utility_glyphs"
         ],
@@ -983,6 +1303,11 @@
           "Potion of the Jade Serpent",
           "Flask of the Warm Sun",
           "Greater Crane Wing Inscription",
+          "Mogu Fish Stew",
+          "Spiced Blossom Soup",
+          "Great Pandaren Banquet",
+          "Pandaren Treasure Noodle Cart Kit",
+          "Pandaren Banquet",
           "Greater Cerulean Spellthread",
           "Greater Pearlescent Spellthread",
           "Cerulean Spellthread",
@@ -998,6 +1323,8 @@
         "primary_stat": "Intellect",
         "shared_groups": [
           "intellect_consumables",
+          "intellect_foods",
+          "raid_feasts",
           "cloth_spellthreads",
           "warlock_utility_glyphs"
         ],
@@ -1007,6 +1334,11 @@
           "Potion of the Jade Serpent",
           "Flask of the Warm Sun",
           "Greater Crane Wing Inscription",
+          "Mogu Fish Stew",
+          "Spiced Blossom Soup",
+          "Great Pandaren Banquet",
+          "Pandaren Treasure Noodle Cart Kit",
+          "Pandaren Banquet",
           "Greater Cerulean Spellthread",
           "Greater Pearlescent Spellthread",
           "Cerulean Spellthread",
@@ -1020,6 +1352,8 @@
         "primary_stat": "Intellect",
         "shared_groups": [
           "intellect_consumables",
+          "intellect_foods",
+          "raid_feasts",
           "cloth_spellthreads",
           "warlock_utility_glyphs"
         ],
@@ -1029,6 +1363,11 @@
           "Potion of the Jade Serpent",
           "Flask of the Warm Sun",
           "Greater Crane Wing Inscription",
+          "Mogu Fish Stew",
+          "Spiced Blossom Soup",
+          "Great Pandaren Banquet",
+          "Pandaren Treasure Noodle Cart Kit",
+          "Pandaren Banquet",
           "Greater Cerulean Spellthread",
           "Greater Pearlescent Spellthread",
           "Cerulean Spellthread",
@@ -1043,14 +1382,21 @@
         "role": "melee_dps",
         "primary_stat": "Strength",
         "shared_groups": [
-          "strength_consumables"
+          "strength_consumables",
+          "strength_foods",
+          "raid_feasts"
         ],
         "situational_groups": [],
         "dedicated_items": [],
         "likely_items": [
           "Potion of Mogu Power",
           "Flask of Winter's Bite",
-          "Greater Tiger Fang Inscription"
+          "Greater Tiger Fang Inscription",
+          "Black Pepper Ribs and Shrimp",
+          "Fluffy Silkfeather Omelet",
+          "Great Pandaren Banquet",
+          "Pandaren Treasure Noodle Cart Kit",
+          "Pandaren Banquet"
         ],
         "situational_items": []
       },
@@ -1058,14 +1404,21 @@
         "role": "melee_dps",
         "primary_stat": "Strength",
         "shared_groups": [
-          "strength_consumables"
+          "strength_consumables",
+          "strength_foods",
+          "raid_feasts"
         ],
         "situational_groups": [],
         "dedicated_items": [],
         "likely_items": [
           "Potion of Mogu Power",
           "Flask of Winter's Bite",
-          "Greater Tiger Fang Inscription"
+          "Greater Tiger Fang Inscription",
+          "Black Pepper Ribs and Shrimp",
+          "Fluffy Silkfeather Omelet",
+          "Great Pandaren Banquet",
+          "Pandaren Treasure Noodle Cart Kit",
+          "Pandaren Banquet"
         ],
         "situational_items": []
       },
@@ -1073,7 +1426,9 @@
         "role": "tank",
         "primary_stat": "Strength",
         "shared_groups": [
-          "tank_consumables"
+          "tank_consumables",
+          "tank_foods",
+          "raid_feasts"
         ],
         "situational_groups": [
           "strength_consumables"
@@ -1082,7 +1437,12 @@
         "likely_items": [
           "Potion of the Mountains",
           "Flask of the Earth",
-          "Greater Ox Horn Inscription"
+          "Greater Ox Horn Inscription",
+          "Chun Tian Spring Rolls",
+          "Stuffed Lushrooms",
+          "Great Pandaren Banquet",
+          "Pandaren Treasure Noodle Cart Kit",
+          "Pandaren Banquet"
         ],
         "situational_items": [
           "Potion of Mogu Power",

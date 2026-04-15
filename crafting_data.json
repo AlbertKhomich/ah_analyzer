@@ -15,7 +15,9 @@
       "shoulder_inscription": "low to medium volume",
       "tailoring_spellthread": "medium volume",
       "tailoring_bag": "low volume",
-      "tailoring_epic": "craft only if margin is clearly high and competition is low"
+      "tailoring_epic": "craft only if margin is clearly high and competition is low",
+      "food": "medium volume for the strongest stat foods; keep cache-recipe foods lighter until margins stabilize",
+      "feast": "low to medium volume, with more focus around raid reset and guild raid nights"
     }
   },
   "craft_targets": [
@@ -1354,6 +1356,327 @@
           "qty": 2
         }
       ]
+    },
+    {
+      "rank": 79,
+      "item": "Great Pandaren Banquet",
+      "category": "feast",
+      "tier": "S",
+      "reason": "Top universal raid feast with broad Phase 4 group demand",
+      "reagents": [
+        {
+          "item": "100 Year Soy Sauce",
+          "qty": 1
+        },
+        {
+          "item": "Jewel Danio",
+          "qty": 20
+        },
+        {
+          "item": "Raw Tiger Steak",
+          "qty": 20
+        },
+        {
+          "item": "Pink Turnip",
+          "qty": 100
+        }
+      ]
+    },
+    {
+      "rank": 80,
+      "item": "Pandaren Treasure Noodle Cart Kit",
+      "category": "feast",
+      "tier": "S",
+      "reason": "Patch 5.4 noodle cart kit with broad raid and group utility demand",
+      "output_qty": 10,
+      "reagents": [
+        {
+          "item": "Black Pepper Ribs and Shrimp",
+          "qty": 5
+        },
+        {
+          "item": "Chun Tian Spring Rolls",
+          "qty": 5
+        },
+        {
+          "item": "Mogu Fish Stew",
+          "qty": 5
+        },
+        {
+          "item": "Steamed Crab Surprise",
+          "qty": 5
+        },
+        {
+          "item": "Sea Mist Rice Noodles",
+          "qty": 5
+        },
+        {
+          "item": "Mad Brewer's Breakfast",
+          "qty": 5
+        }
+      ]
+    },
+    {
+      "rank": 81,
+      "item": "Pandaren Banquet",
+      "category": "feast",
+      "tier": "A",
+      "reason": "Smaller raid feast with broad reset-night demand",
+      "reagents": [
+        {
+          "item": "100 Year Soy Sauce",
+          "qty": 1
+        },
+        {
+          "item": "Jewel Danio",
+          "qty": 10
+        },
+        {
+          "item": "Raw Tiger Steak",
+          "qty": 10
+        },
+        {
+          "item": "Pink Turnip",
+          "qty": 50
+        }
+      ]
+    },
+    {
+      "rank": 82,
+      "item": "Mogu Fish Stew",
+      "category": "food",
+      "tier": "A",
+      "reason": "Core Intellect personal food for caster and healer markets",
+      "output_qty": 10,
+      "reagents": [
+        {
+          "item": "Black Pepper",
+          "qty": 1
+        },
+        {
+          "item": "Emperor Salmon",
+          "qty": 5
+        },
+        {
+          "item": "Raw Crocolisk Belly",
+          "qty": 5
+        },
+        {
+          "item": "Mogu Pumpkin",
+          "qty": 25
+        }
+      ]
+    },
+    {
+      "rank": 83,
+      "item": "Sea Mist Rice Noodles",
+      "category": "food",
+      "tier": "A",
+      "reason": "Core Agility personal food for leather and mail DPS demand",
+      "output_qty": 10,
+      "reagents": [
+        {
+          "item": "Rice Flour",
+          "qty": 1
+        },
+        {
+          "item": "Tiger Gourami",
+          "qty": 5
+        },
+        {
+          "item": "Raw Turtle Meat",
+          "qty": 5
+        },
+        {
+          "item": "Scallions",
+          "qty": 25
+        }
+      ]
+    },
+    {
+      "rank": 84,
+      "item": "Black Pepper Ribs and Shrimp",
+      "category": "food",
+      "tier": "A",
+      "reason": "Core Strength personal food for plate DPS demand",
+      "output_qty": 10,
+      "reagents": [
+        {
+          "item": "Black Pepper",
+          "qty": 1
+        },
+        {
+          "item": "Giant Mantis Shrimp",
+          "qty": 5
+        },
+        {
+          "item": "Mushan Ribs",
+          "qty": 5
+        },
+        {
+          "item": "Green Cabbage",
+          "qty": 25
+        }
+      ]
+    },
+    {
+      "rank": 85,
+      "item": "Steamed Crab Surprise",
+      "category": "food",
+      "tier": "B",
+      "reason": "Spirit food aimed at healer mana-stability demand",
+      "output_qty": 10,
+      "reagents": [
+        {
+          "item": "Rice Flour",
+          "qty": 1
+        },
+        {
+          "item": "Jewel Danio",
+          "qty": 5
+        },
+        {
+          "item": "Raw Crab Meat",
+          "qty": 5
+        },
+        {
+          "item": "White Turnip",
+          "qty": 25
+        }
+      ]
+    },
+    {
+      "rank": 86,
+      "item": "Chun Tian Spring Rolls",
+      "category": "food",
+      "tier": "B",
+      "reason": "Stamina food aimed at dedicated tank buyers",
+      "output_qty": 10,
+      "reagents": [
+        {
+          "item": "Rice Flour",
+          "qty": 1
+        },
+        {
+          "item": "Redbelly Mandarin",
+          "qty": 5
+        },
+        {
+          "item": "Raw Tiger Steak",
+          "qty": 5
+        },
+        {
+          "item": "Red Blossom Leek",
+          "qty": 25
+        }
+      ]
+    },
+    {
+      "rank": 87,
+      "item": "Spiced Blossom Soup",
+      "category": "food",
+      "tier": "B",
+      "reason": "Patch 5.4 Intellect alternative from Ancient Guo-Lai Cache recipes",
+      "reagents": [
+        {
+          "item": "Ancient Pandaren Spices",
+          "qty": 1
+        },
+        {
+          "item": "Delicate Blossom Petals",
+          "qty": 5
+        }
+      ]
+    },
+    {
+      "rank": 88,
+      "item": "Seasoned Pomfruit Slices",
+      "category": "food",
+      "tier": "B",
+      "reason": "Patch 5.4 Agility alternative from Ancient Guo-Lai Cache recipes",
+      "reagents": [
+        {
+          "item": "Ancient Pandaren Spices",
+          "qty": 1
+        },
+        {
+          "item": "Fresh Pomfruit",
+          "qty": 5
+        }
+      ]
+    },
+    {
+      "rank": 89,
+      "item": "Fluffy Silkfeather Omelet",
+      "category": "food",
+      "tier": "B",
+      "reason": "Patch 5.4 Strength alternative from Ancient Guo-Lai Cache recipes",
+      "reagents": [
+        {
+          "item": "Aged Mogu'shan Cheese",
+          "qty": 1
+        },
+        {
+          "item": "Fresh Silkfeather Hawk Eggs",
+          "qty": 5
+        }
+      ]
+    },
+    {
+      "rank": 90,
+      "item": "Farmer's Delight",
+      "category": "food",
+      "tier": "C",
+      "reason": "Patch 5.4 Spirit alternative from Ancient Guo-Lai Cache recipes",
+      "reagents": [
+        {
+          "item": "Aged Balsamic Vinegar",
+          "qty": 1
+        },
+        {
+          "item": "Fresh Strawberries",
+          "qty": 1
+        },
+        {
+          "item": "Fresh Shao-Tien Rice",
+          "qty": 2
+        }
+      ]
+    },
+    {
+      "rank": 91,
+      "item": "Stuffed Lushrooms",
+      "category": "food",
+      "tier": "C",
+      "reason": "Patch 5.4 Stamina alternative from Ancient Guo-Lai Cache recipes",
+      "reagents": [
+        {
+          "item": "Aged Mogu'shan Cheese",
+          "qty": 1
+        },
+        {
+          "item": "Fresh Lushroom",
+          "qty": 5
+        }
+      ]
+    },
+    {
+      "rank": 92,
+      "item": "Mad Brewer's Breakfast",
+      "category": "food",
+      "tier": "C",
+      "reason": "Noodle-cart support craft and niche Brew-side personal food market",
+      "output_qty": 10,
+      "reagents": [
+        {
+          "item": "Black Pepper",
+          "qty": 1
+        },
+        {
+          "item": "Pink Turnip",
+          "qty": 50
+        }
+      ]
     }
   ],
   "supporting_recipes": {
@@ -2278,13 +2601,17 @@
   ],
   "reagent_confidence_notes": {
     "high_confidence_exact": [
+      "Black Pepper Ribs and Shrimp",
       "Cerulean Spellthread",
+      "Chun Tian Spring Rolls",
       "Contender's Satin Raiment",
       "Contender's Silk Raiment",
+      "Farmer's Delight",
       "Flask of Spring Blossoms",
-      "Flask of Winter's Bite",
       "Flask of the Earth",
       "Flask of the Warm Sun",
+      "Flask of Winter's Bite",
+      "Fluffy Silkfeather Omelet",
       "Gloves of Creation",
       "Glyph of Animal Bond",
       "Glyph of Arcane Power",
@@ -2303,6 +2630,7 @@
       "Glyph of Touch of Karma",
       "Glyph of Unstable Affliction",
       "Glyph of Zen Meditation",
+      "Great Pandaren Banquet",
       "Greater Cerulean Spellthread",
       "Greater Crane Wing Inscription",
       "Greater Ox Horn Inscription",
@@ -2311,6 +2639,10 @@
       "Greater Tiger Fang Inscription",
       "Imperial Silk Gloves",
       "Legacy of the Emperor",
+      "Mad Brewer's Breakfast",
+      "Mogu Fish Stew",
+      "Pandaren Banquet",
+      "Pandaren Treasure Noodle Cart Kit",
       "Pearlescent Spellthread",
       "Potion of Mogu Power",
       "Potion of the Jade Serpent",
@@ -2318,8 +2650,13 @@
       "Robe of Eternal Rule",
       "Robes of Creation",
       "Royal Satchel",
+      "Sea Mist Rice Noodles",
+      "Seasoned Pomfruit Slices",
       "Spelltwister's Gloves",
       "Spelltwister's Grand Robe",
+      "Spiced Blossom Soup",
+      "Steamed Crab Surprise",
+      "Stuffed Lushrooms",
       "Touch of the Light",
       "Virmen's Bite"
     ],
