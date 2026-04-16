@@ -255,7 +255,7 @@
       "tier": "A",
       "reason": "Strong secondary Warlock glyph",
       "reagents": [
-        { "item": "Ink of the Sea", "qty": 3 },
+        { "item": "Midnight Ink", "qty": 3 },
         { "item": "Light Parchment", "qty": 1 }
       ]
     },

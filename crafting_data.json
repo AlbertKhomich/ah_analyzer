@@ -390,7 +390,7 @@
       "reason": "Strong secondary Warlock glyph",
       "reagents": [
         {
-          "item": "Ink of the Sea",
+          "item": "Midnight Ink",
           "qty": 3
         },
         {
@@ -1851,7 +1851,7 @@
               "qty": 2
             }
           ],
-          "used_in": ["Glyph of Holy Fire"]
+          "used_in": ["Glyph of Holy Fire", "Glyph of Siphon Life"]
         },
         "Lion's Ink": {
           "profession": "Inscription",
@@ -1920,7 +1920,6 @@
             "Glyph of Animal Bond",
             "Glyph of Spinning Crane Kick",
             "Glyph of Touch of Karma",
-            "Glyph of Siphon Life",
             "Glyph of Rapid Displacement",
             "Glyph of Arcane Explosion",
             "Glyph of Cone of Cold",
