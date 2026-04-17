@@ -2,7 +2,12 @@ import csv
 import json
 from typing import Any, Dict, List, Optional
 
-from planner_data import PLANNER_JSON_FILES, load_json, load_planner_data
+from planner_data import (
+    PLANNER_JSON_FILES,
+    load_json,
+    load_planner_data,
+    merge_active_event_entries,
+)
 from planning import build_plan, build_planner_entries
 from pricing import (
     CostOption,
@@ -95,7 +100,10 @@ def main() -> None:
     crafting_data = load_json(CRAFTING_JSON)
     pricing_rules = get_pricing_rules(crafting_data)
     snapshot = load_snapshot(SNAPSHOT_CSV, pricing_rules.get("name_aliases"))
-    class_spec_data = load_planner_data(PLANNER_JSON_FILES)
+    class_spec_data = merge_active_event_entries(
+        load_planner_data(PLANNER_JSON_FILES),
+        crafting_data,
+    )
     pricing_context = PricingContext(snapshot=snapshot, crafting_data=crafting_data)
     planner_entries = build_planner_entries(class_spec_data)
     results = build_plan(snapshot, planner_entries, crafting_data)

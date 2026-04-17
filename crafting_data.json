@@ -1677,6 +1677,64 @@
           "qty": 50
         }
       ]
+    },
+    {
+      "rank": 93,
+      "item": "Delicious Chocolate Cake",
+      "category": "food",
+      "tier": "S",
+      "reason": "Children's Week Bad Example achievement item with strong seasonal nostalgia demand",
+      "events": [
+        "childrens-week"
+      ],
+      "output_qty": 1,
+      "reagents": [
+        {
+          "item": "Simple Flour",
+          "qty": 8
+        },
+        {
+          "item": "Ice Cold Milk",
+          "qty": 4
+        },
+        {
+          "item": "Mild Spices",
+          "qty": 4
+        },
+        {
+          "item": "Small Egg",
+          "qty": 8
+        },
+        {
+          "item": "Flask of Stormwind Tawny",
+          "qty": 1
+        },
+        {
+          "item": "Mageroyal",
+          "qty": 3
+        }
+      ]
+    },
+    {
+      "rank": 94,
+      "item": "Tasty Cupcake",
+      "category": "food",
+      "tier": "A",
+      "reason": "Cheaper Children's Week Bad Example craft with solid seasonal demand",
+      "events": [
+        "childrens-week"
+      ],
+      "output_qty": 5,
+      "reagents": [
+        {
+          "item": "Simple Flour",
+          "qty": 2
+        },
+        {
+          "item": "Northern Egg",
+          "qty": 1
+        }
+      ]
     }
   ],
   "supporting_recipes": {
@@ -1685,9 +1743,13 @@
       "fallback_prices": {
         "Crystal Vial": 500,
         "Eternium Thread": 300,
+        "Flask of Stormwind Tawny": 150,
+        "Ice Cold Milk": 125,
         "Light Parchment": 1500,
+        "Mild Spices": 2,
         "Pyrium-Laced Crystalline Vial": 50000000,
         "Rune Thread": 5000,
+        "Simple Flour": 25,
         "Sands of Time": 30000000
       },
       "non_ah_reagent_prices": {

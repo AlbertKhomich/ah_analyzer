@@ -2,7 +2,12 @@ import argparse
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Set, Tuple
 
-from planner_data import PLANNER_JSON_FILES, load_json, load_planner_data
+from planner_data import (
+    PLANNER_JSON_FILES,
+    load_json,
+    load_planner_data,
+    merge_active_event_entries,
+)
 from pricing import PricingContext, get_pricing_rules, load_snapshot, resolve_unit_cost
 
 
@@ -426,8 +431,11 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
-    class_spec_data = load_planner_data(PLANNER_JSON_FILES)
     crafting_data = load_json(CRAFTING_JSON)
+    class_spec_data = merge_active_event_entries(
+        load_planner_data(PLANNER_JSON_FILES),
+        crafting_data,
+    )
     craft_lookup = build_craft_lookup(crafting_data)
     pricing_rules = get_pricing_rules(crafting_data)
     snapshot = load_snapshot(SNAPSHOT_CSV, pricing_rules.get("name_aliases"))

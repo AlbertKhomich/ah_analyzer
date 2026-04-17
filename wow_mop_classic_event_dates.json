@@ -1,0 +1,315 @@
+{
+  "meta": {
+    "game": "World of Warcraft: Mists of Pandaria Classic",
+    "calendar_year": 2026,
+    "verified_on": "2026-04-17",
+    "scope": "Annual world-event data for WoW Classic progression realms, currently Mists of Pandaria Classic.",
+    "data_policy": "Prefer official Blizzard WoW Classic or Classic progression posts. If Blizzard has not yet published an exact 2026 window, keep the 2026 dates unconfirmed and include the last confirmed Classic window instead.",
+    "notes": [
+      "This file is MoP Classic-focused and should be used instead of the retail-reference wow_event_dates.json file.",
+      "Some holiday windows are fixed or effectively fixed each year in Classic progression; others move and are only confirmed once Blizzard publishes the seasonal article.",
+      "Darkmoon Faire dates are rule-based monthly occurrences for the post-Cataclysm event format used by Mists of Pandaria Classic."
+    ]
+  },
+  "events": [
+    {
+      "slug": "new-year",
+      "name": "New Year",
+      "type": "holiday",
+      "dates_2026": {
+        "status": "stable_rule_based",
+        "start_date": "2026-12-31",
+        "end_date": "2027-01-01"
+      },
+      "recurrence_hint": "December 31 to January 1",
+      "source_urls": ["https://warcraft.wiki.gg/wiki/New_Year"]
+    },
+    {
+      "slug": "darkmoon-faire",
+      "name": "Darkmoon Faire",
+      "type": "monthly_world_event",
+      "dates_2026": {
+        "status": "rule_based_monthly",
+        "schedule_rule": "Starts on the first Sunday of the first full week of each month and lasts 7 days.",
+        "occurrences": [
+          {
+            "month": "2026-01",
+            "start_date": "2026-01-04",
+            "end_date": "2026-01-10"
+          },
+          {
+            "month": "2026-02",
+            "start_date": "2026-02-01",
+            "end_date": "2026-02-07"
+          },
+          {
+            "month": "2026-03",
+            "start_date": "2026-03-01",
+            "end_date": "2026-03-07"
+          },
+          {
+            "month": "2026-04",
+            "start_date": "2026-04-05",
+            "end_date": "2026-04-11"
+          },
+          {
+            "month": "2026-05",
+            "start_date": "2026-05-03",
+            "end_date": "2026-05-09"
+          },
+          {
+            "month": "2026-06",
+            "start_date": "2026-06-07",
+            "end_date": "2026-06-13"
+          },
+          {
+            "month": "2026-07",
+            "start_date": "2026-07-05",
+            "end_date": "2026-07-11"
+          },
+          {
+            "month": "2026-08",
+            "start_date": "2026-08-02",
+            "end_date": "2026-08-08"
+          },
+          {
+            "month": "2026-09",
+            "start_date": "2026-09-06",
+            "end_date": "2026-09-12"
+          },
+          {
+            "month": "2026-10",
+            "start_date": "2026-10-04",
+            "end_date": "2026-10-10"
+          },
+          {
+            "month": "2026-11",
+            "start_date": "2026-11-01",
+            "end_date": "2026-11-07"
+          },
+          {
+            "month": "2026-12",
+            "start_date": "2026-12-06",
+            "end_date": "2026-12-12"
+          }
+        ]
+      },
+      "source_urls": [
+        "https://warcraft.wiki.gg/wiki/Darkmoon_Races",
+        "https://worldofwarcraft.blizzard.com/news/18061647/race-you-to-the-darkmoon-faire"
+      ]
+    },
+    {
+      "slug": "lunar-festival",
+      "name": "Lunar Festival",
+      "type": "holiday",
+      "dates_2026": {
+        "status": "official",
+        "start_date": "2026-01-20",
+        "end_date": "2026-02-10"
+      },
+      "source_urls": [
+        "https://worldofwarcraft.blizzard.com/en-us/news/23901948"
+      ]
+    },
+    {
+      "slug": "love-is-in-the-air",
+      "name": "Love is in the Air",
+      "type": "holiday",
+      "dates_2026": {
+        "status": "inferred_from_shared_2026_classic_progression_article",
+        "start_date": "2026-02-09",
+        "end_date": "2026-02-23"
+      },
+      "notes": [
+        "The 2026 Blizzard article includes a Classic progression section but does not list separate Classic-only dates, so this window is inferred to match the article's main event window."
+      ],
+      "source_urls": [
+        "https://worldofwarcraft.blizzard.com/en-us/news/24257260/flutter-into-the-fight-love-is-in-the-air-has-arrived"
+      ]
+    },
+    {
+      "slug": "noblegarden",
+      "name": "Noblegarden",
+      "type": "holiday",
+      "dates_2026": {
+        "status": "official",
+        "start_date": "2026-04-05",
+        "end_date": "2026-04-12"
+      },
+      "source_urls": [
+        "https://worldofwarcraft.blizzard.com/news/24272601/spring-into-action-for-noblegarden-april-6-13"
+      ]
+    },
+    {
+      "slug": "childrens-week",
+      "name": "Children's Week",
+      "type": "holiday",
+      "dates_2026": {
+        "status": "stable_classic_rule",
+        "start_date": "2026-04-27",
+        "end_date": "2026-05-11"
+      },
+      "last_confirmed_classic_window": {
+        "year": 2025,
+        "start_date": "2025-05-01",
+        "end_date": "2025-05-08"
+      },
+      "source_urls": [
+        "https://worldofwarcraft.blizzard.com/news/22965339/childrens-week-has-arrived"
+      ]
+    },
+    {
+      "slug": "midsummer-fire-festival",
+      "name": "Midsummer Fire Festival",
+      "type": "holiday",
+      "dates_2026": {
+        "status": "stable_classic_rule",
+        "start_date": "2026-06-21",
+        "end_date": "2026-07-05"
+      },
+      "last_confirmed_classic_window": {
+        "year": 2025,
+        "start_date": "2025-06-21",
+        "end_date": "2025-07-05"
+      },
+      "source_urls": [
+        "https://worldofwarcraft.blizzard.com/en-us/news/24213951"
+      ]
+    },
+    {
+      "slug": "pirates-day",
+      "name": "Pirates' Day",
+      "type": "holiday",
+      "dates_2026": {
+        "status": "stable_rule_based",
+        "start_date": "2026-09-19",
+        "end_date": "2026-09-19"
+      },
+      "recurrence_hint": "September 19",
+      "source_urls": ["https://warcraft.wiki.gg/wiki/Pirates%27_Day"]
+    },
+    {
+      "slug": "harvest-festival",
+      "name": "Harvest Festival",
+      "type": "holiday",
+      "dates_2026": {
+        "status": "estimated_from_current_wiki_calendar",
+        "start_date": "2026-09-21",
+        "end_date": "2026-09-28"
+      },
+      "notes": [
+        "Blizzard had not published a MoP Classic / Classic progression 2026 Harvest Festival article when this file was verified.",
+        "The 2026 window above comes from the current Warcraft Wiki event calendar and should be treated as lower confidence than Blizzard-confirmed entries."
+      ],
+      "source_urls": ["https://warcraft.wiki.gg/wiki/Harvest_Festival"]
+    },
+    {
+      "slug": "brewfest",
+      "name": "Brewfest",
+      "type": "holiday",
+      "dates_2026": {
+        "status": "unconfirmed_2026",
+        "start_date": null,
+        "end_date": null
+      },
+      "last_confirmed_classic_window": {
+        "year": 2025,
+        "start_date": "2025-09-23",
+        "end_date": "2025-10-09"
+      },
+      "recurrence_hint": "Late September into early October",
+      "source_urls": [
+        "https://worldofwarcraft.blizzard.com/en-us/news/24235740"
+      ]
+    },
+    {
+      "slug": "hallows-end",
+      "name": "Hallow's End",
+      "type": "holiday",
+      "dates_2026": {
+        "status": "stable_rule_based",
+        "start_date": "2026-10-18",
+        "end_date": "2026-11-01"
+      },
+      "source_urls": [
+        "https://worldofwarcraft.blizzard.com/news/24243439/wow-weekly-housing-on-the-ptr-hallows-end-begins-and-more",
+        "https://warcraft.wiki.gg/wiki/Hallow%27s_End"
+      ]
+    },
+    {
+      "slug": "day-of-the-dead",
+      "name": "Day of the Dead",
+      "type": "holiday",
+      "dates_2026": {
+        "status": "stable_classic_rule",
+        "start_date": "2026-11-01",
+        "end_date": "2026-11-02"
+      },
+      "last_confirmed_classic_window": {
+        "year": 2025,
+        "start_date": "2025-11-01",
+        "end_date": "2025-11-02"
+      },
+      "notes": [
+        "Retail currently runs November 1 to November 3, but WoW Classic uses the shorter November 1 to November 2 window."
+      ],
+      "source_urls": [
+        "https://worldofwarcraft.blizzard.com/en-us/news/22646756"
+      ]
+    },
+    {
+      "slug": "wows-anniversary",
+      "name": "WoW's Anniversary",
+      "type": "anniversary_event",
+      "dates_2026": {
+        "status": "unconfirmed_2026",
+        "start_date": null,
+        "end_date": null
+      },
+      "last_confirmed_classic_window": {
+        "year": 2025,
+        "start_date": "2025-11-16",
+        "end_date": "2025-12-07"
+      },
+      "source_urls": ["https://warcraft.wiki.gg/wiki/WoW%27s_Anniversary"]
+    },
+    {
+      "slug": "pilgrims-bounty",
+      "name": "Pilgrim's Bounty",
+      "type": "holiday",
+      "dates_2026": {
+        "status": "unconfirmed_2026",
+        "start_date": null,
+        "end_date": null
+      },
+      "last_confirmed_classic_window": {
+        "year": 2025,
+        "start_date": "2025-11-21",
+        "end_date": "2025-11-27"
+      },
+      "recurrence_hint": "Late November around U.S. Thanksgiving",
+      "source_urls": [
+        "https://worldofwarcraft.blizzard.com/en-us/news/24029405/reflect-and-celebrate-during-pilgrims-bounty"
+      ]
+    },
+    {
+      "slug": "feast-of-winter-veil",
+      "name": "Feast of Winter Veil",
+      "type": "holiday",
+      "dates_2026": {
+        "status": "likely_stable_classic_rule",
+        "start_date": "2026-12-16",
+        "end_date": "2027-01-02"
+      },
+      "last_confirmed_classic_window": {
+        "year": 2025,
+        "start_date": "2025-12-16",
+        "end_date": "2026-01-02"
+      },
+      "source_urls": [
+        "https://worldofwarcraft.blizzard.com/en-us/news/24249604"
+      ]
+    }
+  ]
+}
