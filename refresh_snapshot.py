@@ -4,7 +4,7 @@ import argparse
 import os
 import shutil
 import tempfile
-from datetime import date
+from datetime import datetime
 from pathlib import Path
 
 
@@ -31,8 +31,11 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--archive-date",
-        default=date.today().strftime("%m.%d.%Y"),
-        help="Date prefix for the archived snapshot, formatted like MM.DD.YYYY.",
+        default=datetime.now().strftime("%m.%d.%Y_%H.%M.%S"),
+        help=(
+            "Timestamp prefix for the archived snapshot, formatted like "
+            "MM.DD.YYYY_HH.MM.SS."
+        ),
     )
     parser.add_argument(
         "--overwrite-history",
