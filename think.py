@@ -10,12 +10,11 @@ from planner_data import (
 )
 from planning import build_plan, build_planner_entries
 from pricing import (
-    CostOption,
     PricingContext,
+    build_pricing_debug_entry,
     copper_to_gold,
     get_pricing_rules,
     load_snapshot,
-    resolve_unit_cost,
 )
 
 
@@ -23,20 +22,9 @@ SNAPSHOT_CSV = "ah_snapshot.csv"
 CRAFTING_JSON = "crafting_data.json"
 OUTPUT_JSON = "craft_plan.json"
 OUTPUT_CSV = "craft_plan.csv"
-PRICING_DEBUG_JSON = "pricing_debug.json"
-
-
-def serialize_cost_option(cost_option: Optional[CostOption]) -> Optional[Dict[str, Any]]:
-    if cost_option is None:
-        return None
-    return {
-        "unit_cost": cost_option.unit_cost,
-        "unit_cost_readable": copper_to_gold(cost_option.unit_cost),
-        "source_type": cost_option.source_type,
-        "source_summary": cost_option.source_summary,
-        "source_detail": cost_option.source_detail,
-        "chain": cost_option.chain,
-    }
+CONSOLE_PRICING_HIGHLIGHTS = [
+    "Imperial Silk",
+]
 
 
 def write_outputs(results: List[Dict[str, Any]], output_json: str, output_csv: str) -> None:
@@ -54,19 +42,6 @@ def write_outputs(results: List[Dict[str, Any]], output_json: str, output_csv: s
         writer = csv.DictWriter(handle, fieldnames=fieldnames, extrasaction="ignore")
         writer.writeheader()
         writer.writerows(results)
-
-
-def write_pricing_debug(
-    output_path: str,
-    bolt_of_windwool_cloth_cost: Optional[CostOption],
-    imperial_silk_cost: Optional[CostOption],
-) -> None:
-    payload = {
-        "bolt_of_windwool_cloth": serialize_cost_option(bolt_of_windwool_cloth_cost),
-        "imperial_silk": serialize_cost_option(imperial_silk_cost),
-    }
-    with open(output_path, "w", encoding="utf-8") as handle:
-        json.dump(payload, handle, indent=2, ensure_ascii=False)
 
 
 def print_top(results: List[Dict[str, Any]], limit: Optional[int] = None) -> None:
@@ -104,45 +79,44 @@ def print_top(results: List[Dict[str, Any]], limit: Optional[int] = None) -> Non
             print(f"    chain={row['material_source_summary']}")
 
 
+def print_pricing_highlights(
+    pricing_context: PricingContext,
+    item_names: List[str],
+) -> None:
+    if not item_names:
+        return
+
+    print("\n=== PRICING HIGHLIGHTS ===")
+    for item_name in item_names:
+        entry = build_pricing_debug_entry(pricing_context, item_name)
+        resolved = entry.get("resolved_cost")
+        if resolved is None:
+            print(f"{entry['item']}: unresolved")
+            continue
+
+        print(
+            f"{entry['item']}: {resolved['unit_cost_readable']}"
+            f" via {resolved['chain']}"
+        )
+
+
 def main() -> None:
     crafting_data = load_json(CRAFTING_JSON)
     pricing_rules = get_pricing_rules(crafting_data)
     snapshot = load_snapshot(SNAPSHOT_CSV, pricing_rules.get("name_aliases"))
+    pricing_context = PricingContext(snapshot=snapshot, crafting_data=crafting_data)
     class_spec_data = merge_active_event_entries(
         load_planner_data(PLANNER_JSON_FILES),
         crafting_data,
     )
-    pricing_context = PricingContext(snapshot=snapshot, crafting_data=crafting_data)
     planner_entries = build_planner_entries(class_spec_data)
     results = build_plan(snapshot, planner_entries, crafting_data)
     write_outputs(results, OUTPUT_JSON, OUTPUT_CSV)
 
-    bolt_of_windwool_cloth_cost = resolve_unit_cost(pricing_context, "Bolt of Windwool Cloth")
-    imperial_silk_cost = resolve_unit_cost(pricing_context, "Imperial Silk")
-    write_pricing_debug(
-        PRICING_DEBUG_JSON,
-        bolt_of_windwool_cloth_cost,
-        imperial_silk_cost,
-    )
-
-    if imperial_silk_cost is not None:
-        print("\n=== IMPERIAL SILK COST ===")
-        print(
-            f"Imperial Silk: {copper_to_gold(imperial_silk_cost.unit_cost)}"
-            f" via {imperial_silk_cost.chain}"
-        )
-
-    if bolt_of_windwool_cloth_cost is not None:
-        print("\n=== BOLT OF WINDWOOL CLOTH COST ===")
-        print(
-            f"Bolt of Windwool Cloth: {copper_to_gold(bolt_of_windwool_cloth_cost.unit_cost)}"
-            f" via {bolt_of_windwool_cloth_cost.chain}"
-        )
-
+    print_pricing_highlights(pricing_context, CONSOLE_PRICING_HIGHLIGHTS)
     print_top(results)
     print(f"\nSaved: {OUTPUT_JSON}")
     print(f"Saved: {OUTPUT_CSV}")
-    print(f"Saved: {PRICING_DEBUG_JSON}")
 
 
 if __name__ == "__main__":

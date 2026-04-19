@@ -12,4 +12,5 @@
 !planner_data.py
 !planning.py
 !pricing.py
+!pricing_debug.py
 !refresh_snapshot.py

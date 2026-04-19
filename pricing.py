@@ -13,6 +13,17 @@ class CostOption:
     source_detail: str
     chain: str
 
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "item": self.item,
+            "unit_cost": self.unit_cost,
+            "unit_cost_readable": copper_to_gold(self.unit_cost),
+            "source_type": self.source_type,
+            "source_summary": self.source_summary,
+            "source_detail": self.source_detail,
+            "chain": self.chain,
+        }
+
 
 @dataclass(frozen=True)
 class ReagentComponent:
@@ -678,3 +689,19 @@ def resolve_unit_cost(
     best_option = min(best_options, key=lambda option: option.unit_cost)
     ctx.cost_cache[normalized] = best_option
     return best_option
+
+
+def build_pricing_debug_entry(
+    ctx: PricingContext,
+    item_name: str,
+) -> Dict[str, Any]:
+    normalized = normalize_name(item_name, ctx.name_aliases)
+    snapshot_entry = ctx.snapshot.get(normalized)
+    resolved = resolve_unit_cost(ctx, normalized)
+
+    return {
+        "requested_item": item_name,
+        "item": normalized,
+        "snapshot": snapshot_entry,
+        "resolved_cost": resolved.to_dict() if resolved is not None else None,
+    }
