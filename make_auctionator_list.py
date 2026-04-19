@@ -159,6 +159,7 @@ def expand_selected_source_chain(
         return False
 
     support = crafting_data.get("supporting_recipes", {})
+    tailoring_entry = get_nested_item(support.get("tailoring_subcrafts", {}), item_name)
 
     if resolved.source_type == "vendor_trade":
         inscription = support.get("inscription", {})
@@ -191,10 +192,9 @@ def expand_selected_source_chain(
             )
         return True
 
-    if resolved.source_type != "crafted":
+    if resolved.source_type != "crafted" and tailoring_entry is None:
         return True
 
-    tailoring_entry = get_nested_item(support.get("tailoring_subcrafts", {}), item_name)
     chosen_option = extract_named_craft_option(resolved.chain)
     if tailoring_entry is not None:
         _, recipe_data = tailoring_entry
