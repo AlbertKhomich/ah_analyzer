@@ -1,5 +1,7 @@
 *
 !.gitignore
+!history/
+!history/**
 !think.py
 !ranking.json
 !class_spec_items.json
