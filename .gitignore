@@ -3,6 +3,7 @@
 !history/
 !history/**
 !think.py
+!ah_price_heatmap.py
 !ranking.json
 !class_spec_items.json
 !crafting_data.json

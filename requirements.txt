@@ -1,2 +1,4 @@
-# This project currently uses only Python's standard library.
-# `pip install -r requirements.txt` is therefore a no-op for now.
+pandas
+matplotlib
+seaborn
+pytest

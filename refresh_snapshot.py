@@ -11,8 +11,8 @@ from pathlib import Path
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
-            "Archive the current ah_snapshot.csv into history/ and replace it "
-            "with a new snapshot CSV."
+            "Install a new ah_snapshot.csv and copy that refreshed snapshot "
+            "into history/."
         )
     )
     parser.add_argument(
@@ -33,7 +33,7 @@ def parse_args() -> argparse.Namespace:
         "--archive-date",
         default=datetime.now().strftime("%m.%d.%Y_%H.%M.%S"),
         help=(
-            "Timestamp prefix for the archived snapshot, formatted like "
+            "Timestamp prefix for the history snapshot copy, formatted like "
             "MM.DD.YYYY_HH.MM.SS."
         ),
     )
@@ -78,29 +78,21 @@ def main() -> int:
         raise ValueError("New snapshot path matches the live ah_snapshot.csv path.")
 
     history_path = history_dir / f"{args.archive_date}_ah_snapshot.csv"
+    if snapshot_path.exists() and not snapshot_path.is_file():
+        raise ValueError(f"Live snapshot is not a file: {snapshot_path}")
 
-    archived = False
-    if snapshot_path.exists():
-        if not snapshot_path.is_file():
-            raise ValueError(f"Live snapshot is not a file: {snapshot_path}")
-
-        history_dir.mkdir(parents=True, exist_ok=True)
-        if history_path.exists() and not args.overwrite_history:
-            raise FileExistsError(
-                "History file already exists. Re-run with --overwrite-history "
-                f"to replace it: {history_path}"
-            )
-        shutil.copy2(snapshot_path, history_path)
-        archived = True
+    history_dir.mkdir(parents=True, exist_ok=True)
+    if history_path.exists() and not args.overwrite_history:
+        raise FileExistsError(
+            "History file already exists. Re-run with --overwrite-history "
+            f"to replace it: {history_path}"
+        )
 
     copy_into_place(source_path, snapshot_path)
-
-    if archived:
-        print(f"Archived old snapshot to {history_path}")
-    else:
-        print(f"No existing snapshot found at {snapshot_path}; skipped archiving.")
+    copy_into_place(snapshot_path, history_path)
 
     print(f"Installed new snapshot from {source_path} to {snapshot_path}")
+    print(f"Copied refreshed snapshot to {history_path}")
     return 0
 
 
