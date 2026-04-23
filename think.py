@@ -2,6 +2,7 @@ import csv
 import json
 from typing import Any, Dict, List, Optional
 
+from ah_price_heatmap import plot_price_heatmap
 from planner_data import (
     PLANNER_JSON_FILES,
     load_json,
@@ -22,6 +23,7 @@ SNAPSHOT_CSV = "ah_snapshot.csv"
 CRAFTING_JSON = "crafting_data.json"
 OUTPUT_JSON = "craft_plan.json"
 OUTPUT_CSV = "craft_plan.csv"
+OUTPUT_HEATMAP = "snapshot.png"
 CONSOLE_PRICING_HIGHLIGHTS = [
     "Imperial Silk",
 ]
@@ -112,11 +114,13 @@ def main() -> None:
     planner_entries = build_planner_entries(class_spec_data)
     results = build_plan(snapshot, planner_entries, crafting_data)
     write_outputs(results, OUTPUT_JSON, OUTPUT_CSV)
+    plot_price_heatmap("history", output_path=OUTPUT_HEATMAP)
 
     print_pricing_highlights(pricing_context, CONSOLE_PRICING_HIGHLIGHTS)
     print_top(results)
     print(f"\nSaved: {OUTPUT_JSON}")
     print(f"Saved: {OUTPUT_CSV}")
+    print(f"Saved: {OUTPUT_HEATMAP}")
 
 
 if __name__ == "__main__":
