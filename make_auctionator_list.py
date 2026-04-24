@@ -160,9 +160,10 @@ def expand_selected_source_chain(
 
     support = crafting_data.get("supporting_recipes", {})
     tailoring_entry = get_nested_item(support.get("tailoring_subcrafts", {}), item_name)
+    inscription = support.get("inscription", {})
+    ink_entry = get_nested_item(inscription.get("inks", {}), item_name)
 
     if resolved.source_type == "vendor_trade":
-        inscription = support.get("inscription", {})
         trade_entry = get_nested_item(inscription.get("vendor_trades", {}), item_name)
         if trade_entry is None:
             return True
@@ -176,6 +177,17 @@ def expand_selected_source_chain(
             pricing_context,
             visited_nodes,
         )
+        if ink_entry is not None:
+            _, ink_data = ink_entry
+            expand_reagent_names(
+                (reagent["item"] for reagent in ink_data.get("crafted_from", [])),
+                ordered_items,
+                seen,
+                craft_lookup,
+                crafting_data,
+                pricing_context,
+                visited_nodes,
+            )
         return True
 
     if resolved.source_type == "milling":
@@ -241,7 +253,6 @@ def expand_selected_source_chain(
         )
         return True
 
-    inscription = support.get("inscription", {})
     ink_entry = get_nested_item(inscription.get("inks", {}), item_name)
     if ink_entry is not None:
         _, ink_data = ink_entry

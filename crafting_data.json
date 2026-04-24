@@ -1892,6 +1892,10 @@
         "Misty Pigment": {
           "quality": "uncommon",
           "made_via": "Milling",
+          "expected_pigment_per_mill": 0.25,
+          "expected_pigment_per_mill_by_herb": {
+            "Fool's Cap": 0.5
+          },
           "milled_from": [
             "Green Tea Leaf",
             "Silkweed",

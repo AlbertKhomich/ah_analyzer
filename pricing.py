@@ -570,14 +570,7 @@ def resolve_milling_cost(
     quality = pigment_data.get("quality", "common")
 
     expected_yield = pigment_data.get("expected_pigment_per_mill")
-    if expected_yield is None:
-        if quality == "common":
-            expected_yield = rules.get("expected_common_pigment_per_mill")
-        else:
-            expected_yield = rules.get("expected_uncommon_pigment_per_mill")
-
-    if not expected_yield or expected_yield <= 0:
-        return None
+    expected_yield_by_herb = pigment_data.get("expected_pigment_per_mill_by_herb", {})
 
     best_option: Optional[CostOption] = None
     for herb in pigment_data.get("milled_from", []):
@@ -586,10 +579,22 @@ def resolve_milling_cost(
         if herb_cost is None:
             continue
 
+        herb_expected_yield = expected_yield
+        herb_override = get_named_entry(expected_yield_by_herb, herb_name, ctx.name_aliases)
+        if herb_override is not None:
+            herb_expected_yield = herb_override[1]
+        if herb_expected_yield is None:
+            if quality == "common":
+                herb_expected_yield = rules.get("expected_common_pigment_per_mill")
+            else:
+                herb_expected_yield = rules.get("expected_uncommon_pigment_per_mill")
+        if not herb_expected_yield or herb_expected_yield <= 0:
+            continue
+
         herb_input_cost = herb_cost.unit_cost * herbs_per_mill
         rebate_value, rebate_detail = resolve_milling_rebate_value(ctx, pigment_name, herb_name)
         effective_input_cost = max(herb_input_cost - rebate_value, 0.0)
-        unit_cost = int(round(effective_input_cost / float(expected_yield)))
+        unit_cost = int(round(effective_input_cost / float(herb_expected_yield)))
         option = make_cost_option(
             item_name=pigment_name,
             unit_cost=unit_cost,
@@ -597,7 +602,7 @@ def resolve_milling_cost(
             source_summary=f"mill {herb_name}",
             source_detail=(
                 f"Milling via {format_qty(herbs_per_mill)}x {herb_name} per cast "
-                f"with {expected_yield} expected {quality} pigment per mill."
+                f"with {herb_expected_yield} expected {quality} pigment per mill."
                 f"{rebate_detail}"
             ),
             chain=f"mill:{herb_name}",
