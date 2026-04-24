@@ -147,11 +147,18 @@ def _build_annotation_matrix(matrix: pd.DataFrame) -> pd.DataFrame:
     )
 
 
-def _format_snapshot_labels(timestamps: pd.Index) -> list[str]:
-    labels: list[str] = []
-    for timestamp in timestamps:
-        labels.append(pd.Timestamp(timestamp).strftime("%Y-%m-%d\n%H:%M:%S"))
-    return labels
+def _build_summary_price_matrix(price_matrix: pd.DataFrame) -> tuple[pd.DataFrame, pd.Timestamp]:
+    latest_snapshot = pd.Timestamp(price_matrix.columns.max())
+    summary_matrix = pd.DataFrame(
+        {
+            "Lowest Price Ever": price_matrix.min(axis=1),
+            "Average Price": price_matrix.mean(axis=1),
+            "Highest Price Ever": price_matrix.max(axis=1),
+            "Current Price": price_matrix[latest_snapshot],
+        },
+        index=price_matrix.index,
+    )
+    return summary_matrix, latest_snapshot
 
 
 def _resolve_figure_size(
@@ -187,99 +194,42 @@ def _mousewheel_units(event: object) -> int:
     return direction * magnitude * 3
 
 
-def _highlight_row_extrema(ax: plt.Axes, matrix: pd.DataFrame) -> None:
-    saw_equal_extrema = False
-    min_color = "#1f77b4"
-    max_color = "#d62728"
-    equal_color = "#6f42c1"
+def _highlight_current_price_extrema(ax: plt.Axes, matrix: pd.DataFrame) -> None:
+    current_column = "Current Price"
+    if current_column not in matrix.columns:
+        return
+
+    current_column_index = matrix.columns.get_loc(current_column)
+    lowest_color = "#1f77b4"
+    highest_color = "#d62728"
+    both_color = "#6f42c1"
 
     for row_index, (_, row) in enumerate(matrix.iterrows()):
-        valid_values = row.dropna()
-        if valid_values.empty:
+        current_price = row[current_column]
+        if pd.isna(current_price):
             continue
 
-        min_column = row.idxmin()
-        max_column = row.idxmax()
-        min_column_index = matrix.columns.get_loc(min_column)
-        max_column_index = matrix.columns.get_loc(max_column)
+        is_lowest = current_price == row["Lowest Price Ever"]
+        is_highest = current_price == row["Highest Price Ever"]
 
-        if min_column == max_column:
-            saw_equal_extrema = True
-            ax.add_patch(
-                Rectangle(
-                    (min_column_index, row_index),
-                    1,
-                    1,
-                    fill=False,
-                    edgecolor=equal_color,
-                    linewidth=2.8,
-                )
-            )
+        if not is_lowest and not is_highest:
             continue
+
+        edgecolor = both_color if is_lowest and is_highest else lowest_color if is_lowest else highest_color
+        linestyle = "-." if is_lowest and is_highest else "-" if is_lowest else "--"
+        linewidth = 2.6 if is_lowest and is_highest else 2.3
 
         ax.add_patch(
             Rectangle(
-                (min_column_index, row_index),
+                (current_column_index, row_index),
                 1,
                 1,
                 fill=False,
-                edgecolor=min_color,
-                linewidth=2.4,
+                edgecolor=edgecolor,
+                linewidth=linewidth,
+                linestyle=linestyle,
             )
         )
-        ax.add_patch(
-            Rectangle(
-                (max_column_index, row_index),
-                1,
-                1,
-                fill=False,
-                edgecolor=max_color,
-                linewidth=2.4,
-                linestyle="--",
-            )
-        )
-
-    legend_handles = [
-        Rectangle(
-            (0, 0),
-            1,
-            1,
-            fill=False,
-            edgecolor=min_color,
-            linewidth=2.4,
-            label="Lowest price",
-        ),
-        Rectangle(
-            (0, 0),
-            1,
-            1,
-            fill=False,
-            edgecolor=max_color,
-            linewidth=2.4,
-            linestyle="--",
-            label="Highest price",
-        ),
-    ]
-    if saw_equal_extrema:
-        legend_handles.append(
-            Rectangle(
-                (0, 0),
-                1,
-                1,
-                fill=False,
-                edgecolor=equal_color,
-                linewidth=2.8,
-                label="Only observed price",
-            )
-        )
-
-    ax.legend(
-        handles=legend_handles,
-        loc="upper left",
-        bbox_to_anchor=(1.02, 1.0),
-        frameon=False,
-        borderaxespad=0.0,
-    )
 
 
 def _render_scrollable_figure(fig: Figure, title: str) -> None:
@@ -428,13 +378,17 @@ def _build_price_heatmap_figure(
     if price_matrix.empty:
         raise ValueError(f"No heatmap data available after loading snapshots from: {input_dir}")
 
+    summary_matrix, latest_snapshot = _build_summary_price_matrix(price_matrix)
+    if summary_matrix.empty:
+        raise ValueError(f"No summary heatmap data available after loading snapshots from: {input_dir}")
+
     if normalize == "row":
-        heatmap_values = _row_normalize(price_matrix)
+        heatmap_values = _row_normalize(summary_matrix)
         colorbar_label = ROW_COLORBAR_LABEL
         vmin, vmax = 0.0, 1.0
     else:
-        heatmap_values = price_matrix
-        valid_values = price_matrix.stack().dropna()
+        heatmap_values = summary_matrix
+        valid_values = summary_matrix.stack().dropna()
         if valid_values.empty:
             raise ValueError(f"No valid price values available in: {input_dir}")
 
@@ -444,21 +398,21 @@ def _build_price_heatmap_figure(
             vmax = vmin + 1e-9
         colorbar_label = GLOBAL_COLORBAR_LABEL
 
-    annotation_matrix = _build_annotation_matrix(price_matrix) if annotate else None
+    annotation_matrix = _build_annotation_matrix(summary_matrix) if annotate else None
     figure_width, figure_height = _resolve_figure_size(
-        item_count=len(price_matrix.index),
-        snapshot_count=len(price_matrix.columns),
+        item_count=len(summary_matrix.index),
+        snapshot_count=len(summary_matrix.columns),
         annotate=annotate,
         scrollable=scrollable,
     )
-    annotation_fontsize = max(4, min(8, 10 - (len(price_matrix.index) // 25)))
+    annotation_fontsize = max(4, min(8, 10 - (len(summary_matrix.columns) // 25)))
 
     fig, ax = plt.subplots(figsize=(figure_width, figure_height))
     sns.heatmap(
         heatmap_values,
         ax=ax,
         cmap="YlGnBu",
-        mask=price_matrix.isna(),
+        mask=summary_matrix.isna(),
         linewidths=0.5,
         linecolor="white",
         annot=annotation_matrix if annotate else False,
@@ -469,13 +423,15 @@ def _build_price_heatmap_figure(
         vmax=vmax,
     )
 
-    ax.set_title("Auction House Prices Over Time")
-    ax.set_xlabel("Snapshot time")
+    ax.set_title(
+        "Auction House Price Summary\n"
+        f"Current prices from {latest_snapshot.strftime('%Y-%m-%d %H:%M:%S')}"
+    )
+    ax.set_xlabel("Price metric")
     ax.set_ylabel("Item name")
-    ax.set_xticklabels(_format_snapshot_labels(price_matrix.columns), rotation=45, ha="right")
+    ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha="right")
     ax.set_yticklabels(ax.get_yticklabels(), rotation=0)
-
-    _highlight_row_extrema(ax, price_matrix)
+    _highlight_current_price_extrema(ax, summary_matrix)
     fig.tight_layout()
 
     if output_path:
@@ -520,13 +476,13 @@ def show_scrollable_heatmap(
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Plot Auction House item prices over time as a heatmap.",
+        description="Plot Auction House item price summaries as a heatmap.",
     )
     parser.add_argument(
         "input_dir",
         nargs="?",
         default="history",
-        help="Directory containing snapshot CSV files.",
+        help="Directory containing snapshot CSV files used to build the summary.",
     )
     parser.add_argument(
         "-o",
