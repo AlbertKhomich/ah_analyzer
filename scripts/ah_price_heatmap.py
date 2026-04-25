@@ -11,6 +11,10 @@ from matplotlib.patches import Rectangle
 import pandas as pd
 import seaborn as sns
 
+import _bootstrap  # noqa: F401
+
+from ah_trading.paths import HISTORY_DIR
+
 
 LOGGER = logging.getLogger(__name__)
 SNAPSHOT_FILENAME_FORMAT = "%m.%d.%Y_%H.%M.%S_ah_snapshot.csv"
@@ -481,7 +485,7 @@ def main() -> None:
     parser.add_argument(
         "input_dir",
         nargs="?",
-        default="history",
+        default=str(HISTORY_DIR),
         help="Directory containing snapshot CSV files used to build the summary.",
     )
     parser.add_argument(

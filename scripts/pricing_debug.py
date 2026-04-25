@@ -1,9 +1,13 @@
 import argparse
 import json
+from pathlib import Path
 from typing import Any, Dict, List
 
-from planner_data import load_json
-from pricing import (
+import _bootstrap  # noqa: F401
+
+from ah_trading.paths import AH_SNAPSHOT_CSV, CRAFTING_JSON, OUTPUT_DIR
+from ah_trading.planner_data import load_json
+from ah_trading.pricing import (
     PricingContext,
     build_pricing_debug_entry,
     get_pricing_rules,
@@ -11,9 +15,8 @@ from pricing import (
 )
 
 
-SNAPSHOT_CSV = "ah_snapshot.csv"
-CRAFTING_JSON = "crafting_data.json"
-OUTPUT_JSON = "pricing_debug.json"
+SNAPSHOT_CSV = AH_SNAPSHOT_CSV
+OUTPUT_JSON = OUTPUT_DIR / "pricing_debug.json"
 
 
 def parse_args() -> argparse.Namespace:
@@ -59,6 +62,7 @@ def build_pricing_debug_report(
 
 
 def write_report(output_path: str, payload: Dict[str, Any]) -> None:
+    Path(output_path).parent.mkdir(parents=True, exist_ok=True)
     with open(output_path, "w", encoding="utf-8") as handle:
         json.dump(payload, handle, indent=2, ensure_ascii=False)
 

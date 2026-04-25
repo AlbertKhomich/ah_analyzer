@@ -7,26 +7,30 @@ import tempfile
 from datetime import datetime
 from pathlib import Path
 
+import _bootstrap  # noqa: F401
+
+from ah_trading.paths import AH_SNAPSHOT_CSV, HISTORY_DIR
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
-            "Install a new ah_snapshot.csv and copy that refreshed snapshot "
-            "into history/."
+            "Install a new AH snapshot and copy that refreshed snapshot "
+            "into data/history/."
         )
     )
     parser.add_argument(
         "new_snapshot",
-        help="Path to the new AH snapshot CSV to install as ah_snapshot.csv.",
+        help="Path to the new AH snapshot CSV to install as data/input/ah_snapshot.csv.",
     )
     parser.add_argument(
         "--snapshot-path",
-        default="ah_snapshot.csv",
+        default=str(AH_SNAPSHOT_CSV),
         help="Path to the live AH snapshot file to refresh.",
     )
     parser.add_argument(
         "--history-dir",
-        default="history",
+        default=str(HISTORY_DIR),
         help="Directory where archived snapshots should be stored.",
     )
     parser.add_argument(

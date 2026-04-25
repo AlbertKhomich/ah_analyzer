@@ -2,15 +2,18 @@ import csv
 import json
 from typing import Any, Dict, List, Optional
 
+import _bootstrap  # noqa: F401
+
 from ah_price_heatmap import plot_price_heatmap
-from planner_data import (
+from ah_trading.paths import AH_SNAPSHOT_CSV, CRAFTING_JSON, HISTORY_DIR, OUTPUT_DIR
+from ah_trading.planner_data import (
     PLANNER_JSON_FILES,
     load_json,
     load_planner_data,
     merge_active_event_entries,
 )
-from planning import build_plan, build_planner_entries
-from pricing import (
+from ah_trading.planning import build_plan, build_planner_entries
+from ah_trading.pricing import (
     PricingContext,
     build_pricing_debug_entry,
     copper_to_gold,
@@ -19,17 +22,17 @@ from pricing import (
 )
 
 
-SNAPSHOT_CSV = "ah_snapshot.csv"
-CRAFTING_JSON = "crafting_data.json"
-OUTPUT_JSON = "craft_plan.json"
-OUTPUT_CSV = "craft_plan.csv"
-OUTPUT_HEATMAP = "snapshot.png"
+SNAPSHOT_CSV = AH_SNAPSHOT_CSV
+OUTPUT_JSON = OUTPUT_DIR / "craft_plan.json"
+OUTPUT_CSV = OUTPUT_DIR / "craft_plan.csv"
+OUTPUT_HEATMAP = OUTPUT_DIR / "snapshot.png"
 CONSOLE_PRICING_HIGHLIGHTS = [
     "Imperial Silk",
 ]
 
 
 def write_outputs(results: List[Dict[str, Any]], output_json: str, output_csv: str) -> None:
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     with open(output_json, "w", encoding="utf-8") as handle:
         json.dump(results, handle, indent=2, ensure_ascii=False)
 
@@ -114,7 +117,7 @@ def main() -> None:
     planner_entries = build_planner_entries(class_spec_data)
     results = build_plan(snapshot, planner_entries, crafting_data)
     write_outputs(results, OUTPUT_JSON, OUTPUT_CSV)
-    plot_price_heatmap("history", output_path=OUTPUT_HEATMAP)
+    plot_price_heatmap(str(HISTORY_DIR), output_path=str(OUTPUT_HEATMAP))
 
     print_pricing_highlights(pricing_context, CONSOLE_PRICING_HIGHLIGHTS)
     print_top(results)

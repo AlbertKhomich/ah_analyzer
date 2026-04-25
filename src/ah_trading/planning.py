@@ -1,7 +1,7 @@
 import math
 from typing import Any, Dict, List, Optional, Set, Tuple
 
-from pricing import PricingContext, normalize_name, resolve_recipe_craft_cost
+from ah_trading.pricing import PricingContext, normalize_name, resolve_recipe_craft_cost
 
 
 BASE_STOCK = {

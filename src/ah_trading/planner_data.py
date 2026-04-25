@@ -4,12 +4,18 @@ import json
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set
 
+from ah_trading.paths import (
+    ALWAYS_PROFIT_CRAFT_JSON,
+    CLASS_SPEC_ITEMS_JSON,
+    EVENT_CALENDAR_JSON,
+)
+
 
 PLANNER_JSON_FILES = [
-    "class_spec_items.json",
-    "always_profit_craft.json",
+    str(CLASS_SPEC_ITEMS_JSON),
+    str(ALWAYS_PROFIT_CRAFT_JSON),
 ]
-EVENT_CALENDAR_JSON = "wow_mop_classic_event_dates.json"
+EVENT_CALENDAR_JSON_PATH = str(EVENT_CALENDAR_JSON)
 
 
 def load_json(json_path: str) -> Dict[str, Any]:
@@ -68,7 +74,7 @@ def parse_iso_date(value: Any) -> Optional[date]:
 
 
 def get_active_event_slugs(
-    event_calendar_path: str = EVENT_CALENDAR_JSON,
+    event_calendar_path: str = EVENT_CALENDAR_JSON_PATH,
     on_date: Optional[date] = None,
 ) -> Set[str]:
     path = Path(event_calendar_path)
@@ -103,7 +109,7 @@ def get_active_event_slugs(
 def merge_active_event_entries(
     planner_data: Dict[str, Any],
     crafting_data: Dict[str, Any],
-    event_calendar_path: str = EVENT_CALENDAR_JSON,
+    event_calendar_path: str = EVENT_CALENDAR_JSON_PATH,
     on_date: Optional[date] = None,
 ) -> Dict[str, Any]:
     merged = deepcopy(planner_data)
