@@ -15,6 +15,11 @@
 !data/history/**
 !data/output/
 !data/output/**
+data/input/ah_snapshot.csv
+data/input/update_ah_snapshot.csv
+data/output/craft_plan.csv
+data/output/craft_plan.json
+data/output/snapshot.png
 __pycache__/
 **/__pycache__/
 *.pyc
