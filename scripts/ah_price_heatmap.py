@@ -22,6 +22,9 @@ GLOBAL_COLORBAR_LABEL = "Price (gold)"
 ROW_COLORBAR_LABEL = "Relative price within item (0=min, 1=max)"
 SCROLLABLE_WINDOW_TITLE = "Auction House Prices Over Time"
 SCROLLABLE_WINDOW_GEOMETRY = "1400x900"
+CURRENT_DELTA_LOW_COLOR = "#188038"
+CURRENT_DELTA_HIGH_COLOR = "#d93025"
+CURRENT_DELTA_NEUTRAL_COLOR = "#5f6368"
 
 
 def parse_snapshot_time(filename: str) -> datetime | None:
@@ -151,6 +154,18 @@ def _build_annotation_matrix(matrix: pd.DataFrame) -> pd.DataFrame:
     )
 
 
+def _format_current_average_delta(current_price: float, average_price: float) -> tuple[str, str] | None:
+    if average_price == 0:
+        return None
+
+    percentage_difference = ((current_price - average_price) / average_price) * 100.0
+    if percentage_difference < 0:
+        return f"{percentage_difference:.1f}%", CURRENT_DELTA_LOW_COLOR
+    if percentage_difference > 0:
+        return f"+{percentage_difference:.1f}%", CURRENT_DELTA_HIGH_COLOR
+    return "0.0%", CURRENT_DELTA_NEUTRAL_COLOR
+
+
 def _build_summary_price_matrix(price_matrix: pd.DataFrame) -> tuple[pd.DataFrame, pd.Timestamp]:
     latest_snapshot = pd.Timestamp(price_matrix.columns.max())
     summary_matrix = pd.DataFrame(
@@ -233,6 +248,82 @@ def _highlight_current_price_extrema(ax: plt.Axes, matrix: pd.DataFrame) -> None
                 linewidth=linewidth,
                 linestyle=linestyle,
             )
+        )
+
+
+def _current_price_text_color(heatmap_value: float, vmin: float, vmax: float) -> str:
+    if vmax == vmin:
+        return "#222222"
+
+    normalized_value = (heatmap_value - vmin) / (vmax - vmin)
+    return "white" if normalized_value >= 0.62 else "#222222"
+
+
+def _annotate_current_price_cells(
+    ax: plt.Axes,
+    matrix: pd.DataFrame,
+    heatmap_values: pd.DataFrame,
+    fontsize: float,
+    vmin: float,
+    vmax: float,
+) -> None:
+    current_column = "Current Price"
+    average_column = "Average Price"
+    if current_column not in matrix.columns or average_column not in matrix.columns:
+        return
+
+    current_column_index = matrix.columns.get_loc(current_column)
+    delta_fontsize = max(3.5, fontsize - 2)
+
+    for row_index, (item_name, row) in enumerate(matrix.iterrows()):
+        current_price = row[current_column]
+        average_price = row[average_column]
+        if pd.isna(current_price) or pd.isna(average_price):
+            continue
+
+        heatmap_value = heatmap_values.loc[item_name, current_column]
+        price_color = "#222222" if pd.isna(heatmap_value) else _current_price_text_color(
+            float(heatmap_value),
+            vmin,
+            vmax,
+        )
+        delta = _format_current_average_delta(float(current_price), float(average_price))
+
+        ax.text(
+            current_column_index + 0.5,
+            row_index + 0.5,
+            f"{float(current_price):.2f}",
+            ha="center",
+            va="center",
+            color=price_color,
+            fontsize=fontsize,
+        )
+        if delta is None:
+            continue
+
+        label, color = delta
+        ax.scatter(
+            [current_column_index + 1.08],
+            [row_index + 0.5],
+            s=max(14, delta_fontsize * 3),
+            marker="o",
+            color=color,
+            edgecolors="#ffffff",
+            linewidths=0.35,
+            clip_on=False,
+            zorder=4,
+        )
+        ax.text(
+            current_column_index + 1.16,
+            row_index + 0.5,
+            label,
+            ha="left",
+            va="center",
+            color=color,
+            fontsize=delta_fontsize,
+            fontweight="bold",
+            clip_on=False,
+            zorder=4,
         )
 
 
@@ -403,6 +494,8 @@ def _build_price_heatmap_figure(
         colorbar_label = GLOBAL_COLORBAR_LABEL
 
     annotation_matrix = _build_annotation_matrix(summary_matrix) if annotate else None
+    if annotation_matrix is not None:
+        annotation_matrix["Current Price"] = ""
     figure_width, figure_height = _resolve_figure_size(
         item_count=len(summary_matrix.index),
         snapshot_count=len(summary_matrix.columns),
@@ -433,8 +526,18 @@ def _build_price_heatmap_figure(
     )
     ax.set_xlabel("Price metric")
     ax.set_ylabel("Item name")
+    ax.set_xlim(0, len(summary_matrix.columns) + 0.85)
     ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha="right")
     ax.set_yticklabels(ax.get_yticklabels(), rotation=0)
+    if annotate:
+        _annotate_current_price_cells(
+            ax,
+            summary_matrix,
+            heatmap_values,
+            fontsize=annotation_fontsize,
+            vmin=vmin,
+            vmax=vmax,
+        )
     _highlight_current_price_extrema(ax, summary_matrix)
     fig.tight_layout()
 
