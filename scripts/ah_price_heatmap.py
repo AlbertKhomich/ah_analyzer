@@ -197,6 +197,16 @@ def _resolve_figure_size(
     return width, height
 
 
+def _resolve_y_tick_fontsize(item_count: int) -> float:
+    if item_count >= 150:
+        return 4.5
+    if item_count >= 100:
+        return 5.5
+    if item_count >= 60:
+        return 6.5
+    return 8.0
+
+
 def _mousewheel_units(event: object) -> int:
     button_number = getattr(event, "num", None)
     if button_number == 4:
@@ -518,6 +528,7 @@ def _build_price_heatmap_figure(
         cbar_kws={"label": colorbar_label},
         vmin=vmin,
         vmax=vmax,
+        yticklabels=[str(item_name) for item_name in summary_matrix.index],
     )
 
     ax.set_title(
@@ -528,7 +539,13 @@ def _build_price_heatmap_figure(
     ax.set_ylabel("Item name")
     ax.set_xlim(0, len(summary_matrix.columns) + 0.85)
     ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha="right")
-    ax.set_yticklabels(ax.get_yticklabels(), rotation=0)
+    y_tick_labels = [str(item_name) for item_name in summary_matrix.index]
+    ax.set_yticks([row_index + 0.5 for row_index in range(len(y_tick_labels))])
+    ax.set_yticklabels(
+        y_tick_labels,
+        rotation=0,
+        fontsize=_resolve_y_tick_fontsize(len(y_tick_labels)),
+    )
     if annotate:
         _annotate_current_price_cells(
             ax,

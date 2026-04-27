@@ -25,3 +25,4 @@ __pycache__/
 *.pyc
 *.pyc.*
 .pycache_check/
+data/output
