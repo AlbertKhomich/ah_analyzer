@@ -4,7 +4,10 @@ from typing import Any, Dict, List, Optional
 
 import _bootstrap  # noqa: F401
 
-from ah_price_heatmap import plot_price_heatmap
+try:
+    from ah_price_heatmap import plot_price_heatmap
+except ModuleNotFoundError:
+    plot_price_heatmap = None
 from ah_trading.paths import AH_SNAPSHOT_CSV, CRAFTING_JSON, HISTORY_DIR, OUTPUT_DIR
 from ah_trading.planner_data import (
     PLANNER_JSON_FILES,
@@ -117,13 +120,17 @@ def main() -> None:
     planner_entries = build_planner_entries(class_spec_data)
     results = build_plan(snapshot, planner_entries, crafting_data)
     write_outputs(results, OUTPUT_JSON, OUTPUT_CSV)
-    plot_price_heatmap(str(HISTORY_DIR), output_path=str(OUTPUT_HEATMAP))
+    if plot_price_heatmap is not None:
+        plot_price_heatmap(str(HISTORY_DIR), output_path=str(OUTPUT_HEATMAP))
+    else:
+        print("\nSkipped heatmap: matplotlib is not installed.")
 
     print_pricing_highlights(pricing_context, CONSOLE_PRICING_HIGHLIGHTS)
     print_top(results)
     print(f"\nSaved: {OUTPUT_JSON}")
     print(f"Saved: {OUTPUT_CSV}")
-    print(f"Saved: {OUTPUT_HEATMAP}")
+    if plot_price_heatmap is not None:
+        print(f"Saved: {OUTPUT_HEATMAP}")
 
 
 if __name__ == "__main__":
