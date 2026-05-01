@@ -1779,7 +1779,7 @@
             "item": "Misty Pigment",
             "expected_yield_per_mill": 0.25,
             "expected_yield_per_mill_by_herb": {
-              "Fool's Cap": 0.5
+              "Fool's Cap": 0.25
             },
             "note": "Treat Misty Pigment as an expected-value rebate when milling Pandaria herbs for Shadow Pigment: about 1 per 20 herbs for regular herbs and about 2 per 20 herbs for Fool's Cap."
           }
@@ -1894,7 +1894,7 @@
           "made_via": "Milling",
           "expected_pigment_per_mill": 0.25,
           "expected_pigment_per_mill_by_herb": {
-            "Fool's Cap": 0.5
+            "Fool's Cap": 0.25
           },
           "milled_from": [
             "Green Tea Leaf",
