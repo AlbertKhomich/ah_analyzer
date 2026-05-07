@@ -1,5 +1,6 @@
 import csv
 import json
+from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 import _bootstrap  # noqa: F401
@@ -22,6 +23,7 @@ from ah_trading.pricing import (
     copper_to_gold,
     get_pricing_rules,
     load_snapshot,
+    normalize_name,
 )
 
 
@@ -32,6 +34,80 @@ OUTPUT_HEATMAP = OUTPUT_DIR / "snapshot.png"
 CONSOLE_PRICING_HIGHLIGHTS = [
     "Imperial Silk",
 ]
+
+
+def format_price_delta(current_price: int, average_price: float) -> Optional[str]:
+    if average_price <= 0:
+        return None
+
+    percentage_difference = ((current_price - average_price) / average_price) * 100.0
+    rounded_difference = round(percentage_difference)
+    if rounded_difference > 0:
+        return f"+{rounded_difference}%"
+    return f"{rounded_difference}%"
+
+
+def build_average_price_lookup(
+    history_dir: Path,
+    name_aliases: Optional[Dict[str, str]] = None,
+) -> Dict[str, float]:
+    price_totals: Dict[str, int] = {}
+    price_counts: Dict[str, int] = {}
+
+    for csv_path in sorted(history_dir.glob("*_ah_snapshot.csv")):
+        snapshot = load_snapshot(str(csv_path), name_aliases)
+        for item_name, item_data in snapshot.items():
+            price_totals[item_name] = price_totals.get(item_name, 0) + item_data["price"]
+            price_counts[item_name] = price_counts.get(item_name, 0) + 1
+
+    return {
+        item_name: price_totals[item_name] / price_counts[item_name]
+        for item_name in price_totals
+        if price_counts[item_name] > 0
+    }
+
+
+def build_current_average_delta_lookup(
+    snapshot: Dict[str, Dict[str, Any]],
+    history_dir: Path,
+    name_aliases: Optional[Dict[str, str]] = None,
+) -> Dict[str, str]:
+    average_prices = build_average_price_lookup(history_dir, name_aliases)
+    deltas: Dict[str, str] = {}
+
+    for item_name, item_data in snapshot.items():
+        average_price = average_prices.get(item_name)
+        if average_price is None:
+            continue
+
+        delta = format_price_delta(item_data["price"], average_price)
+        if delta is not None:
+            deltas[item_name] = delta
+
+    return deltas
+
+
+def decorate_item_name(item_name: str, price_deltas: Dict[str, str]) -> str:
+    delta = price_deltas.get(item_name)
+    if delta is None:
+        return item_name
+    return f"{item_name} ({delta})"
+
+
+def decorate_source_chain(
+    source_chain: str,
+    price_deltas: Dict[str, str],
+    name_aliases: Optional[Dict[str, str]] = None,
+) -> str:
+    decorated_chain = source_chain
+    for item_name in sorted(price_deltas, key=len, reverse=True):
+        normalized_item_name = normalize_name(item_name, name_aliases)
+        for source_prefix in ("AH", "craft", "trade", "mill"):
+            decorated_chain = decorated_chain.replace(
+                f"{normalized_item_name}->{source_prefix}",
+                f"{normalized_item_name} ({price_deltas[item_name]})->{source_prefix}",
+            )
+    return decorated_chain
 
 
 def write_outputs(results: List[Dict[str, Any]], output_json: str, output_csv: str) -> None:
@@ -52,7 +128,13 @@ def write_outputs(results: List[Dict[str, Any]], output_json: str, output_csv: s
         writer.writerows(results)
 
 
-def print_top(results: List[Dict[str, Any]], limit: Optional[int] = None) -> None:
+def print_top(
+    results: List[Dict[str, Any]],
+    limit: Optional[int] = None,
+    price_deltas: Optional[Dict[str, str]] = None,
+    name_aliases: Optional[Dict[str, str]] = None,
+) -> None:
+    price_deltas = price_deltas or {}
     print("\n=== TOP CRAFTS ===")
     shown = 0
     for row in results:
@@ -60,7 +142,7 @@ def print_top(results: List[Dict[str, Any]], limit: Optional[int] = None) -> Non
             continue
         shown += 1
         print(
-            f"{row['rank']:>2}. {row['item']}"
+            f"{row['rank']:>2}. {decorate_item_name(row['item'], price_deltas)}"
             f" | profit={copper_to_gold(row['profit'])}"
             f" | roi={row['roi']:.2%}"
             f" | ah={copper_to_gold(row['sell_price'])}"
@@ -70,7 +152,12 @@ def print_top(results: List[Dict[str, Any]], limit: Optional[int] = None) -> Non
             f" | craft={row['recommended_quantity']}"
         )
         if row.get("material_source_summary"):
-            print(f"    chain={row['material_source_summary']}")
+            source_chain = decorate_source_chain(
+                row["material_source_summary"],
+                price_deltas,
+                name_aliases,
+            )
+            print(f"    chain={source_chain}")
         if row.get("material_cost_detail"):
             print(f"    cost={row['material_cost_detail']}")
         if limit is not None and shown >= limit:
@@ -111,7 +198,8 @@ def print_pricing_highlights(
 def main() -> None:
     crafting_data = load_json(CRAFTING_JSON)
     pricing_rules = get_pricing_rules(crafting_data)
-    snapshot = load_snapshot(SNAPSHOT_CSV, pricing_rules.get("name_aliases"))
+    name_aliases = pricing_rules.get("name_aliases")
+    snapshot = load_snapshot(SNAPSHOT_CSV, name_aliases)
     pricing_context = PricingContext(snapshot=snapshot, crafting_data=crafting_data)
     class_spec_data = merge_active_event_entries(
         load_planner_data(PLANNER_JSON_FILES),
@@ -119,6 +207,7 @@ def main() -> None:
     )
     planner_entries = build_planner_entries(class_spec_data)
     results = build_plan(snapshot, planner_entries, crafting_data)
+    price_deltas = build_current_average_delta_lookup(snapshot, HISTORY_DIR, name_aliases)
     write_outputs(results, OUTPUT_JSON, OUTPUT_CSV)
     if plot_price_heatmap is not None:
         plot_price_heatmap(str(HISTORY_DIR), output_path=str(OUTPUT_HEATMAP))
@@ -126,7 +215,7 @@ def main() -> None:
         print("\nSkipped heatmap: matplotlib is not installed.")
 
     print_pricing_highlights(pricing_context, CONSOLE_PRICING_HIGHLIGHTS)
-    print_top(results)
+    print_top(results, price_deltas=price_deltas, name_aliases=name_aliases)
     print(f"\nSaved: {OUTPUT_JSON}")
     print(f"Saved: {OUTPUT_CSV}")
     if plot_price_heatmap is not None:
