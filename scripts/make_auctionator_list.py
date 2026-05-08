@@ -206,7 +206,18 @@ def expand_selected_source_chain(
             )
         return True
 
+    craft_entry = craft_lookup.get(item_name)
     if resolved.source_type != "crafted" and tailoring_entry is None:
+        if craft_entry is not None:
+            expand_reagent_names(
+                (reagent["item"] for reagent in craft_entry.get("reagents") or []),
+                ordered_items,
+                seen,
+                craft_lookup,
+                crafting_data,
+                pricing_context,
+                visited_nodes,
+            )
         return True
 
     chosen_option = extract_named_craft_option(resolved.chain)
@@ -242,7 +253,6 @@ def expand_selected_source_chain(
             )
             return True
 
-    craft_entry = craft_lookup.get(item_name)
     if craft_entry is not None:
         expand_reagent_names(
             (reagent["item"] for reagent in craft_entry.get("reagents") or []),

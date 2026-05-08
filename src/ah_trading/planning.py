@@ -1,7 +1,11 @@
 import math
 from typing import Any, Dict, List, Optional, Set, Tuple
 
-from ah_trading.pricing import PricingContext, normalize_name, resolve_recipe_craft_cost
+from ah_trading.pricing import (
+    PricingContext,
+    normalize_name,
+    resolve_recipe_craft_cost_options,
+)
 
 
 BASE_STOCK = {
@@ -177,6 +181,7 @@ def make_plan_row(
     material_sources: Optional[List[Dict[str, Any]]] = None,
     material_source_summary: str = "",
     material_cost_detail: str = "",
+    craft_chains: Optional[List[Dict[str, Any]]] = None,
 ) -> Dict[str, Any]:
     return {
         "rank": entry["rank"],
@@ -197,6 +202,7 @@ def make_plan_row(
         "material_sources": material_sources or [],
         "material_source_summary": material_source_summary,
         "material_cost_detail": material_cost_detail,
+        "craft_chains": craft_chains or [],
         "reason": reason,
     }
 
@@ -254,10 +260,11 @@ def build_plan(
             )
             continue
 
-        crafted_cost = resolve_recipe_craft_cost(
+        crafted_cost_options = resolve_recipe_craft_cost_options(
             pricing_context,
             recipe_entry,
         )
+        crafted_cost = crafted_cost_options[0] if crafted_cost_options else None
 
         if crafted_cost is None:
             results.append(
@@ -282,6 +289,27 @@ def build_plan(
 
         profit = net_sell_after_cut - mat_cost
         roi = profit / mat_cost if mat_cost > 0 else None
+        craft_chains = []
+        for option in crafted_cost_options:
+            option_profit = net_sell_after_cut - option.unit_cost
+            option_roi = option_profit / option.unit_cost if option.unit_cost > 0 else None
+            craft_chains.append({
+                "material_cost": option.unit_cost,
+                "profit": option_profit,
+                "roi": round(option_roi, 4) if option_roi is not None else None,
+                "material_sources": [component.to_dict() for component in option.components],
+                "material_source_summary": option.component_chain,
+                "material_cost_detail": option.cost_detail,
+            })
+
+        craft_chains.sort(
+            key=lambda option: (
+                -option["profit"],
+                -option["roi"] if option["roi"] is not None else 0,
+                option["material_cost"],
+                option["material_source_summary"],
+            )
+        )
         qty = recommended_quantity(
             entry["category"],
             entry["tier"],
@@ -306,6 +334,7 @@ def build_plan(
                 material_sources=[component.to_dict() for component in crafted_cost.components],
                 material_source_summary=crafted_cost.component_chain,
                 material_cost_detail=crafted_cost.cost_detail,
+                craft_chains=craft_chains,
             )
         )
 

@@ -146,24 +146,31 @@ def print_top(
             continue
         shown += 1
         print(
-            f"{row['rank']:>2}. {decorate_item_name(row['item'], price_deltas)}"
-            f" | profit={copper_to_gold(row['profit'])}"
-            f" | roi={row['roi']:.2%}"
+            f"{decorate_item_name(row['item'], price_deltas)}"
             f" | ah={copper_to_gold(row['sell_price'])}"
-            f" | mats={copper_to_gold(row['material_cost'])}"
             f" | demand={row['class_spec_score']}"
             f" | avail={row['available']}"
-            f" | craft={row['recommended_quantity']}"
         )
-        if row.get("material_source_summary"):
+        craft_chains = row.get("craft_chains") or [
+            {
+                "profit": row["profit"],
+                "material_cost": row["material_cost"],
+                "material_source_summary": row.get("material_source_summary", ""),
+            }
+        ]
+        for index, chain_option in enumerate(craft_chains, start=1):
             source_chain = decorate_source_chain(
-                row["material_source_summary"],
+                chain_option["material_source_summary"],
                 price_deltas,
                 name_aliases,
             )
-            print(f"    chain={source_chain}")
-        if row.get("material_cost_detail"):
-            print(f"    cost={row['material_cost_detail']}")
+            print(
+                f"    chain {index}"
+                f" profit={copper_to_gold(chain_option['profit'])}"
+                f" | mats={copper_to_gold(chain_option['material_cost'])}"
+                f" : {source_chain}"
+            )
+        print()
         if limit is not None and shown >= limit:
             break
 

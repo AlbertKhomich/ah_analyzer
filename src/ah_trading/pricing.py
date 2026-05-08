@@ -1,6 +1,7 @@
 import csv
 import re
 from dataclasses import dataclass, field
+from itertools import product
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
 
@@ -78,6 +79,7 @@ class PricingContext:
     snapshot: Dict[str, Dict[str, Any]]
     crafting_data: Dict[str, Any]
     cost_cache: Dict[str, CostOption] = field(default_factory=dict)
+    cost_options_cache: Dict[str, List[CostOption]] = field(default_factory=dict)
     pricing_rules: Dict[str, Any] = field(init=False)
     recipe_lookup: Dict[str, Dict[str, Any]] = field(init=False)
     support_recipes: Dict[str, Any] = field(init=False)
@@ -349,6 +351,14 @@ def resolve_recipe_craft_cost(
     if crafted is None:
         return None
 
+    return make_crafted_cost(ctx, recipe_entry, crafted)
+
+
+def make_crafted_cost(
+    ctx: PricingContext,
+    recipe_entry: Dict[str, Any],
+    crafted: ReagentResolution,
+) -> Optional[CraftedCost]:
     output_profile = resolve_recipe_output_profile(ctx, recipe_entry)
     if output_profile.expected_output <= 0:
         return None
@@ -384,6 +394,31 @@ def resolve_recipe_craft_cost(
         source_detail=source_detail,
         cost_detail=cost_detail,
     )
+
+
+def resolve_recipe_craft_cost_options(
+    ctx: PricingContext,
+    recipe_entry: Dict[str, Any],
+    stack: Optional[Set[str]] = None,
+) -> List[CraftedCost]:
+    if not recipe_entry.get("reagents"):
+        return []
+
+    crafted_options = resolve_reagent_list_options(ctx, recipe_entry["reagents"], stack)
+    cost_options: List[CraftedCost] = []
+    seen: Set[Tuple[int, str]] = set()
+    for crafted in crafted_options:
+        crafted_cost = make_crafted_cost(ctx, recipe_entry, crafted)
+        if crafted_cost is None:
+            continue
+        key = (crafted_cost.unit_cost, crafted_cost.component_chain)
+        if key in seen:
+            continue
+        seen.add(key)
+        cost_options.append(crafted_cost)
+
+    cost_options.sort(key=lambda option: (option.unit_cost, option.component_chain))
+    return cost_options
 
 
 def resolve_reagent_list(
@@ -424,6 +459,65 @@ def resolve_reagent_list(
         chain="; ".join(chain_parts),
         components=components,
     )
+
+
+def resolve_reagent_list_options(
+    ctx: PricingContext,
+    reagents: List[Dict[str, Any]],
+    stack: Optional[Set[str]] = None,
+) -> List[ReagentResolution]:
+    active_stack = stack if stack is not None else set()
+    reagent_options: List[Tuple[Dict[str, Any], List[CostOption]]] = []
+
+    for reagent in reagents:
+        reagent_name = normalize_name(reagent["item"], ctx.name_aliases)
+        options = collect_unit_cost_options(ctx, reagent_name, active_stack)
+        if not options:
+            return []
+        reagent_options.append((reagent, options))
+
+    resolutions: List[ReagentResolution] = []
+    seen: Set[Tuple[int, str]] = set()
+    for option_combo in product(*(options for _, options in reagent_options)):
+        total_cost = 0.0
+        chain_parts: List[str] = []
+        components: List[ReagentComponent] = []
+
+        for (reagent, _), resolved in zip(reagent_options, option_combo):
+            reagent_name = normalize_name(reagent["item"], ctx.name_aliases)
+            qty = float(reagent["qty"])
+            line_cost = resolved.unit_cost * qty
+            total_cost += line_cost
+            chain_parts.append(f"{format_qty(qty)}x {reagent_name}->{resolved.chain}")
+            components.append(
+                ReagentComponent(
+                    item=reagent_name,
+                    qty=int(qty) if abs(qty - round(qty)) < 1e-9 else qty,
+                    unit_cost=resolved.unit_cost,
+                    total_cost=int(round(line_cost)),
+                    source_type=resolved.source_type,
+                    source_summary=resolved.source_summary,
+                    source_detail=resolved.source_detail,
+                    source_chain=resolved.chain,
+                )
+            )
+
+        chain = "; ".join(chain_parts)
+        total_cost_int = int(round(total_cost))
+        key = (total_cost_int, chain)
+        if key in seen:
+            continue
+        seen.add(key)
+        resolutions.append(
+            ReagentResolution(
+                total_cost=total_cost_int,
+                chain=chain,
+                components=components,
+            )
+        )
+
+    resolutions.sort(key=lambda option: (option.total_cost, option.chain))
+    return resolutions
 
 
 def collect_market_option(ctx: PricingContext, item_name: str) -> Optional[CostOption]:
@@ -467,6 +561,36 @@ def collect_recipe_option(
     )
 
 
+def collect_recipe_options(
+    ctx: PricingContext,
+    item_name: str,
+    stack: Set[str],
+) -> List[CostOption]:
+    tailoring_entry = get_named_entry(ctx.tailoring_subcrafts, item_name, ctx.name_aliases)
+    if tailoring_entry is not None:
+        _, tailoring_data = tailoring_entry
+        if tailoring_data.get("pricing_mode") == "support_options_only":
+            return []
+
+    recipe_entry = ctx.recipe_lookup.get(item_name)
+    if recipe_entry is None or not recipe_entry.get("reagents"):
+        return []
+
+    options: List[CostOption] = []
+    for crafted in resolve_recipe_craft_cost_options(ctx, recipe_entry, stack):
+        options.append(
+            make_cost_option(
+                item_name=item_name,
+                unit_cost=crafted.unit_cost,
+                source_type="crafted",
+                source_summary="craft",
+                source_detail=crafted.source_detail,
+                chain=crafted.chain,
+            )
+        )
+    return options
+
+
 def collect_ink_option(
     ctx: PricingContext,
     item_name: str,
@@ -479,6 +603,21 @@ def collect_ink_option(
     if crafted is None:
         return None
     return make_flat_craft_option(item_name, crafted)
+
+
+def collect_ink_options(
+    ctx: PricingContext,
+    item_name: str,
+    stack: Set[str],
+) -> List[CostOption]:
+    ink_entry = get_named_entry(ctx.inscription.get("inks", {}), item_name, ctx.name_aliases)
+    if ink_entry is None or not ink_entry[1].get("crafted_from"):
+        return []
+
+    options: List[CostOption] = []
+    for crafted in resolve_reagent_list_options(ctx, ink_entry[1]["crafted_from"], stack):
+        options.append(make_flat_craft_option(item_name, crafted))
+    return options
 
 
 def collect_tailoring_subcraft_option(
@@ -528,6 +667,49 @@ def collect_tailoring_subcraft_option(
     return best_option
 
 
+def collect_tailoring_subcraft_options(
+    ctx: PricingContext,
+    item_name: str,
+    stack: Set[str],
+) -> List[CostOption]:
+    tailoring_entry = get_named_entry(ctx.tailoring_subcrafts, item_name, ctx.name_aliases)
+    if tailoring_entry is None:
+        return []
+
+    entry_data = tailoring_entry[1]
+    recipe_options: List[Tuple[Optional[str], str, List[Dict[str, Any]]]] = []
+
+    crafted_from = entry_data.get("crafted_from")
+    if crafted_from:
+        recipe_options.append((None, str(entry_data.get("note", "")).strip(), crafted_from))
+
+    for index, option_data in enumerate(entry_data.get("crafted_from_options", []), start=1):
+        option_reagents = option_data.get("crafted_from")
+        if not option_reagents:
+            continue
+
+        option_name = str(
+            option_data.get("name")
+            or option_data.get("label")
+            or f"option {index}"
+        ).strip()
+        option_note = str(option_data.get("note", "")).strip()
+        recipe_options.append((option_name, option_note, option_reagents))
+
+    options: List[CostOption] = []
+    for option_name, option_note, option_reagents in recipe_options:
+        for crafted in resolve_reagent_list_options(ctx, option_reagents, stack):
+            options.append(
+                make_named_flat_craft_option(
+                    item_name,
+                    crafted,
+                    method_name=option_name,
+                    note=option_note,
+                )
+            )
+    return options
+
+
 def collect_vendor_trade_option(
     ctx: PricingContext,
     item_name: str,
@@ -552,6 +734,35 @@ def collect_vendor_trade_option(
         source_detail=f"{note} Cost path: {traded.chain}.",
         chain=f"trade({traded.chain})",
     )
+
+
+def collect_vendor_trade_options(
+    ctx: PricingContext,
+    item_name: str,
+    stack: Set[str],
+) -> List[CostOption]:
+    trade_entry = get_named_entry(
+        ctx.inscription.get("vendor_trades", {}),
+        item_name,
+        ctx.name_aliases,
+    )
+    if trade_entry is None or not trade_entry[1].get("cost"):
+        return []
+
+    note = trade_entry[1].get("note", "Vendor trade path.")
+    options: List[CostOption] = []
+    for traded in resolve_reagent_list_options(ctx, trade_entry[1]["cost"], stack):
+        options.append(
+            make_cost_option(
+                item_name=item_name,
+                unit_cost=traded.total_cost,
+                source_type="vendor_trade",
+                source_summary="trade",
+                source_detail=f"{note} Cost path: {traded.chain}.",
+                chain=f"trade({traded.chain})",
+            )
+        )
+    return options
 
 
 def resolve_milling_cost(
@@ -613,12 +824,81 @@ def resolve_milling_cost(
     return best_option
 
 
+def resolve_milling_cost_options(
+    ctx: PricingContext,
+    item_name: str,
+    stack: Optional[Set[str]] = None,
+) -> List[CostOption]:
+    active_stack = stack if stack is not None else set()
+    pigment_entry = get_named_entry(ctx.milling.get("pigments", {}), item_name, ctx.name_aliases)
+    if pigment_entry is None:
+        return []
+
+    pigment_name, pigment_data = pigment_entry
+    rules = ctx.milling.get("rules", {})
+    herbs_per_mill = float(rules.get("herbs_per_mill", 5))
+    quality = pigment_data.get("quality", "common")
+
+    expected_yield = pigment_data.get("expected_pigment_per_mill")
+    expected_yield_by_herb = pigment_data.get("expected_pigment_per_mill_by_herb", {})
+
+    options: List[CostOption] = []
+    for herb in pigment_data.get("milled_from", []):
+        herb_name = normalize_name(herb, ctx.name_aliases)
+        herb_cost_options = collect_unit_cost_options(ctx, herb_name, active_stack)
+        if not herb_cost_options:
+            continue
+
+        herb_expected_yield = expected_yield
+        herb_override = get_named_entry(expected_yield_by_herb, herb_name, ctx.name_aliases)
+        if herb_override is not None:
+            herb_expected_yield = herb_override[1]
+        if herb_expected_yield is None:
+            if quality == "common":
+                herb_expected_yield = rules.get("expected_common_pigment_per_mill")
+            else:
+                herb_expected_yield = rules.get("expected_uncommon_pigment_per_mill")
+        if not herb_expected_yield or herb_expected_yield <= 0:
+            continue
+
+        rebate_value, rebate_detail = resolve_milling_rebate_value(ctx, pigment_name, herb_name)
+        for herb_cost in herb_cost_options:
+            herb_input_cost = herb_cost.unit_cost * herbs_per_mill
+            effective_input_cost = max(herb_input_cost - rebate_value, 0.0)
+            unit_cost = int(round(effective_input_cost / float(herb_expected_yield)))
+            options.append(
+                make_cost_option(
+                    item_name=pigment_name,
+                    unit_cost=unit_cost,
+                    source_type="milling",
+                    source_summary=f"mill {herb_name}",
+                    source_detail=(
+                        f"Milling via {format_qty(herbs_per_mill)}x {herb_name} per cast "
+                        f"with {herb_expected_yield} expected {quality} pigment per mill."
+                        f"{rebate_detail}"
+                    ),
+                    chain=f"mill:{herb_name}",
+                )
+            )
+
+    options.sort(key=lambda option: (option.unit_cost, option.chain))
+    return options
+
+
 def collect_milling_option(
     ctx: PricingContext,
     item_name: str,
     stack: Set[str],
 ) -> Optional[CostOption]:
     return resolve_milling_cost(ctx, item_name, stack)
+
+
+def collect_milling_options(
+    ctx: PricingContext,
+    item_name: str,
+    stack: Set[str],
+) -> List[CostOption]:
+    return resolve_milling_cost_options(ctx, item_name, stack)
 
 
 def collect_non_ah_option(ctx: PricingContext, item_name: str) -> Optional[CostOption]:
@@ -694,6 +974,58 @@ def resolve_unit_cost(
     best_option = min(best_options, key=lambda option: option.unit_cost)
     ctx.cost_cache[normalized] = best_option
     return best_option
+
+
+def collect_unit_cost_options(
+    ctx: PricingContext,
+    item_name: str,
+    stack: Optional[Set[str]] = None,
+) -> List[CostOption]:
+    normalized = normalize_name(item_name, ctx.name_aliases)
+    active_stack = stack if stack is not None else set()
+    if normalized in active_stack:
+        return []
+    if normalized in ctx.cost_options_cache:
+        return ctx.cost_options_cache[normalized]
+
+    active_stack.add(normalized)
+    try:
+        options: List[CostOption] = []
+        market_option = collect_market_option(ctx, normalized)
+        if market_option is not None:
+            options.append(market_option)
+        options.extend(collect_recipe_options(ctx, normalized, active_stack))
+        options.extend(collect_ink_options(ctx, normalized, active_stack))
+        options.extend(collect_tailoring_subcraft_options(ctx, normalized, active_stack))
+        options.extend(collect_vendor_trade_options(ctx, normalized, active_stack))
+        options.extend(collect_milling_options(ctx, normalized, active_stack))
+        non_ah_option = collect_non_ah_option(ctx, normalized)
+        if non_ah_option is not None:
+            options.append(non_ah_option)
+        fallback_option = collect_fallback_option(ctx, normalized)
+        if fallback_option is not None:
+            options.append(fallback_option)
+    finally:
+        active_stack.remove(normalized)
+
+    if normalized in ctx.force_crafted_cost_items:
+        crafted_options = [
+            option for option in options
+            if option.source_type in {"crafted", "vendor_trade", "milling"}
+        ]
+        if crafted_options:
+            options = crafted_options
+
+    unique_options: Dict[Tuple[int, str, str], CostOption] = {}
+    for option in options:
+        unique_options[(option.unit_cost, option.source_type, option.chain)] = option
+
+    sorted_options = sorted(
+        unique_options.values(),
+        key=lambda option: (option.unit_cost, option.source_type, option.chain),
+    )
+    ctx.cost_options_cache[normalized] = sorted_options
+    return sorted_options
 
 
 def build_pricing_debug_entry(
