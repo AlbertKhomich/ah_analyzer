@@ -1,7 +1,7 @@
 import csv
 import json
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Optional, Set
+from typing import Any, Dict, List, Optional
 
 import _bootstrap  # noqa: F401
 
@@ -24,7 +24,6 @@ from ah_trading.pricing import (
     get_pricing_rules,
     load_snapshot,
     normalize_name,
-    resolve_unit_cost,
 )
 
 
@@ -72,79 +71,20 @@ def build_current_average_delta_lookup(
     snapshot: Dict[str, Dict[str, Any]],
     history_dir: Path,
     name_aliases: Optional[Dict[str, str]] = None,
-    pricing_context: Optional[PricingContext] = None,
-    displayed_results: Optional[List[Dict[str, Any]]] = None,
 ) -> Dict[str, str]:
     average_prices = build_average_price_lookup(history_dir, name_aliases)
-    item_names = set(snapshot)
-    if displayed_results is not None:
-        item_names.update(
-            collect_display_item_names(
-                displayed_results,
-                average_prices.keys(),
-                name_aliases,
-            )
-        )
-
     deltas: Dict[str, str] = {}
 
-    for item_name in item_names:
+    for item_name, item_data in snapshot.items():
         average_price = average_prices.get(item_name)
         if average_price is None:
             continue
 
-        current_price = resolve_current_price_for_delta(
-            item_name,
-            snapshot,
-            pricing_context,
-        )
-        if current_price is None:
-            continue
-
-        delta = format_price_delta(current_price, average_price)
+        delta = format_price_delta(item_data["price"], average_price)
         if delta is not None:
             deltas[item_name] = delta
 
     return deltas
-
-
-def collect_display_item_names(
-    results: List[Dict[str, Any]],
-    candidate_item_names: Iterable[str],
-    name_aliases: Optional[Dict[str, str]] = None,
-) -> Set[str]:
-    displayed_item_names = {
-        normalize_name(str(row["item"]), name_aliases)
-        for row in results
-    }
-    source_chains = [
-        str(row.get("material_source_summary") or "")
-        for row in results
-    ]
-
-    for item_name in sorted(candidate_item_names, key=len, reverse=True):
-        normalized_item_name = normalize_name(item_name, name_aliases)
-        if any(normalized_item_name in source_chain for source_chain in source_chains):
-            displayed_item_names.add(normalized_item_name)
-
-    return displayed_item_names
-
-
-def resolve_current_price_for_delta(
-    item_name: str,
-    snapshot: Dict[str, Dict[str, Any]],
-    pricing_context: Optional[PricingContext] = None,
-) -> Optional[int]:
-    if item_name in snapshot:
-        return snapshot[item_name]["price"]
-
-    if pricing_context is None:
-        return None
-
-    resolved = resolve_unit_cost(pricing_context, item_name)
-    if resolved is None:
-        return None
-    return resolved.unit_cost
 
 
 def decorate_item_name(item_name: str, price_deltas: Dict[str, str]) -> str:
@@ -271,13 +211,7 @@ def main() -> None:
     )
     planner_entries = build_planner_entries(class_spec_data)
     results = build_plan(snapshot, planner_entries, crafting_data)
-    price_deltas = build_current_average_delta_lookup(
-        snapshot,
-        HISTORY_DIR,
-        name_aliases,
-        pricing_context,
-        results,
-    )
+    price_deltas = build_current_average_delta_lookup(snapshot, HISTORY_DIR, name_aliases)
     write_outputs(results, OUTPUT_JSON, OUTPUT_CSV)
     if plot_price_heatmap is not None:
         plot_price_heatmap(str(HISTORY_DIR), output_path=str(OUTPUT_HEATMAP))
