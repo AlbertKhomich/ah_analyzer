@@ -164,6 +164,16 @@ def expand_selected_source_chain(
     tailoring_entry = get_nested_item(support.get("tailoring_subcrafts", {}), item_name)
     inscription = support.get("inscription", {})
     ink_entry = get_nested_item(inscription.get("inks", {}), item_name)
+    pigment_entry = get_nested_item(
+        support.get("milling", {}).get("pigments", {}),
+        item_name,
+    )
+
+    if pigment_entry is not None:
+        _, pigment_data = pigment_entry
+        for herb_name in pigment_data.get("milled_from", []):
+            add_unique(ordered_items, seen, herb_name)
+        return True
 
     if resolved.source_type == "vendor_trade":
         trade_entry = get_nested_item(inscription.get("vendor_trades", {}), item_name)
