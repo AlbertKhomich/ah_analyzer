@@ -178,11 +178,17 @@ def print_top(
     for row in results:
         if row["status"] == "ok":
             continue
+        item_name = decorate_item_name(row["item"], price_deltas)
         print(
-            f"{row['rank']:>2}. {row['item']} | status={row['status']} | reason={row['reason']}"
+            f"{row['rank']:>2}. {item_name} | status={row['status']} | reason={row['reason']}"
         )
         if row.get("material_source_summary"):
-            print(f"    chain={row['material_source_summary']}")
+            source_chain = decorate_source_chain(
+                row["material_source_summary"],
+                price_deltas,
+                name_aliases,
+            )
+            print(f"    chain={source_chain}")
 
 
 def print_pricing_highlights(
