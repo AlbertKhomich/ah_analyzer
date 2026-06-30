@@ -13,6 +13,18 @@
     ]
   },
   "item_index": {
+    "Belt of the Night Sky": {
+      "rank": 1,
+      "category": "gear",
+      "tier": "S",
+      "reason": "Strong gear"
+    },
+    "Leggings of the Night Sky": {
+      "rank": 1,
+      "category": "gear",
+      "tier": "S",
+      "reason": "Strong gear"
+    },
     "Potion of the Jade Serpent": {
       "rank": 1,
       "category": "potion",
@@ -444,41 +456,27 @@
     },
     "druid_utility_glyphs": {
       "note": "General Druid utility and movement glyphs.",
-      "items": [
-        "Glyph of Dash",
-        "Glyph of Rebirth"
-      ]
+      "items": ["Glyph of Dash", "Glyph of Rebirth"]
     },
     "hunter_utility_glyphs": {
       "note": "Shared Hunter utility and mobility glyphs.",
-      "items": [
-        "Glyph of Pathfinding",
-        "Glyph of Liberation"
-      ]
+      "items": ["Glyph of Pathfinding", "Glyph of Liberation"]
     },
     "mage_utility_glyphs": {
       "note": "General Mage movement utility glyph.",
-      "items": [
-        "Glyph of Rapid Displacement"
-      ]
+      "items": ["Glyph of Rapid Displacement"]
     },
     "monk_utility_glyphs": {
       "note": "General Monk utility glyph.",
-      "items": [
-        "Glyph of Zen Meditation"
-      ]
+      "items": ["Glyph of Zen Meditation"]
     },
     "priest_healer_utility_glyphs": {
       "note": "Shared healer utility glyph for Priest healers.",
-      "items": [
-        "Glyph of Prayer of Mending"
-      ]
+      "items": ["Glyph of Prayer of Mending"]
     },
     "warlock_utility_glyphs": {
       "note": "Shared Warlock utility glyph.",
-      "items": [
-        "Glyph of Soulstone"
-      ]
+      "items": ["Glyph of Soulstone"]
     },
     "raid_feasts": {
       "note": "Universal group consumables for raids and larger dungeon sessions.",
@@ -490,38 +488,23 @@
     },
     "intellect_foods": {
       "note": "Pandaria Intellect foods for casters and Intellect healers who buy personal food.",
-      "items": [
-        "Mogu Fish Stew",
-        "Spiced Blossom Soup"
-      ]
+      "items": ["Mogu Fish Stew", "Spiced Blossom Soup"]
     },
     "agility_foods": {
       "note": "Pandaria Agility foods for leather and mail DPS demand.",
-      "items": [
-        "Sea Mist Rice Noodles",
-        "Seasoned Pomfruit Slices"
-      ]
+      "items": ["Sea Mist Rice Noodles", "Seasoned Pomfruit Slices"]
     },
     "strength_foods": {
       "note": "Pandaria Strength foods for plate DPS demand.",
-      "items": [
-        "Black Pepper Ribs and Shrimp",
-        "Fluffy Silkfeather Omelet"
-      ]
+      "items": ["Black Pepper Ribs and Shrimp", "Fluffy Silkfeather Omelet"]
     },
     "tank_foods": {
       "note": "Pandaria Stamina foods for tank-focused buyers.",
-      "items": [
-        "Chun Tian Spring Rolls",
-        "Stuffed Lushrooms"
-      ]
+      "items": ["Chun Tian Spring Rolls", "Stuffed Lushrooms"]
     },
     "healer_spirit_foods": {
       "note": "Pandaria Spirit foods for healer mana management demand.",
-      "items": [
-        "Steamed Crab Surprise",
-        "Farmer's Delight"
-      ]
+      "items": ["Steamed Crab Surprise", "Farmer's Delight"]
     }
   },
   "classes": {
@@ -529,14 +512,8 @@
       "Blood": {
         "role": "tank",
         "primary_stat": "Strength",
-        "shared_groups": [
-          "tank_consumables",
-          "tank_foods",
-          "raid_feasts"
-        ],
-        "situational_groups": [
-          "strength_consumables"
-        ],
+        "shared_groups": ["tank_consumables", "tank_foods", "raid_feasts"],
+        "situational_groups": ["strength_consumables"],
         "dedicated_items": [],
         "likely_items": [
           "Potion of the Mountains",
@@ -666,9 +643,7 @@
           "raid_feasts",
           "druid_utility_glyphs"
         ],
-        "situational_groups": [
-          "agility_consumables"
-        ],
+        "situational_groups": ["agility_consumables"],
         "dedicated_items": [],
         "likely_items": [
           "Potion of the Mountains",
@@ -775,10 +750,7 @@
           "hunter_utility_glyphs"
         ],
         "situational_groups": [],
-        "dedicated_items": [
-          "Glyph of Animal Bond",
-          "Glyph of Deterrence"
-        ],
+        "dedicated_items": ["Glyph of Animal Bond", "Glyph of Deterrence"],
         "likely_items": [
           "Virmen's Bite",
           "Flask of Spring Blossoms",
@@ -902,9 +874,7 @@
           "raid_feasts",
           "monk_utility_glyphs"
         ],
-        "situational_groups": [
-          "agility_consumables"
-        ],
+        "situational_groups": ["agility_consumables"],
         "dedicated_items": [],
         "likely_items": [
           "Potion of the Mountains",
@@ -1005,14 +975,8 @@
       "Protection": {
         "role": "tank",
         "primary_stat": "Strength",
-        "shared_groups": [
-          "tank_consumables",
-          "tank_foods",
-          "raid_feasts"
-        ],
-        "situational_groups": [
-          "strength_consumables"
-        ],
+        "shared_groups": ["tank_consumables", "tank_foods", "raid_feasts"],
+        "situational_groups": ["strength_consumables"],
         "dedicated_items": [],
         "likely_items": [
           "Potion of the Mountains",
@@ -1425,14 +1389,8 @@
       "Protection": {
         "role": "tank",
         "primary_stat": "Strength",
-        "shared_groups": [
-          "tank_consumables",
-          "tank_foods",
-          "raid_feasts"
-        ],
-        "situational_groups": [
-          "strength_consumables"
-        ],
+        "shared_groups": ["tank_consumables", "tank_foods", "raid_feasts"],
+        "situational_groups": ["strength_consumables"],
         "dedicated_items": [],
         "likely_items": [
           "Potion of the Mountains",

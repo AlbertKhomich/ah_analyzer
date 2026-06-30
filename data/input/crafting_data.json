@@ -141,6 +141,32 @@
     },
     {
       "rank": 7,
+      "item": "Belt of the Night Sky",
+      "category": "tailoring_gear",
+      "tier": "S",
+      "reason": "Phase 5 tailoring gear",
+      "reagents": [
+        {
+          "item": "Celestial Cloth",
+          "qty": 21
+        }
+      ]
+    },
+    {
+      "rank": 7,
+      "item": "Leggings of the Night Sky",
+      "category": "tailoring_gear",
+      "tier": "S",
+      "reason": "Phase 5 tailoring gear",
+      "reagents": [
+        {
+          "item": "Celestial Cloth",
+          "qty": 28
+        }
+      ]
+    },
+    {
+      "rank": 7,
       "item": "Greater Cerulean Spellthread",
       "category": "tailoring_spellthread",
       "tier": "S",
@@ -1684,9 +1710,7 @@
       "category": "food",
       "tier": "S",
       "reason": "Children's Week Bad Example achievement item with strong seasonal nostalgia demand",
-      "events": [
-        "childrens-week"
-      ],
+      "events": ["childrens-week"],
       "output_qty": 1,
       "reagents": [
         {
@@ -1721,9 +1745,7 @@
       "category": "food",
       "tier": "A",
       "reason": "Cheaper Children's Week Bad Example craft with solid seasonal demand",
-      "events": [
-        "childrens-week"
-      ],
+      "events": ["childrens-week"],
       "output_qty": 5,
       "reagents": [
         {
@@ -2209,6 +2231,38 @@
           }
         ],
         "used_in": ["Illusionary Bag"]
+      },
+      "Celestial Cloth": {
+        "profession": "Tailoring",
+        "note": "",
+        "shopping_list_mode": "all_options",
+        "crafted_from_options": [
+          {
+            "name": "Celestial Cloth",
+            "note": "",
+            "crafted_from": [
+              {
+                "item": "Bolt of Windwool Cloth",
+                "qty": 10
+              }
+            ]
+          },
+          {
+            "name": "Accelerated Celestial Cloth",
+            "crafted_from": [
+              {
+                "item": "Bolt of Windwool Cloth",
+                "qty": 10
+              },
+              {
+                "item": "Spirit of War",
+                "qty": 1
+              }
+            ]
+          }
+        ],
+        "alternative_sources": [""],
+        "used_in": ["Belt of the Night Sky", "Leggings of the Night Sky"]
       },
       "Imperial Silk": {
         "profession": "Tailoring",
